@@ -2,6 +2,9 @@ const router = require('express').Router();
 const user = require('../middlewares/user');
 const orangTua = require('../middlewares/orangtua');
 
+// POST /orang-tuas/login
+router.post('/login', orangTua.loginMw);
+
 // GET /orang-tuas
 router.get('/', user.authMw, orangTua.getOrangTuasMw, orangTua.returnOrangTuasMw);
 // GET /orang-tuas/:id

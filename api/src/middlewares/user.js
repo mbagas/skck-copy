@@ -4,6 +4,7 @@ const asyncMw = require('async-express-mw');
 const repository = require('../repository');
 const { USER_ROLE } = require('../utils/constants');
 const { isAdminOrGuru } = require('../utils/user');
+const { generateToken } = require('../utils/token');
 
 exports.authMw = asyncMw(async (req, res, next) => {
   if (!req.headers.authorization) return res.status(401).json({ message: 'Unauthorized' });
@@ -94,6 +95,15 @@ exports.deleteUserMw = asyncMw(async (req, res) => {
   });
 });
 
+exports.returnConditionalUserMw = asyncMw(async (req, res) => {
+  const {
+    user,
+    body: { role },
+  } = req;
+
+  return res.json(await repository[role || USER_ROLE.SISWA].modelToResource(user));
+});
+
 exports.returnUserMw = asyncMw(async (req, res) => {
   const { user } = req;
 
@@ -107,4 +117,20 @@ exports.returnUsersMw = asyncMw(async (req, res) => {
     rows: await Promise.all(_.map(users.rows, (user) => repository.user.modelToResource(user))),
     count: _.get(req, 'users.count', 0),
   });
+});
+
+// Login admin by getting the username and match it with password
+// Return the jwt token with admin id if the username and password match
+exports.loginMw = asyncMw(async (req, res) => {
+  // Check if the user match or not
+  const userMatch = await repository.user.loginValdations(req.body);
+
+  // userMatch empty object
+  if (_.isEmpty(userMatch)) return res.status(404).json({ message: 'User not found' });
+
+  if (!userMatch.isMatch) return res.status(401).json({ message: 'Wrong password' });
+
+  const token = await generateToken(_.pick(userMatch.user, ['id']), req.body.always);
+
+  return res.status(200).json({ token, id: userMatch.user.id });
 });

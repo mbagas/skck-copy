@@ -2,7 +2,10 @@ const router = require('express').Router();
 const user = require('../middlewares/user');
 const siswa = require('../middlewares/siswa');
 
-// GET /siswa
+// POST /siswas/login
+router.post('/login', siswa.loginMw);
+
+// GET /siswas
 router.get('/', user.authMw, siswa.getSiswasMw, siswa.returnSiswasMw);
 // GET /siswas/:id
 router.get('/:id', user.authMw, siswa.getSiswaMw, siswa.returnSiswaMw);
