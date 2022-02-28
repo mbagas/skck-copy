@@ -1,10 +1,11 @@
 require('dotenv').config();
 const express = require('express');
 const db = require('./models');
+const { root } = require('./utils');
 
 const app = express();
 
-require('./utils/root')(app);
+root(app);
 
 const PORT = process.env.PORT || 3001;
 
