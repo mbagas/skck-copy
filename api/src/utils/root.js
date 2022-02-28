@@ -1,6 +1,7 @@
 const cors = require('cors');
 const express = require('express');
 const { queryParserMw } = require('../middlewares/parser');
+const users = require('../routes/users');
 
 /**
  * Use all the routes and middleware from the api folder
@@ -11,4 +12,5 @@ module.exports = (app) => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.get('*', queryParserMw);
+  app.use('/users', users);
 };

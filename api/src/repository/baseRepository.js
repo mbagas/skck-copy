@@ -99,7 +99,6 @@ exports.findAll =
  * Create a new record on the model
  *
  * @param {Object} model
- * @returns
  */
 exports.create = (model) => (data) => model.create(data);
 
@@ -138,6 +137,12 @@ exports.findOne =
     const dbCond = _.isObject(conditions) ? conditions : { id: conditions };
     return model.findOne({ where: dbCond, ...options });
   };
+
+/**
+ * Find a record by primarykey
+ * @param {Object} model
+ */
+exports.findByPk = (model) => (id) => model.findByPk(id);
 
 /**
  * Find one by id, or by any given conditions
