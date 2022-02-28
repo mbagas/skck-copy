@@ -2,13 +2,16 @@ const _ = require('lodash');
 const asyncMw = require('async-express-mw');
 const repository = require('../repository');
 const { USER_ROLE } = require('../utils/constants');
+const { generateToken } = require('../utils/token');
 
+// Get guru data by id.
 exports.getGuruMw = asyncMw(async (req, res, next) => {
   const { userAuth } = req;
   const userAuthId = parseInt(userAuth.id, 10);
 
   const guru = await repository.guru.findOne(req.params.id);
 
+  // If selected guru is not found, return a 404 error.
   if (!guru) return res.status(404).json({ message: 'Guru not found' });
 
   const guruId = parseInt(guru.userId, 10);
@@ -26,12 +29,14 @@ exports.getGuruMw = asyncMw(async (req, res, next) => {
   return next();
 });
 
+// Get all guru data
 exports.getGurusMw = asyncMw(async (req, res, next) => {
   req.gurus = await repository.guru.findAll({}, req.filterQueryParams, req.query);
 
   return next();
 });
 
+// Update guru by requested id.
 exports.updateGuruMw = asyncMw(async (req, res, next) => {
   const { userAuth, guru } = req;
   const userAuthId = parseInt(userAuth.id, 10);
@@ -54,12 +59,14 @@ exports.updateGuruMw = asyncMw(async (req, res, next) => {
   return next();
 });
 
+// Return selected guru data.
 exports.returnGuruMw = asyncMw(async (req, res) => {
   const { guru } = req;
 
   return res.json(await repository.guru.modelToResource(guru));
 });
 
+// Return all guru data.
 exports.returnGurusMw = asyncMw(async (req, res) => {
   const { gurus } = req;
 
@@ -67,4 +74,24 @@ exports.returnGurusMw = asyncMw(async (req, res) => {
     rows: await Promise.all(_.map(gurus.rows, (guru) => repository.guru.modelToResource(guru))),
     count: _.get(req, 'gurus.count', 0),
   });
+});
+
+// Login guru by getting the username and match it with password
+// Return the jwt token with guru id if the username and password match
+exports.loginMw = asyncMw(async (req, res) => {
+  // Check if the user match or not
+  const userMatch = await repository.user.loginValdations(req.body);
+
+  // userMatch empty object
+  if (_.isEmpty(userMatch)) return res.status(404).json({ message: 'User not found' });
+
+  if (!userMatch.isMatch) return res.status(401).json({ message: 'Wrong password' });
+
+  const userId = userMatch.user.id;
+
+  const guru = await repository.guru.findOne({ userId });
+
+  const token = await generateToken(_.pick(guru, ['id']), req.body.always);
+
+  return res.status(200).json({ token, id: guru.id, userId });
 });

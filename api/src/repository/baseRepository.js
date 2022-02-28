@@ -181,6 +181,7 @@ exports.resourceToModel = async (resource) => resource;
 exports.factory = (model) => ({
   findAll: exports.findAll(model),
   findOne: exports.findOne(model),
+  findByPk: exports.findByPk(model),
   updateOrCreate: exports.updateOrCreate(model),
   create: exports.create(model),
   update: exports.update(model),

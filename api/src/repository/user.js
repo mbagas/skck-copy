@@ -1,12 +1,20 @@
 const _ = require('lodash');
-const repository = require('.');
+const siswaRepository = require('./siswa');
+const guruRepository = require('./guru');
+const orangTuaRepository = require('./orangtua');
 const { Users } = require('../models');
 const { USER_ROLE } = require('../utils/constants');
-const { hashText } = require('../utils/encryption');
+const { hashText, compareText } = require('../utils/encryption');
 const { getUserRole } = require('../utils/user');
 const { factory } = require('./baseRepository');
 
 const userRepository = factory(Users);
+
+const repository = {
+  siswa: siswaRepository,
+  guru: guruRepository,
+  orangTua: orangTuaRepository,
+};
 
 userRepository.resourceToModel = async (resource) => {
   const model = _.pick(resource, ['userName', 'firstName', 'lastName', 'role']);
@@ -65,9 +73,37 @@ userRepository.conditionalCreate = async (resource) => {
     userId: user.id,
   });
 
+  return role;
+};
+
+/**
+ * Validate the user login data.
+ * @param {Object} resource
+ * @param {string} resource.userName
+ * @param {string} resource.password
+ * @returns {Promise<{user: Object, isMatch: boolean}>}
+ */
+userRepository.loginValdations = async (resource) => {
+  const { userName, password } = resource;
+  const user = await userRepository.findOne({ userName });
+
+  // Return empty object if the user is not found
+  if (!user) return {};
+
+  // Check if the requested password is same with the hashed password in database.
+  const isMatch = await compareText(password, user.password);
+
+  // Return isMatch false
+  if (!isMatch) {
+    return {
+      isMatch,
+    };
+  }
+
+  // Return isMatch true and user data
   return {
-    ...role,
-    role: user.role,
+    user,
+    isMatch,
   };
 };
 
