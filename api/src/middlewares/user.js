@@ -12,7 +12,7 @@ exports.authMw = asyncMw(async (req, res, next) => {
   const bearerToken = authHeader && authHeader.split(' ')[1];
 
   jwt.verify(bearerToken, process.env.JWT_TOKEN_SECRET, async (err, payload) => {
-    if (err) return res.status(401).send({ message: 'Unauthorized' });
+    if (err) return res.status(401).json({ message: 'Unauthorized' });
 
     req.userAuth = await repository.user.findByPk(payload.id);
     return next();
@@ -50,7 +50,7 @@ exports.getUserMw = asyncMw(async (req, res, next) => {
 
   const user = await repository.user.findOne(req.params.id);
 
-  if (!user) return res.status(404).send('User not found');
+  if (!user) return res.status(404).json({ message: 'User not found' });
 
   req.user = user;
 
