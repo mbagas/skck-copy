@@ -15,7 +15,8 @@
     "seed:undo:all": "sequelize-cli db:seed:undo:all",
     "seed:undo": "sequelize-cli db:seed:undo --seed",
     "model:generate": "sequelize-cli model:generate --name",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "prettier": "prettier --write src/**/*.js"
   },
   "keywords": [],
   "author": "",
