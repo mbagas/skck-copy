@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { USER_ROLE } = require('./constants');
 
 exports.isAdminOrGuru = (role) => role === USER_ROLE.ADMIN || role === USER_ROLE.GURU;
@@ -14,3 +15,8 @@ exports.getUserRole = (role) => {
       return USER_ROLE.SISWA;
   }
 };
+
+// If the role is not orang tua
+// but it has to be inside the USER_ROLE
+exports.isNotOrangTua = (role) =>
+  _.includes(_.toArray(USER_ROLE), role) && role !== USER_ROLE.ORANG_TUA;
