@@ -77,7 +77,7 @@ exports.updateUserMw = asyncMw(async (req, res, next) => {
   if (req.body.role && !isAdmin) delete req.body.role;
 
   const data = await repository.user.resourceToModel(req.body);
-  await repository.user.update(paramsId, data);
+  await repository.user.update(req.params.id, data);
 
   return next();
 });
