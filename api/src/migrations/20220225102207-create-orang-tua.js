@@ -22,9 +22,6 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
       },
-      anakId: {
-        type: Sequelize.JSON,
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

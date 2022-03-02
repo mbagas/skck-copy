@@ -8,7 +8,22 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Siswa.belongsTo(models.OrangTuas, {
+        foreignKey: 'orangTuaId',
+        onDelete: 'CASCADE',
+        as: 'orangTua',
+      });
+
+      Siswa.belongsTo(models.Users, {
+        foreignKey: 'userId',
+        onDelete: 'CASCADE',
+        as: 'user',
+      });
+
+      Siswa.hasMany(models.Pelanggarans, {
+        foreignKey: 'siswaId',
+        as: 'pelanggarans',
+      });
     }
   }
   Siswa.init(
@@ -19,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       lastName: DataTypes.STRING,
       alamat: DataTypes.STRING,
       userId: DataTypes.INTEGER,
+      orangTuaId: DataTypes.INTEGER,
     },
     {
       sequelize,
