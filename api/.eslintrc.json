@@ -21,6 +21,9 @@
     "linebreak-style": "off",
     "implicit-arrow-linebreak": "off",
     "operator-linebreak": "off",
-    "indent": "off"
+    "indent": "off",
+    "no-unused-vars": "off",
+    "arrow-parens": "off",
+    "arrow-body-style": "off"
   }
 }
