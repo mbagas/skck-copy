@@ -5,6 +5,8 @@ const users = require('../routes/users');
 const gurus = require('../routes/gurus');
 const siswas = require('../routes/siswas');
 const orangTuas = require('../routes/orangTua');
+const kategoriPelanggarans = require('../routes/kategoriPelanggaran');
+const pelanggarans = require('../routes/pelanggarans');
 
 /**
  * Use all the routes and middleware from the api folder
@@ -19,4 +21,6 @@ module.exports = (app) => {
   app.use('/gurus', gurus);
   app.use('/siswas', siswas);
   app.use('/orang-tuas', orangTuas);
+  app.use('/kategori-pelanggarans', kategoriPelanggarans);
+  app.use('/pelanggarans', pelanggarans);
 };

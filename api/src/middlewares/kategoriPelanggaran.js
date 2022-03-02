@@ -15,7 +15,13 @@ exports.createKatPlgrMw = asyncMw(async (req, res, next) => {
 });
 
 exports.getKatPlgrMw = asyncMw(async (req, res, next) => {
-  req.kategoriPelanggaran = await repository.katPlgr.findOne(req.params.id);
+  const kategoriPelanggaran = await repository.katPlgr.findOne(req.params.id);
+
+  if (!kategoriPelanggaran) {
+    return res.status(404).json({ message: 'Kategori Pelanggaran not found' });
+  }
+
+  req.kategoriPelanggaran = kategoriPelanggaran;
 
   return next();
 });
