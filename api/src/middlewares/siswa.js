@@ -4,13 +4,21 @@ const repository = require('../repository');
 const { isAdminOrGuru } = require('../utils/user');
 const { USER_ROLE } = require('../utils/constants');
 const { generateToken } = require('../utils/token');
+const { Pelanggaran } = require('../models');
 
 // Get siswa data by id.
 exports.getSiswaMw = asyncMw(async (req, res, next) => {
   const { userAuth } = req;
   const userAuthId = parseInt(userAuth.id, 10);
 
-  const siswa = await repository.siswa.findOne(req.params.id);
+  const siswa = await repository.siswa.findOne(req.params.id, {
+    include: [
+      {
+        model: Pelanggaran,
+        as: 'pelanggarans',
+      }
+    ]
+  });
 
   // If selected siswa is not found, return a 404 error.
   if (!siswa) return res.status(404).json({ message: 'Siswa not found' });
@@ -67,7 +75,15 @@ exports.updateSiswaMw = asyncMw(async (req, res, next) => {
 exports.returnSiswaMw = asyncMw(async (req, res) => {
   const { siswa } = req;
 
-  return res.json(await repository.siswa.modelToResource(siswa));
+  return res.json({
+    ...(await repository.siswa.modelToResource(siswa)),
+    pelanggarans: await Promise.all(
+      _.map(
+        siswa.pelanggarans,
+        (pelanggaran) => repository.pelanggaran.modelToResource(pelanggaran),
+      )
+    )
+  });
 });
 
 // Return all siswa data.
