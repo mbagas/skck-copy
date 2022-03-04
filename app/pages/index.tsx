@@ -1,9 +1,15 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import Card from 'src/components/Card';
 import styles from '../styles/Home.module.css';
+import _ from 'lodash';
+import { cards } from 'src/utils/cards';
+import { useRouter } from 'next/router';
 
 const Home: NextPage = () => {
+  const router = useRouter();
+
   return (
     <div className={styles.container}>
       <Head>
@@ -27,15 +33,9 @@ const Home: NextPage = () => {
             <p>Find in-depth information about Next.js features and API.</p>
           </a>
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a href="https://github.com/vercel/next.js/tree/canary/examples" className={styles.card}>
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+          {_.map(cards, (card, index) => (
+            <Card {...card} key={index} />
+          ))}
 
           <a
             href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
@@ -45,6 +45,8 @@ const Home: NextPage = () => {
             <p>Instantly deploy your Next.js site to a public URL with Vercel.</p>
           </a>
         </div>
+
+        <button onClick={() => router.push('/404')}>Click Me Nigga</button>
       </main>
 
       <footer className={styles.footer}>

@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alice&family=Poppins:wght@100;200;500&display=swap');
+
 .container {
   padding: 0 2rem;
 }
@@ -12,21 +15,6 @@
   align-items: center;
 }
 
-.footer {
-  display: flex;
-  flex: 1;
-  padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-}
 
 .title a {
   color: #0070f3;
@@ -113,4 +101,41 @@
     width: 100%;
     flex-direction: column;
   }
+}
+
+
+.bg_all{
+  background-image: url("../public/bg.jpg");
+  background-color: #cccccc;
+  height: 59.188rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.poppins_text{
+  font-size: 1.125rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.alice_text{
+  font-family: 'Alice', serif;
+  font-size: 1.375rem;
+}
+
+.footer {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  flex: 1;
+  background-color: #3F4143;
+  color: #FDD7C3;
+  padding: 2rem 0;
+  text-indent: 9rem;
+}
+.footer a{
+  text-decoration: underline;
+  color: white;
 }
