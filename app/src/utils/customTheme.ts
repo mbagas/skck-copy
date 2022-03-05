@@ -1,7 +1,7 @@
 import { extendTheme } from '@chakra-ui/react';
 
 const theme = extendTheme({
-  color: {
+  colors: {
     royalBlue: {
       100: '#4F72D9',
       200: '#184ADE',
@@ -23,11 +23,18 @@ const theme = extendTheme({
       200: '#FF6600',
     },
     royalGray: {
-      100: '#C4C4C4',
-      200: '#3F4143',
+      100: '#E1E1E1',
+      200: '#C4C4C4',
+      300: '#3F4143',
     },
     royalBlack: {
-      100: '#C4C4C4',
+      100: '#151618',
+    },
+    textLogin: {
+      SMA: '#F3EF24',
+    },
+    royalCream: {
+      100: '#fdd7c3',
     },
   },
 });
