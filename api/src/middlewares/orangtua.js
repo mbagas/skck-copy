@@ -9,7 +9,14 @@ exports.getOrangTuaMw = asyncMw(async (req, res, next) => {
   const { userAuth } = req;
   const userAuthId = parseInt(userAuth.id, 10);
 
-  const orangTua = await repository.orangTua.findOne(req.params.id);
+  const orangTua = await repository.orangTua.findOne(req.params.id, {
+    include: [
+      {
+        model: Siswa,
+        as: 'siswas',
+      }
+    ]
+  });
 
   // If selected orang tua is not found, return a 404 error.
   if (!orangTua) return res.status(404).json({ message: 'Orang tua not found' });
@@ -62,8 +69,16 @@ exports.updateOrangTuaMw = asyncMw(async (req, res, next) => {
 // Return selected orang tua data.
 exports.returnOrangTuaMw = asyncMw(async (req, res) => {
   const { orangTua } = req;
-
-  return res.json(await repository.orangTua.modelToResource(orangTua));
+  await repository.orangTua.modelToResource(orangTua)
+  return res.json({
+    ...(await repository.orangTua.modelToResource(orangTua)),
+    siswas: await Promise.all(
+      _.map(
+        orangTua.siswas,
+        (siswas) => repository.siswas.modelToResource(siswas),
+      )
+    )
+  });
 });
 
 // Return all orang tua data.
