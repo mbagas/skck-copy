@@ -1,12 +1,12 @@
 import React from 'react';
 import Footer from 'src/components/Footer';
-import MainLayout from 'src/components/MainLayout';
+import { DefaultLayout } from 'src/components/pageLayout';
 import TopBar from 'src/components/TopBar';
 import { Flex, Text } from '@chakra-ui/react';
 
 const NotFound = () => {
   return (
-    <MainLayout>
+    <DefaultLayout>
       <TopBar />
       <Flex paddingX={3} paddingY={8} flex={1}>
         <Text color={'white'} fontFamily={'Poppins'}>
@@ -14,7 +14,7 @@ const NotFound = () => {
         </Text>
       </Flex>
       <Footer />
-    </MainLayout>
+    </DefaultLayout>
   );
 };
 

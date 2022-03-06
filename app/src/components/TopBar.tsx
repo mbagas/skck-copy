@@ -26,7 +26,7 @@ const TopBar: React.FC<Props> = ({ children, isLogin }) => {
       paddingX={4}
       paddingY={2}
       color="white"
-      bgColor={`${isLogin ? 'royalBlack.100' : 'transparent'}`}
+      bgColor={`${isLogin ? 'royalBlack.200' : 'transparent'}`}
       userSelect="none"
       height="8rem"
     >

@@ -1,19 +1,14 @@
 import React from 'react';
 import TopBar from 'src/components/TopBar';
-import Footer from 'src/components/Footer';
-import LoginContent from 'src/components/LoginContent';
-import MainLayout from 'src/components/MainLayout';
-import { Flex } from '@chakra-ui/react';
+import { DefaultLayout } from 'src/components/pageLayout';
+import LoginContent from 'src/components/loginPage/LoginContent';
 
 const Login = () => {
   return (
-    <MainLayout>
+    <DefaultLayout>
       <TopBar />
-      <Flex flex={1}>
-        <LoginContent />
-      </Flex>
-      <Footer />
-    </MainLayout>
+      <LoginContent />
+    </DefaultLayout>
   );
 };
 
