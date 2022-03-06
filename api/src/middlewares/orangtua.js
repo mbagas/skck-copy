@@ -3,6 +3,7 @@ const asyncMw = require('async-express-mw');
 const repository = require('../repository');
 const { USER_ROLE } = require('../utils/constants');
 const { generateToken } = require('../utils/token');
+const { Siswas } = require('../models');
 
 // Get orang tua data by id.
 exports.getOrangTuaMw = asyncMw(async (req, res, next) => {
@@ -12,10 +13,10 @@ exports.getOrangTuaMw = asyncMw(async (req, res, next) => {
   const orangTua = await repository.orangTua.findOne(req.params.id, {
     include: [
       {
-        model: Siswa,
+        model: Siswas,
         as: 'siswas',
-      }
-    ]
+      },
+    ],
   });
 
   // If selected orang tua is not found, return a 404 error.
@@ -69,15 +70,12 @@ exports.updateOrangTuaMw = asyncMw(async (req, res, next) => {
 // Return selected orang tua data.
 exports.returnOrangTuaMw = asyncMw(async (req, res) => {
   const { orangTua } = req;
-  await repository.orangTua.modelToResource(orangTua)
+  await repository.orangTua.modelToResource(orangTua);
   return res.json({
     ...(await repository.orangTua.modelToResource(orangTua)),
     siswas: await Promise.all(
-      _.map(
-        orangTua.siswas,
-        (siswas) => repository.siswas.modelToResource(siswas),
-      )
-    )
+      _.map(orangTua.siswas, (siswas) => repository.siswas.modelToResource(siswas))
+    ),
   });
 });
 

@@ -24,6 +24,7 @@
     "indent": "off",
     "no-unused-vars": "off",
     "arrow-parens": "off",
-    "arrow-body-style": "off"
+    "arrow-body-style": "off",
+    "function-paren-newline": "off"
   }
 }

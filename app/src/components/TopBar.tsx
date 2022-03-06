@@ -1,42 +1,51 @@
 import React from 'react';
-import { Box, Stack, Flex, Text, Image, Spacer } from '@chakra-ui/react';
-import styles from '../../styles/Home.module.css';
+import { Stack, Flex, Text, Image, Spacer } from '@chakra-ui/react';
 
 const TopBar: React.FC<Props> = ({ children, isLogin }) => {
+  const aliceText = {
+    fontFamily: 'Alice',
+    fontSize: {
+      base: '1rem',
+      lg: '1.2rem',
+    },
+  };
+
+  const poppinsText = (isYellow = true) => ({
+    ...(isYellow ? { color: 'textLogin.SMA' } : {}),
+    fontFamily: 'Poppins',
+    fontSize: {
+      base: '0.85rem',
+      lg: '1.1rem',
+    },
+  });
+
   return (
     <Flex
       align="center"
       wrap="wrap"
-      padding={4}
+      paddingX={4}
+      paddingY={2}
       color="white"
-      bg={`${isLogin ? 'royalBlack.100' : 'transparent'}`}
+      bgColor={`${isLogin ? 'royalBlack.100' : 'transparent'}`}
+      userSelect="none"
+      height="8rem"
     >
-      <Flex align="center" mr={5}>
-        <Box>
+      <Flex display={{ base: 'none', md: 'flex' }}>
+        <Flex align="center" mr={5}>
           <Image
             borderRadius="full"
-            boxSize="150px"
-            src="/logo1.png"
+            src="logo1.png"
             alt="Logo"
-            width={100}
-            height={100}
+            width={{ base: 70, lg: 75 }}
+            height={{ base: 70, lg: 75 }}
           />
-        </Box>
+        </Flex>
+        <Stack display={'flex'} alignItems="left">
+          <Text {...poppinsText(false)}>SISTEM INFORMASI PENCATATAN PELANGGARAN</Text>
+          <Text {...aliceText}>SMAN 1 BUKITTINGGI</Text>
+          <Text {...poppinsText()}>SMAN 1 UNGGUL BUKITTINGGI</Text>
+        </Stack>
       </Flex>
-
-      <Stack
-        display={{ block: 'none', md: 'flex' }}
-        width={{ base: 'full', md: 'auto' }}
-        alignItems="left"
-        flexGrow={1}
-        mt={{ base: 4, md: 0 }}
-      >
-        <Text className={styles.poppins_text}>SISTEM INFORMASI PENCATATAN PELANGGARAN </Text>
-        <Text className={styles.alice_text}>SMAN 1 BUKITTINGGI</Text>
-        <Text className={styles.poppins_text} color={'textLogin.SMA'}>
-          SMAN 1 UNGGUL BUKITTINGGI
-        </Text>
-      </Stack>
       <Spacer />
       <Flex>{children}</Flex>
     </Flex>
