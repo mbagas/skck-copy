@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const bcrypt = require('bcrypt');
 const asyncMw = require('async-express-mw');
 const repository = require('../repository');
 const { USER_ROLE } = require('../utils/constants');
@@ -109,4 +110,17 @@ exports.loginMw = asyncMw(async (req, res) => {
   const token = await generateToken(_.pick(orangTua, ['id']), req.body.always);
 
   return res.status(200).json({ token, id: orangTua.id, userId });
+});
+
+exports.changePasswordMw = asyncMw(async (req, res) => {
+  const isMatch = await bcrypt.compare(req.body.oldPassword, req.guru.password);
+  if (!isMatch) return res.status(401).json({ message: 'Wrong old password!' });
+
+  const isMatch2 = await bcrypt.compare(req.body.password, req.guru.password);
+  if (isMatch2) return res.status(401).json({ message: 'New password is same as old password!' });
+
+  const data = await repository.user.resourceToModel(req.body);
+  await repository.user.update(req.guru.userId, data);
+
+  return res.json({ message: 'Password updated sucessfully!' });
 });

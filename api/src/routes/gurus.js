@@ -4,6 +4,8 @@ const guru = require('../middlewares/guru');
 
 // POST /gurus/login
 router.post('/login', guru.loginMw);
+// POST /gurus/:id/password
+router.post('/:id/password', user.authMw, guru.getGuruMw, guru.changePasswordMw);
 
 // GET /gurus
 router.get('/', user.authMw, guru.getGurusMw, guru.returnGurusMw);
