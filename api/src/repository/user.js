@@ -17,7 +17,7 @@ const repository = {
 };
 
 userRepository.resourceToModel = async (resource) => {
-  const model = _.pick(resource, ['userName', 'firstName', 'lastName', 'role']);
+  const model = _.pick(resource, ['userName', 'role']);
 
   if (resource.password) model.password = await hashText(resource.password);
 

@@ -22,8 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   OrangTua.init(
     {
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
+      namaLengkap: DataTypes.STRING,
       alamat: DataTypes.STRING,
       noTelp: DataTypes.STRING,
       userId: DataTypes.INTEGER,
