@@ -24,6 +24,16 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'siswaId',
         as: 'pelanggarans',
       });
+
+      Siswa.hasMany(models.Histories, {
+        foreignKey: 'siswaId',
+        as: 'histories',
+      });
+
+      Siswa.hasOne(models.TotalPoints, {
+        foreignKey: 'siswaId',
+        as: 'totalPoint',
+      });
     }
   }
   Siswa.init(
