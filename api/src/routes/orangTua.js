@@ -4,6 +4,8 @@ const orangTua = require('../middlewares/orangtua');
 
 // POST /orang-tuas/login
 router.post('/login', orangTua.loginMw);
+// POST /orang-tua/:id/password
+router.post('/:id/password', user.authMw, orangTua.getOrangTuaMw, orangTua.changePasswordMw);
 
 // GET /orang-tuas
 router.get('/', user.authMw, orangTua.getOrangTuasMw, orangTua.returnOrangTuasMw);

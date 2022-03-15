@@ -5,6 +5,8 @@ const pelanggaranRoutes = require('./pelanggarans');
 
 // POST /siswas/login
 router.post('/login', siswa.loginMw);
+// POST /siswas/:id/password
+router.post('/:id/password', user.authMw, siswa.getSiswaMw, siswa.changePasswordMw);
 
 // GET /siswas
 router.get('/', user.authMw, siswa.getSiswasMw, siswa.returnSiswasMw);
