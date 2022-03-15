@@ -1,8 +1,18 @@
 const _ = require('lodash');
 const { Pelanggarans } = require('../models');
 const { factory } = require('./baseRepository');
+const totalPointRepository = require('./totalPoint');
 
 const pelanggaranRepository = factory(Pelanggarans);
+
+// Overwrite the default create method
+pelanggaranRepository.create = async (resource) => {
+  await totalPointRepository.generateTotalPoint(resource);
+
+  const result = await Pelanggarans.create(resource);
+
+  return result;
+};
 
 pelanggaranRepository.resourceToModel = async (resource) => {
   const model = _.pick(resource, ['pelanggaranId', 'siswaId']);
@@ -22,8 +32,20 @@ pelanggaranRepository.bulkCreate = async (resources) => {
     _.map(resources, (resource) => pelanggaranRepository.resourceToModel(resource))
   );
 
+  await totalPointRepository.generateTotalPoints(models);
+
   const result = await Pelanggarans.bulkCreate(models);
   return result;
+};
+
+pelanggaranRepository.delete = async (id) => {
+  await totalPointRepository.recalculateTotalPoint(id);
+
+  await Pelanggarans.destroy({
+    where: {
+      id,
+    },
+  });
 };
 
 module.exports = pelanggaranRepository;

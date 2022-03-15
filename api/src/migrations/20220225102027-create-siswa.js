@@ -13,10 +13,7 @@ module.exports = {
       nis: {
         type: Sequelize.INTEGER,
       },
-      firstName: {
-        type: Sequelize.STRING,
-      },
-      lastName: {
+      namaLengkap: {
         type: Sequelize.STRING,
       },
       alamat: {

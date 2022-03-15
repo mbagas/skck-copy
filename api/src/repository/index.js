@@ -6,6 +6,8 @@ const repository = {
   katPlgr: require('./kategoriPelanggaran'),
   relasi: require('./relasi'),
   pelanggaran: require('./pelanggaran'),
+  totalPoint: require('./totalPoint'),
+  history: require('./history'),
 };
 
 module.exports = repository;
