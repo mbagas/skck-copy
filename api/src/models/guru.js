@@ -17,8 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Guru.init(
     {
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
+      namaLengkap: DataTypes.STRING,
       jabatan: DataTypes.STRING,
       alamat: DataTypes.STRING,
       userId: DataTypes.INTEGER,

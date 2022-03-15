@@ -19,8 +19,7 @@ module.exports = {
 
     await Siswas.bulkCreate(
       _.map(users, (user) => ({
-        firstName: 'firstName',
-        lastName: 'lastName',
+        namaLengkap: 'namaLengkap',
         alamat: 'alamat',
         userId: user.id,
       }))
