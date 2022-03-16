@@ -9,7 +9,6 @@ const UserLayout: React.FC = ({ children }) => {
       <Grid
         templateColumns={{ base: 'repeat(1,1fr)', md: 'repeat(12,1fr)' }}
         height={{ base: 'calc(100% - 6rem)', md: 'calc(100% - 8rem)' }}
-        mt={{ base: '6rem', md: '8rem' }}
       >
         <GridItem colSpan={3} display={{ base: 'none', md: 'inline' }} width={'100%'} />
         <GridItem colSpan={{ base: 1, md: 6 }} width={'100%'}>
