@@ -25,5 +25,8 @@
   "homepage": "https://github.com/mbagas/skck-copy#readme",
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^1.8.6"
   }
 }
