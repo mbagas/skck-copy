@@ -21,6 +21,7 @@ const TopBar: React.FC<Props> = ({ children, isLogin }) => {
 
   return (
     <Flex
+      display={{ base: 'none', md: 'flex' }}
       align="center"
       wrap="wrap"
       paddingX={4}
@@ -30,24 +31,20 @@ const TopBar: React.FC<Props> = ({ children, isLogin }) => {
       userSelect="none"
       height="8rem"
     >
-      <Flex display={{ base: 'none', md: 'flex' }}>
-        <Flex align="center" mr={5}>
-          <Image
-            borderRadius="full"
-            src="logo1.png"
-            alt="Logo"
-            width={{ base: 70, lg: 75 }}
-            height={{ base: 70, lg: 75 }}
-          />
-        </Flex>
-        <Stack display={'flex'} alignItems="left">
-          <Text {...poppinsText(false)}>SISTEM INFORMASI PENCATATAN PELANGGARAN</Text>
-          <Text {...aliceText}>SMAN 1 BUKITTINGGI</Text>
-          <Text {...poppinsText()}>SMAN 1 UNGGUL BUKITTINGGI</Text>
-        </Stack>
+      <Flex align="center" mr={5}>
+        <Image
+          borderRadius="full"
+          src="logo1.png"
+          alt="Logo"
+          width={{ base: 70, lg: 75 }}
+          height={{ base: 70, lg: 75 }}
+        />
       </Flex>
-      <Spacer />
-      <Flex>{children}</Flex>
+      <Stack display={'flex'} alignItems="left">
+        <Text {...poppinsText(false)}>SISTEM INFORMASI PENCATATAN PELANGGARAN</Text>
+        <Text {...aliceText}>SMAN 1 BUKITTINGGI</Text>
+        <Text {...poppinsText()}>SMAN 1 UNGGUL BUKITTINGGI</Text>
+      </Stack>
     </Flex>
   );
 };
