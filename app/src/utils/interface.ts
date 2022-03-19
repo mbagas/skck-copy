@@ -63,7 +63,7 @@ export interface ITotalPoint {
 
 export interface IHistory {
   id: number;
-  SPKe: number;
+  spKe: number;
   siswaId: number;
   createdAt: string;
 }
@@ -79,4 +79,18 @@ export interface ISiswaDetail extends ISiswa {
   pelanggarans: ISiswaPelanggaran[];
   orangTua: Omit<IOrangTua, 'siswas'>;
   history: IHistory[];
+}
+
+export interface IGuru extends IBaseGuru {
+  id: number;
+  userId: number;
+}
+
+export interface IUser extends IBaseUser {
+  id: number;
+}
+
+export interface IAction<T> {
+  type: string;
+  data: T;
 }
