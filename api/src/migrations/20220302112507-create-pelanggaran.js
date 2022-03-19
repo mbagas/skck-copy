@@ -9,9 +9,19 @@ module.exports = {
       },
       pelanggaranId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: 'KategoriPelanggarans',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
       siswaId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: 'Siswas',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
       createdAt: {
         allowNull: false,

@@ -4,7 +4,6 @@ const repository = {
   siswa: require('./siswa'),
   orangTua: require('./orangtua'),
   katPlgr: require('./kategoriPelanggaran'),
-  relasi: require('./relasi'),
   pelanggaran: require('./pelanggaran'),
   totalPoint: require('./totalPoint'),
   history: require('./history'),

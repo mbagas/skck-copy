@@ -1,10 +1,16 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('OrangTuas', {
+    await queryInterface.createTable('Siswas', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      nisn: {
+        type: Sequelize.INTEGER,
+      },
+      nis: {
         type: Sequelize.INTEGER,
       },
       namaLengkap: {
@@ -13,11 +19,21 @@ module.exports = {
       alamat: {
         type: Sequelize.STRING,
       },
-      noTelp: {
-        type: Sequelize.STRING,
-      },
       userId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
+      },
+      orangTuaId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'OrangTuas',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
       createdAt: {
         allowNull: false,
@@ -30,6 +46,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('OrangTuas');
+    await queryInterface.dropTable('Siswas');
   },
 };

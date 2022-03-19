@@ -7,11 +7,16 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      SPKe: {
+      spKe: {
         type: Sequelize.INTEGER,
       },
       siswaId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: 'Siswas',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
       createdAt: {
         allowNull: false,
