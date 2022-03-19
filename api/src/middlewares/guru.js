@@ -92,7 +92,16 @@ exports.loginMw = asyncMw(async (req, res) => {
 
   const guru = await repository.guru.findOne({ userId });
 
-  const token = await generateToken(_.pick(guru, ['id']), req.body.always);
+  if (!guru) return res.status(404).json({ message: 'Guru not found' });
+
+  const token = await generateToken(
+    {
+      id: userId,
+      accountId: guru.id,
+      role: USER_ROLE.GURU,
+    },
+    req.body.always
+  );
 
   return res.status(200).json({ token, id: guru.id, userId });
 });
