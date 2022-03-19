@@ -36,7 +36,8 @@
     "moment": "^2.29.1",
     "mysql2": "^2.3.3",
     "sequelize": "^6.16.3",
-    "sequelize-cli": "^6.4.1"
+    "sequelize-cli": "^6.4.1",
+    "twilio": "^3.75.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",

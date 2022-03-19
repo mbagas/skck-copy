@@ -7,7 +7,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      SPKe: {
+      spKe: {
         type: Sequelize.INTEGER,
       },
       siswaId: {

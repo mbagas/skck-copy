@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   History.init(
     {
-      SPKe: DataTypes.INTEGER,
+      spKe: DataTypes.INTEGER,
       siswaId: DataTypes.INTEGER,
     },
     {
