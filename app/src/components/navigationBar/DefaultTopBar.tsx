@@ -1,7 +1,7 @@
 import React from 'react';
-import { Stack, Flex, Text, Image, Spacer } from '@chakra-ui/react';
+import { Stack, Flex, Text, Image } from '@chakra-ui/react';
 
-const TopBar: React.FC<Props> = ({ children, isLogin }) => {
+const DefaultTopBar: React.FC = () => {
   const aliceText = {
     fontFamily: 'Alice',
     fontSize: {
@@ -27,7 +27,6 @@ const TopBar: React.FC<Props> = ({ children, isLogin }) => {
       paddingX={4}
       paddingY={2}
       color="white"
-      bgColor={`${isLogin ? 'royalBlack.200' : 'transparent'}`}
       userSelect="none"
       height="8rem"
     >
@@ -48,6 +47,5 @@ const TopBar: React.FC<Props> = ({ children, isLogin }) => {
     </Flex>
   );
 };
-type Props = { isLogin?: boolean };
 
-export default TopBar;
+export default DefaultTopBar;

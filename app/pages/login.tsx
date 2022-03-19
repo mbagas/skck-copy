@@ -1,12 +1,12 @@
 import React from 'react';
-import TopBar from 'src/components/TopBar';
+import NavigationBar from 'src/components/navigationBar';
 import { DefaultLayout } from 'src/components/pageLayout';
 import LoginContent from 'src/components/loginPage/LoginContent';
 
 const Login = () => {
   return (
     <DefaultLayout>
-      <TopBar />
+      <NavigationBar.DefaultTopBar />
       <LoginContent />
     </DefaultLayout>
   );

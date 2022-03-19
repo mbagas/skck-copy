@@ -1,11 +1,11 @@
 import React from 'react';
 import { Flex, Grid, GridItem } from '@chakra-ui/react';
-import NavigationBar from '../navigationBar';
+import { UserNavigationBar } from '../navigationBar';
 
 const UserLayout: React.FC = ({ children }) => {
   return (
     <Flex flexDirection={'column'} height={'100vh'} width={'100vw'}>
-      <NavigationBar.UserNavigationBar.TopBar canCreate={false} />
+      <UserNavigationBar.TopBar canCreate={false} />
       <Grid
         templateColumns={{ base: 'repeat(1,1fr)', md: 'repeat(12,1fr)' }}
         height={{ base: 'calc(100% - 6rem)', md: 'calc(100% - 8rem)' }}
@@ -16,7 +16,7 @@ const UserLayout: React.FC = ({ children }) => {
             {children}
           </Flex>
           <Flex display={{ base: 'flex', md: 'none' }}>
-            <NavigationBar.UserNavigationBar.BottomBar canCreate={true} isOnCreate={false} />
+            <UserNavigationBar.BottomBar canCreate={true} isOnCreate={false} />
           </Flex>
         </GridItem>
         <GridItem colSpan={3} display={{ base: 'none', md: 'inline' }} width={'100%'} />
