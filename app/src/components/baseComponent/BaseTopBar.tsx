@@ -9,8 +9,8 @@ const BaseTopBar: React.FC = ({ children }) => {
     fontFamily: 'Alice',
     fontSize: {
       base: '0.6rem',
-      sm: '0.8rem',
-      md: '1rem',
+      sm: '0.7rem',
+      md: '0.9rem',
     },
   };
 
@@ -19,8 +19,8 @@ const BaseTopBar: React.FC = ({ children }) => {
     fontFamily: 'Poppins',
     fontSize: {
       base: '0.5rem',
-      sm: '0.7rem',
-      md: '0.9rem',
+      sm: '0.6rem',
+      md: '0.8rem',
     },
   });
 
@@ -28,18 +28,18 @@ const BaseTopBar: React.FC = ({ children }) => {
     <Flex
       alignItems="center"
       px={4}
-      py={4}
+      py={2}
       color="white"
       bgColor={'royalBlack.100'}
       userSelect="none"
     >
       <Flex alignItems="center">
         <Flex align="center" mr={5}>
-          <AspectRatio ratio={1} width={{ base: '50px', sm: '75px', md: '85px' }}>
+          <AspectRatio ratio={1} width={{ base: '50px', sm: '65px', md: '75px' }}>
             <Image borderRadius="full" src={`${basePath}/logo.png`} alt="Logo" />
           </AspectRatio>
         </Flex>
-        <VStack alignItems="left">
+        <VStack spacing={0} alignItems="left">
           <Text {...poppinsText(false)}>SISTEM INFORMASI PENCATATAN PELANGGARAN</Text>
           <Text {...aliceText}>SMAN 1 BUKITTINGGI</Text>
           <Text {...poppinsText()}>SMAN 1 UNGGUL BUKITTINGGI</Text>
