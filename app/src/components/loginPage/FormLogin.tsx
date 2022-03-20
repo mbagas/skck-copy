@@ -95,7 +95,7 @@ const FormLogin: React.FC<Props> = ({ userLogin }) => {
               >
                 <VStack spacing={5} borderRadius="20px">
                   <FormControl isInvalid={!!errors.userName && touched.userName}>
-                    <InputGroup borderColor={'royalRed.300'}>
+                    <InputGroup borderColor={'royalRed.200'}>
                       <InputLeftElement pointerEvents="none">
                         <BiUser color="gray.300" />
                       </InputLeftElement>
@@ -121,7 +121,7 @@ const FormLogin: React.FC<Props> = ({ userLogin }) => {
                         id="password"
                         placeholder="Password"
                         size="md"
-                        borderColor={'royalRed.300'}
+                        borderColor={'royalRed.200'}
                         boxShadow="lg"
                         type={passwordVisible ? 'text' : 'password'}
                         value={values.password}
@@ -149,7 +149,7 @@ const FormLogin: React.FC<Props> = ({ userLogin }) => {
                         id="kategori"
                         placeholder="-Masuk Sebagai-"
                         color={'royalBlack.100'}
-                        borderColor={'royalRed.300'}
+                        borderColor={'royalRed.200'}
                         boxShadow="lg"
                         value={values.role}
                         onChange={handleChange('role')}
@@ -165,7 +165,7 @@ const FormLogin: React.FC<Props> = ({ userLogin }) => {
                   <Box
                     as="button"
                     borderRadius="md"
-                    bg={'royalRed.300'}
+                    bg={'royalRed.200'}
                     color="white"
                     px={4}
                     h={10}
@@ -175,7 +175,7 @@ const FormLogin: React.FC<Props> = ({ userLogin }) => {
                   </Box>
 
                   <Flex justifyContent={'center'} cursor={'pointer'} onClick={onOpen}>
-                    <Text {...interText} color={'royalRed.300'}>
+                    <Text {...interText} color={'royalRed.200'}>
                       Lupa Kata Sandi?
                     </Text>
                   </Flex>
@@ -200,12 +200,12 @@ const FormLogin: React.FC<Props> = ({ userLogin }) => {
           <Divider variant={'solid'} />
           <ModalFooter>
             <Button
-              bg={'royalRed.300'}
+              bg={'royalRed.200'}
               color={'white'}
               mr={3}
               onClick={onClose}
               _hover={{
-                background: 'royalRed.300',
+                background: 'royalRed.200',
                 color: 'white',
               }}
             >
