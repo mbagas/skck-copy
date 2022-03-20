@@ -19,6 +19,7 @@ export interface IBaseUser {
 }
 
 export interface IBaseGuru {
+  nipNrk: string;
   namaLengkap: string;
   jabatan: string;
   alamat: string;

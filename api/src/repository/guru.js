@@ -5,7 +5,7 @@ const { factory } = require('./baseRepository');
 const guruRepository = factory(Gurus);
 
 guruRepository.resourceToModel = async (resource) => {
-  const model = _.pick(resource, ['namaLengkap', 'jabatan', 'alamat', 'userId']);
+  const model = _.pick(resource, ['nipNrk', 'namaLengkap', 'jabatan', 'alamat', 'userId']);
 
   return model;
 };

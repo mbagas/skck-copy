@@ -29,7 +29,7 @@ const SideBar: React.FC = () => {
           cursor={'pointer'}
           padding={3}
           key={key}
-          onClick={() => Router.push(`/akun/${resource.join('-')}`)}
+          onClick={() => Router.push(`/dashboard/akun/${resource.join('-')}`)}
         >
           {_.map(resource, (r) => _.capitalize(r)).join(' ')}
         </Text>
@@ -37,7 +37,7 @@ const SideBar: React.FC = () => {
     });
 
   return (
-    <Flex height={'100%'} width={{ base: '100vw', md: '20rem' }} mr={5}>
+    <Flex height={'100%'} width={{ base: 0, md: '20rem' }} mr={{ base: 0, md: 5 }}>
       <VStack spacing={5} alignItems={'flex-start'} py={4} px={5} width={'100%'} height={'100%'}>
         <Flex
           width={'90%'}

@@ -7,6 +7,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      nipNrk: {
+        type: Sequelize.STRING,
+      },
       namaLengkap: {
         type: Sequelize.STRING,
       },

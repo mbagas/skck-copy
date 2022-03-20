@@ -38,7 +38,7 @@ const DashboardContent = () => {
       <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
         Dashboard
       </Text>
-      <Grid templateColumns="repeat(4, 1fr)" py={4} gap={4}>
+      <Grid templateColumns="repeat(4, 1fr)" my={3} gap={4}>
         <GridItem colSpan={1}>
           <Card bGround="#4F72D9" title="asd" data={123}>
             <AspectRatio ratio={1} width={12} mr={2}>
