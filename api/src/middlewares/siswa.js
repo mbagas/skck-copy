@@ -116,7 +116,16 @@ exports.loginMw = asyncMw(async (req, res) => {
 
   const siswa = await repository.siswa.findOne({ userId });
 
-  const token = await generateToken(_.pick(siswa, ['id']), req.body.always);
+  if (!siswa) return res.status(404).json({ message: 'Siswa not found' });
+
+  const token = await generateToken(
+    {
+      id: userId,
+      accountId: siswa.id,
+      role: USER_ROLE.SISWA,
+    },
+    req.body.always
+  );
 
   return res.status(200).json({ token, id: siswa.id, userId });
 });

@@ -130,7 +130,14 @@ exports.loginMw = asyncMw(async (req, res) => {
 
   if (!userMatch.isMatch) return res.status(401).json({ message: 'Wrong password' });
 
-  const token = await generateToken(_.pick(userMatch.user, ['id']), req.body.always);
+  const token = await generateToken(
+    {
+      id: userMatch.user.id,
+      accountId: userMatch.user.id,
+      role: USER_ROLE.ADMIN,
+    },
+    req.body.always
+  );
 
   return res.status(200).json({ token, id: userMatch.user.id });
 });

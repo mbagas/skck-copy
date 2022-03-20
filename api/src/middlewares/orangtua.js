@@ -107,7 +107,16 @@ exports.loginMw = asyncMw(async (req, res) => {
 
   const orangTua = await repository.orangTua.findOne({ userId });
 
-  const token = await generateToken(_.pick(orangTua, ['id']), req.body.always);
+  if (!orangTua) return res.status(404).json({ message: 'Orang Tua not found' });
+
+  const token = await generateToken(
+    {
+      id: userId,
+      accountId: orangTua.id,
+      role: USER_ROLE.ORANG_TUA,
+    },
+    req.body.always
+  );
 
   return res.status(200).json({ token, id: orangTua.id, userId });
 });
