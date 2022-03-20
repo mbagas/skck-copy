@@ -9,10 +9,12 @@ const theme = extendTheme({
     royalRed: {
       100: '#E64839',
       200: '#B91D0E',
+      300: '#FF3B30',
     },
     royalYellow: {
       100: '#F4C33D',
       200: '#D69F08',
+      300: '#FF6F0F',
     },
     royalGreen: {
       100: '#1ECA8B',
@@ -20,15 +22,18 @@ const theme = extendTheme({
     },
     royalOrange: {
       100: '#F6924F',
-      200: '#FF6600',
+      200: '#FEC5A8',
+      300: '#FF6600',
     },
     royalGray: {
       100: '#E1E1E1',
       200: '#C4C4C4',
       300: '#3F4143',
+      400: '#555555',
     },
     royalBlack: {
-      100: '#151618',
+      100: '#736969',
+      200: '#151618',
     },
     textLogin: {
       SMA: '#F3EF24',

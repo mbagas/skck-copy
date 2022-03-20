@@ -3,7 +3,7 @@ import { Flex, Text, Link } from '@chakra-ui/react';
 
 const Footer: React.FC = () => {
   return (
-    <Flex paddingX={3} paddingY={'2rem'} bgColor="royalGray.300" color={'royalCream.100'}>
+    <Flex paddingX={3} paddingY={'1.2rem'} bgColor="royalGray.300" color={'royalCream.100'}>
       <Text>
         Copyright © 2022{' '}
         <Link
