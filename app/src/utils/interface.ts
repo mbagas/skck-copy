@@ -1,5 +1,7 @@
 import { USER_ROLE } from './constant';
 
+export type RoleType = typeof USER_ROLE[keyof typeof USER_ROLE];
+
 export interface IBasePelanggaran {
   pelanggaranId: number;
   siswaId: number;
@@ -13,7 +15,7 @@ export interface IBaseKategoriPelanggaran {
 export interface IBaseUser {
   userName: string;
   password: string;
-  role: typeof USER_ROLE[keyof typeof USER_ROLE];
+  role: RoleType;
 }
 
 export interface IBaseGuru {
@@ -93,4 +95,8 @@ export interface IUser extends IBaseUser {
 export interface IAction<T> {
   type: string;
   data: T;
+}
+
+export interface ILoginPayload extends Omit<IBaseUser, 'role'> {
+  role: RoleType | '';
 }
