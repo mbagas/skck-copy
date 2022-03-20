@@ -1,7 +1,10 @@
 import React from 'react';
-import { Stack, Flex, Text, Image } from '@chakra-ui/react';
+import { Stack, Flex, Text, Image, AspectRatio } from '@chakra-ui/react';
+import useBasePath from 'src/utils/useBasePath';
 
 const DefaultTopBar: React.FC = () => {
+  const basePath = useBasePath();
+
   const aliceText = {
     fontFamily: 'Alice',
     fontSize: {
@@ -22,22 +25,16 @@ const DefaultTopBar: React.FC = () => {
   return (
     <Flex
       display={{ base: 'none', md: 'flex' }}
-      align="center"
-      wrap="wrap"
-      paddingX={4}
-      paddingY={2}
+      alignItems="center"
+      px={4}
+      py={2}
       color="white"
       userSelect="none"
-      height="8rem"
     >
       <Flex align="center" mr={5}>
-        <Image
-          borderRadius="full"
-          src="logo1.png"
-          alt="Logo"
-          width={{ base: 70, lg: 75 }}
-          height={{ base: 70, lg: 75 }}
-        />
+        <AspectRatio ratio={1} width={{ base: '50px', sm: '75px', md: '85px' }}>
+          <Image borderRadius="full" src={`${basePath}/logo.png`} alt="Logo" />
+        </AspectRatio>
       </Flex>
       <Stack display={'flex'} alignItems="left">
         <Text {...poppinsText(false)}>SISTEM INFORMASI PENCATATAN PELANGGARAN</Text>

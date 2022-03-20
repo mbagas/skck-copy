@@ -1,33 +1,28 @@
+import _ from 'lodash';
 import React from 'react';
-import { Flex, Grid, GridItem } from '@chakra-ui/react';
-import { VscHome, VscSettingsGear } from 'react-icons/vsc';
-import { BsPlusCircleFill } from 'react-icons/bs';
+import Router from 'next/router';
+import { AspectRatio, Flex, Grid, GridItem } from '@chakra-ui/react';
+import { GRID_ITEM } from 'src/utils/automation/user/navigationBar';
 
-const BottomBar: React.FC<Props> = ({ canCreate, isOnCreate }) => {
+const BottomBar: React.FC = () => {
+  const generateGridItem = () =>
+    _.map(GRID_ITEM, ({ ELEMENT, ROUTE }, key) => (
+      <GridItem key={key} onClick={() => Router.push(ROUTE)}>
+        <Flex justifyContent={'center'} alignItems={'center'}>
+          <AspectRatio ratio={1} width={5}>
+            <ELEMENT />
+          </AspectRatio>
+        </Flex>
+      </GridItem>
+    ));
+
   return (
-    <Flex bg={'white'} overflow="visible">
-      <Grid templateColumns={'repeat(3, 1fr)'} gap={3}>
-        <GridItem alignItems={'center'}>
-          <VscHome />
-        </GridItem>
-        <GridItem alignItems={'center'} position="relative">
-          {canCreate && isOnCreate && (
-            <Flex position="absolute" top={'50%'}>
-              <BsPlusCircleFill color={'royalOrange.300'} fontSize={'1.5rem'} />
-            </Flex>
-          )}
-        </GridItem>
-        <GridItem alignItems={'center'}>
-          <VscSettingsGear />
-        </GridItem>
+    <Flex bg={'white'} overflow="visible" bottom={0} width={'100%'} py={3}>
+      <Grid templateColumns={'repeat(4, 1fr)'} gap={4} width={'100%'} position={'relative'}>
+        {generateGridItem()}
       </Grid>
     </Flex>
   );
-};
-
-type Props = {
-  isOnCreate: boolean;
-  canCreate: boolean;
 };
 
 export default BottomBar;

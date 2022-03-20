@@ -1,6 +1,5 @@
 import React from 'react';
-import { Flex, Image, Spacer, Text, VStack } from '@chakra-ui/react';
-import { VscSettingsGear, VscSignOut } from 'react-icons/vsc';
+import { AspectRatio, Flex, Image, Spacer, Text, VStack } from '@chakra-ui/react';
 import useBasePath from 'src/utils/useBasePath';
 
 const BaseTopBar: React.FC = ({ children }) => {
@@ -9,8 +8,9 @@ const BaseTopBar: React.FC = ({ children }) => {
   const aliceText = {
     fontFamily: 'Alice',
     fontSize: {
-      base: '1rem',
-      lg: '1.2rem',
+      base: '0.6rem',
+      sm: '0.8rem',
+      md: '1rem',
     },
   };
 
@@ -18,31 +18,26 @@ const BaseTopBar: React.FC = ({ children }) => {
     ...(isYellow ? { color: 'textLogin.SMA' } : {}),
     fontFamily: 'Poppins',
     fontSize: {
-      base: '0.85rem',
-      lg: '1.1rem',
+      base: '0.5rem',
+      sm: '0.7rem',
+      md: '0.9rem',
     },
   });
 
   return (
     <Flex
-      align="center"
-      wrap="wrap"
+      alignItems="center"
       px={4}
-      py={2}
+      py={4}
       color="white"
       bgColor={'royalBlack.100'}
       userSelect="none"
-      height={{ base: '6rem', md: '8rem' }}
     >
-      <Flex>
+      <Flex alignItems="center">
         <Flex align="center" mr={5}>
-          <Image
-            borderRadius="full"
-            src={`${basePath}/logo.png`}
-            alt="Logo"
-            width={{ base: 70, lg: 75 }}
-            height={{ base: 70, lg: 75 }}
-          />
+          <AspectRatio ratio={1} width={{ base: '50px', sm: '75px', md: '85px' }}>
+            <Image borderRadius="full" src={`${basePath}/logo.png`} alt="Logo" />
+          </AspectRatio>
         </Flex>
         <VStack alignItems="left">
           <Text {...poppinsText(false)}>SISTEM INFORMASI PENCATATAN PELANGGARAN</Text>
@@ -51,11 +46,7 @@ const BaseTopBar: React.FC = ({ children }) => {
         </VStack>
       </Flex>
       <Spacer />
-      <Flex>
-        <Flex display={{ base: 'none', md: 'flex' }}>{children}</Flex>
-        <VscSettingsGear />
-        <VscSignOut />
-      </Flex>
+      <Flex display={{ base: 'none', md: 'flex' }}>{children}</Flex>
     </Flex>
   );
 };
