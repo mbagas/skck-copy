@@ -4,8 +4,8 @@ import { FaUser, FaHome, FaChartBar } from 'react-icons/fa';
 
 const Card: React.FC<Props> = ({ bGround, title, data, children }) => {
   return (
-    <Box bg={bGround} width={{ base: '100%', md: '100%' }} color="white" borderRadius="10">
-      <Grid gap={2}>
+    <Box bg={bGround} width={{ base: '100%', md: '100%' }} color="white" borderRadius={10}>
+      <Grid gap={3} templateColumns={'repeat(2, 1fr)'}>
         <GridItem colSpan={2} pl="1rem">
           <Text fontFamily={'Poppins'} fontWeight="700" fontSize={'1.45rem'}>
             {title}
