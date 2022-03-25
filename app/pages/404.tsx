@@ -1,5 +1,4 @@
 import React from 'react';
-import Footer from 'src/components/Footer';
 import { DefaultLayout } from 'src/components/pageLayout';
 import { DefaultTopBar } from 'src/components/navigationBar';
 import { Flex, Text } from '@chakra-ui/react';
@@ -13,7 +12,6 @@ const NotFound = () => {
           Mohon maaf, sepertinya halaman yang anda cari tidak tersedia
         </Text>
       </Flex>
-      <Footer />
     </DefaultLayout>
   );
 };

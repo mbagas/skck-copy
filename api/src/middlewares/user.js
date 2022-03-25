@@ -43,7 +43,7 @@ exports.getUserMw = asyncMw(async (req, res, next) => {
 
   // If userAuth is not and admin and does not match the id in params,
   // then return a forbidden error.
-  if (userAuthId !== paramsId && adminOrGuru) {
+  if (userAuthId !== paramsId && !adminOrGuru) {
     return res.status(403).json({
       message: 'Forbidden',
     });
@@ -59,7 +59,13 @@ exports.getUserMw = asyncMw(async (req, res, next) => {
 });
 
 exports.getUsersMw = asyncMw(async (req, res, next) => {
-  req.users = await repository.user.findAll({}, req.filterQueryParams, req.query);
+  req.users = await repository.user.findAll(
+    {
+      role: USER_ROLE.ADMIN,
+    },
+    req.filterQueryParams,
+    req.query
+  );
 
   return next();
 });

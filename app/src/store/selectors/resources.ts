@@ -11,6 +11,11 @@ export const getResourceById =
   (state: RootState) =>
     state.resources[resourceName]['rows'][id] as IResources[T];
 
+export const getResourceByIdInRoutes =
+  <T extends ResourceKey>(resourceName: T, state: RootState) =>
+  (id: number) =>
+    state.resources[resourceName]['rows'][id] as IResources[T];
+
 export const getResourceCounts =
   <T extends ResourceKey>(resourceName: T) =>
   (state: RootState) =>

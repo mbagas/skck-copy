@@ -13,7 +13,7 @@ const userRepository = factory(Users);
 const repository = {
   siswa: siswaRepository,
   guru: guruRepository,
-  orangTua: orangTuaRepository,
+  orang_tua: orangTuaRepository,
 };
 
 userRepository.resourceToModel = async (resource) => {

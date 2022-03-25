@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import {
   Flex,
@@ -12,22 +12,27 @@ import {
   Button,
   Input,
   InputGroup,
-  InputLeftElement,
   InputRightElement,
 } from '@chakra-ui/react';
+import Router from 'next/router';
 import { connect, ConnectedProps } from 'react-redux';
 import { FaSearch, FaEdit, FaTrash } from 'react-icons/fa';
 import { resources } from 'src/store/selectors';
-import { deleteData } from 'src/store/actions/resources';
+import { deleteData, getAllData as _getAllData } from 'src/store/actions/resources';
 import { errorToastfier } from 'src/utils/toastifier';
 import { RootState } from 'src/store';
 import { RESOURCE_NAME } from 'src/utils/constant';
-import AkunTableContainer from './AkunTableContainer';
-import DeleteConfirmationModal from './DeleteConfirmationModal';
+import AkunTableContainer from '../AkunTableContainer';
+import DeleteConfirmationModal from '../DeleteConfirmationModal';
+import useCustomDebounce from 'src/utils/useCustomDebounce';
+import { getGuruFilter } from 'src/utils/user';
 
-const GuruContent: React.FC<Props> = ({ gurus, deleteGuru }) => {
+const GuruContent: React.FC<Props> = ({ gurus, deleteGuru, getAllData }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [userId, setUserId] = useState<number | null>(null);
+  const [page, setPage] = useState<number>(1);
+  const [searchvalue, setSearchValue] = useState<string>('');
+  const [firstLoad, setFirstLoad] = useState<boolean>(true);
 
   const onClose = () => {
     setIsOpen(false);
@@ -44,6 +49,24 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru }) => {
       errorToastfier(e);
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      await getAllData(RESOURCE_NAME.GURUS, `page=${page}&limit=15`);
+
+      setFirstLoad(false);
+    })();
+  }, []); // eslint-disable-line
+
+  useCustomDebounce(
+    async () => {
+      if (firstLoad) return;
+
+      await getAllData(RESOURCE_NAME.GURUS, `page=${page}&limit=15&${getGuruFilter(searchvalue)}`);
+    },
+    1000,
+    [searchvalue]
+  );
 
   return (
     <React.Fragment>
@@ -71,6 +94,7 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru }) => {
                 background: 'royalRed.300',
               }}
               _focus={{ border: 'none' }}
+              onClick={() => Router.push(`${Router.pathname}/create`)}
             >
               Tambah
             </Button>
@@ -82,6 +106,8 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru }) => {
                 fontFamily="poppins"
                 fontSize={'0.813rem'}
                 placeholder="Cari"
+                value={searchvalue}
+                onChange={(e) => setSearchValue(e.target.value)}
               />
               <InputRightElement pointerEvents="none">
                 <FaSearch />
@@ -94,13 +120,13 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru }) => {
                 <Th color="white" bg={'royalRed.200'} borderTopLeftRadius={10}>
                   No
                 </Th>
-                <Th color="white" bg={'royalRed.200'}>
+                <Th color="white" bg={'royalRed.200'} width={'65%'}>
                   Nama Lengkap
                 </Th>
-                <Th color="white" bg={'royalRed.200'}>
+                <Th color="white" bg={'royalRed.200'} width={'10%'}>
                   NIP/NRK
                 </Th>
-                <Th color="white" bg={'royalRed.200'}>
+                <Th color="white" bg={'royalRed.200'} width={'25%'}>
                   Alamat
                 </Th>
                 <Th color="white" bg={'royalRed.200'} textAlign="center" borderTopRightRadius={10}>
@@ -110,14 +136,14 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru }) => {
             </Thead>
             <Tbody>
               {_.map(_.toArray(gurus.rows), (guru, index) => (
-                <Tr key={index}>
-                  <Td>{index}</Td>
+                <Tr key={index} bg={index % 2 !== 0 ? '#E1E1E1' : 'white'}>
+                  <Td>{index + 1}</Td>
                   <Td>{guru.namaLengkap}</Td>
                   <Td>{guru.nipNrk}</Td>
                   <Td>{guru.alamat}</Td>
                   <Td>
                     <Flex justifyContent={'space-between'}>
-                      <FaEdit />
+                      <FaEdit onClick={() => Router.push(`${Router.pathname}/${guru.id}/update`)} />
                       <FaTrash
                         onClick={() => {
                           setUserId(guru.userId);
@@ -143,6 +169,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const connector = connect(mapStateToProps, {
   deleteGuru: deleteData,
+  getAllData: _getAllData,
 });
 
 type Props = ConnectedProps<typeof connector>;

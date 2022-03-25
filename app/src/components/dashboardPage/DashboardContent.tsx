@@ -1,29 +1,9 @@
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Modal,
-  ModalBody,
-  Select,
-  VStack,
-  HStack,
-  Text,
-  useDisclosure,
-  InputRightElement,
-  AspectRatio,
-  Grid,
-  GridItem,
-} from '@chakra-ui/react';
+import { Flex, Text, AspectRatio, Grid, GridItem } from '@chakra-ui/react';
 import React from 'react';
 import { FaUser, FaCalendarDay, FaListOl } from 'react-icons/fa';
 import { RiBook2Fill } from 'react-icons/ri';
 import { Card } from '../baseComponent';
-import OverviewContainer from './OverviewContainer';
-import { GiAssassinPocket } from 'react-icons/gi';
+import AdminContainer from './AdminContainer';
 
 const DashboardContent = () => {
   return (
@@ -68,7 +48,11 @@ const DashboardContent = () => {
           </Card>
         </GridItem>
       </Grid>
-      <OverviewContainer />
+      <AdminContainer>
+        <Text fontFamily={'Poppins'} fontSize={'1.45rem'} px={5} py={5}>
+          Data Kategori Pelanggaran Harian
+        </Text>
+      </AdminContainer>
     </Flex>
   );
 };

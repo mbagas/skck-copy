@@ -1,8 +1,8 @@
 import React from 'react';
 import { AdminLayout } from 'src/components/pageLayout';
-import GuruContent from 'src/components/dashboardPage/akunPage/GuruContent';
+import GuruContent from 'src/components/dashboardPage/akunPage/guru/GuruContent';
 
-const Guru = () => {
+const Gurus = () => {
   return (
     <AdminLayout>
       <GuruContent />
@@ -10,4 +10,4 @@ const Guru = () => {
   );
 };
 
-export default Guru;
+export default Gurus;

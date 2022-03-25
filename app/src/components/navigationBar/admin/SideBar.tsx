@@ -29,7 +29,7 @@ const SideBar: React.FC = () => {
           cursor={'pointer'}
           padding={3}
           key={key}
-          onClick={() => Router.push(`/dashboard/akun/${resource.join('-')}`)}
+          onClick={() => Router.push(`/dashboard/akun/${resource.join('-')}s`)}
         >
           {_.map(resource, (r) => _.capitalize(r)).join(' ')}
         </Text>
@@ -43,6 +43,7 @@ const SideBar: React.FC = () => {
           width={'90%'}
           alignItems={'center'}
           userSelect={'none'}
+          cursor={'pointer'}
           onClick={() => Router.push('/dashboard')}
         >
           <AspectRatio ratio={1} width={8} mr={2}>
@@ -67,6 +68,7 @@ const SideBar: React.FC = () => {
           width={'90%'}
           alignItems={'center'}
           userSelect={'none'}
+          cursor={'pointer'}
           onClick={() => Router.push('/laporan')}
         >
           <AspectRatio justifyContent={'flex-start'} ratio={1} width={8} mr={2}>
@@ -78,6 +80,7 @@ const SideBar: React.FC = () => {
           width={'90%'}
           alignItems={'center'}
           userSelect={'none'}
+          cursor={'pointer'}
           onClick={() => Router.push('/grafik')}
         >
           <AspectRatio ratio={1} width={8} mr={2}>
@@ -89,6 +92,7 @@ const SideBar: React.FC = () => {
           width={'90%'}
           alignItems={'center'}
           userSelect={'none'}
+          cursor={'pointer'}
           onClick={() => Router.push('/kategori-pelanggaran')}
         >
           <AspectRatio ratio={1} width={8} mr={2}>
@@ -100,6 +104,7 @@ const SideBar: React.FC = () => {
           width={'90%'}
           alignItems={'center'}
           userSelect={'none'}
+          cursor={'pointer'}
           onClick={() => Router.push('/')}
         >
           <AspectRatio justifyContent={'center'} ratio={1} width={8} mr={3}>
