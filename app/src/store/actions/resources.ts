@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'src/store/axios';
 import { AppDispatch } from 'src/store';
-import { CreateUserType } from 'src/utils/interface';
+import { CreateUserType, IBaseKategoriPelanggaran } from 'src/utils/interface';
 import { IResources, IResourcesWithId, ResourceKey } from 'src/utils/resourceInterface';
 import { generateUserName } from 'src/utils/user';
+import { RESOURCE_NAME } from 'src/utils/constant';
 
 interface IActionUpdate<T extends ResourceKey> {
   id: number;
@@ -67,7 +69,7 @@ export const getDataById =
 // Add new data to resource
 export const addData =
   <T extends ResourceKey>(resourceName: T) =>
-  (payload: Omit<ResourceKey, 'id' | 'createdAt'>) =>
+  (payload: any) =>
   async (dispatch: AppDispatch) => {
     const { data } = await axios.post(`/${resourceName}`, payload, {
       headers: {
@@ -81,7 +83,7 @@ export const addData =
 // Update the data by id
 export const updateData =
   <T extends ResourceKey>(resourceName: T) =>
-  (id: number, update: Partial<IResources[T]>, query = '') =>
+  (id: number, update: any, query = '') =>
   async () => {
     const { data } = await axios.patch(`/${resourceName}/${id}?${query}`, update, {
       headers: {
@@ -101,11 +103,11 @@ export const deleteData =
     return dispatch(deleteResource(resourceName, id));
   };
 
-export const createUser = (payload: CreateUserType) => async () => {
+export const createUser = (payload: CreateUserType) => async (dispatch: AppDispatch) => {
   const newPayload = generateUserName(payload);
 
   try {
-    await axios.post(`/users`, newPayload);
+    await addData(RESOURCE_NAME.USERS)(newPayload)(dispatch);
   } catch (e) {
     return Promise.reject(e);
   }
@@ -113,8 +115,26 @@ export const createUser = (payload: CreateUserType) => async () => {
 
 export const updateUser = (id: number, payload: Partial<CreateUserType>) => async () => {
   try {
-    await axios.post(`/users/${id}`, payload);
+    await updateData(RESOURCE_NAME.USERS)(id, payload)();
   } catch (e) {
     return Promise.reject(e);
   }
 };
+
+export const createKategori =
+  (payload: IBaseKategoriPelanggaran) => async (dispatch: AppDispatch) => {
+    try {
+      await addData(RESOURCE_NAME.KATEGORI_PELANGGARANS)(payload)(dispatch);
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  };
+
+export const updateKategori =
+  (id: number, payload: Partial<IBaseKategoriPelanggaran>) => async () => {
+    try {
+      await updateData(RESOURCE_NAME.KATEGORI_PELANGGARANS)(id, payload)();
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  };

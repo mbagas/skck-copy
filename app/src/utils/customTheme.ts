@@ -33,6 +33,9 @@ const theme = extendTheme({
       100: '#424A59',
       200: '#151618',
     },
+    royalWhite: {
+      100: '#FEFEFE',
+    },
     textLogin: {
       SMA: '#F3EF24',
     },

@@ -33,6 +33,11 @@ export const orangTuaSchema = Yup.object({
 });
 
 export const adminSchema = Yup.object({
-  Username: Yup.string().required('Username dibutuhkan'),
+  userName: Yup.string().required('Username dibutuhkan'),
   password: Yup.string().required('Password dibutuhkan'),
+});
+
+export const kategoriSchema = Yup.object({
+  namaKategori: Yup.string().required('Nama Kategori Dibutuhkan'),
+  poin: Yup.number().required('Poin Dibutuhkan').min(1, 'Poin harus lebih dari 0'),
 });

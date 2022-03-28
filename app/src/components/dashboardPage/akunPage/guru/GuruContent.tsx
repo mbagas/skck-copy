@@ -23,7 +23,7 @@ import { errorToastfier } from 'src/utils/toastifier';
 import { RootState } from 'src/store';
 import { RESOURCE_NAME } from 'src/utils/constant';
 import AkunTableContainer from '../AkunTableContainer';
-import DeleteConfirmationModal from '../DeleteConfirmationModal';
+import DeleteConfirmationModal from 'src/components/baseComponent/DeleteConfirmationModal';
 import useCustomDebounce from 'src/utils/useCustomDebounce';
 import { getGuruFilter } from 'src/utils/user';
 
@@ -31,7 +31,7 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru, getAllData }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [userId, setUserId] = useState<number | null>(null);
   const [page, setPage] = useState<number>(1);
-  const [searchvalue, setSearchValue] = useState<string>('');
+  const [searchValue, setSearchValue] = useState<string>('');
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
 
   const onClose = () => {
@@ -62,10 +62,10 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru, getAllData }) => {
     async () => {
       if (firstLoad) return;
 
-      await getAllData(RESOURCE_NAME.GURUS, `page=${page}&limit=15&${getGuruFilter(searchvalue)}`);
+      await getAllData(RESOURCE_NAME.GURUS, `page=${page}&limit=15&${getGuruFilter(searchValue)}`);
     },
     1000,
-    [searchvalue]
+    [searchValue]
   );
 
   return (
@@ -106,7 +106,7 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru, getAllData }) => {
                 fontFamily="poppins"
                 fontSize={'0.813rem'}
                 placeholder="Cari"
-                value={searchvalue}
+                value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
               />
               <InputRightElement pointerEvents="none">
