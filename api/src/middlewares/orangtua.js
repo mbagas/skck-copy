@@ -2,6 +2,7 @@ const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const asyncMw = require('async-express-mw');
 const repository = require('../repository');
+const { isAdminOrGuru } = require('../utils/user');
 const { USER_ROLE } = require('../utils/constants');
 const { generateToken } = require('../utils/token');
 const { Siswas } = require('../models');
@@ -24,10 +25,11 @@ exports.getOrangTuaMw = asyncMw(async (req, res, next) => {
   if (!orangTua) return res.status(404).json({ message: 'Orang tua not found' });
 
   const orangTuaId = parseInt(orangTua.userId, 10);
+  const adminOrGuru = isAdminOrGuru(userAuth.role);
 
   // If userAuth is not and admin and does not match the id in params,
   // then return a forbidden error.
-  if (userAuthId !== orangTuaId && userAuth.role !== USER_ROLE.ADMIN) {
+  if (userAuthId !== orangTuaId && !adminOrGuru) {
     return res.status(403).json({
       message: 'Forbidden',
     });
@@ -75,7 +77,7 @@ exports.returnOrangTuaMw = asyncMw(async (req, res) => {
   return res.json({
     ...(await repository.orangTua.modelToResource(orangTua)),
     siswas: await Promise.all(
-      _.map(orangTua.siswas, (siswas) => repository.siswas.modelToResource(siswas))
+      _.map(orangTua.siswas, (siswas) => repository.siswa.modelToResource(siswas))
     ),
   });
 });

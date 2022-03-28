@@ -23,7 +23,7 @@ import { errorToastfier } from 'src/utils/toastifier';
 import { RootState } from 'src/store';
 import { RESOURCE_NAME } from 'src/utils/constant';
 import AkunTableContainer from '../AkunTableContainer';
-import DeleteConfirmationModal from '../DeleteConfirmationModal';
+import DeleteConfirmationModal from 'src/components/baseComponent/DeleteConfirmationModal';
 import useCustomDebounce from 'src/utils/useCustomDebounce';
 import { getOrangTuaFilter } from 'src/utils/user';
 
@@ -31,7 +31,7 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [userId, setUserId] = useState<number | null>(null);
   const [page, setPage] = useState<number>(1);
-  const [searchvalue, setSearchValue] = useState<string>('');
+  const [searchValue, setSearchValue] = useState<string>('');
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
 
   const onClose = () => {
@@ -64,11 +64,11 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
 
       await getAllData(
         RESOURCE_NAME.ORANG_TUAS,
-        `page=${page}&limit=15&${getOrangTuaFilter(searchvalue)}`
+        `page=${page}&limit=15&${getOrangTuaFilter(searchValue)}`
       );
     },
     1000,
-    [searchvalue]
+    [searchValue]
   );
 
   return (
@@ -109,7 +109,7 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
                 fontFamily="poppins"
                 fontSize={'0.813rem'}
                 placeholder="Cari"
-                value={searchvalue}
+                value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
               />
               <InputRightElement pointerEvents="none">

@@ -69,7 +69,7 @@ const SideBar: React.FC = () => {
           alignItems={'center'}
           userSelect={'none'}
           cursor={'pointer'}
-          onClick={() => Router.push('/laporan')}
+          onClick={() => Router.push('/dashboard/laporans')}
         >
           <AspectRatio justifyContent={'flex-start'} ratio={1} width={8} mr={2}>
             <RiAddCircleFill />
@@ -93,7 +93,7 @@ const SideBar: React.FC = () => {
           alignItems={'center'}
           userSelect={'none'}
           cursor={'pointer'}
-          onClick={() => Router.push('/kategori-pelanggaran')}
+          onClick={() => Router.push('/dashboard/kategori-pelanggarans')}
         >
           <AspectRatio ratio={1} width={8} mr={2}>
             <RiBook2Fill />
