@@ -1,6 +1,5 @@
 import React from 'react';
-import { Box, Flex, Grid, GridItem, HStack, Text } from '@chakra-ui/react';
-import { FaUser, FaHome, FaChartBar } from 'react-icons/fa';
+import { Box, Flex, Grid, GridItem, Text } from '@chakra-ui/react';
 
 const Card: React.FC<Props> = ({ bGround, title, data, children }) => {
   return (

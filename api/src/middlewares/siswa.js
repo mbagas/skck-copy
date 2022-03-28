@@ -36,7 +36,7 @@ exports.getSiswaMw = asyncMw(async (req, res, next) => {
 
   // If userAuth is not and admin and does not match the id in params,
   // then return a forbidden error.
-  if (userAuthId !== siswaId && adminOrGuru && !isOrangTua) {
+  if (userAuthId !== siswaId && !adminOrGuru && !isOrangTua) {
     return res.status(403).json({
       message: 'Forbidden',
     });

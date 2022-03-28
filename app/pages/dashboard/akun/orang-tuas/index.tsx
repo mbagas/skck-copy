@@ -1,8 +1,8 @@
 import React from 'react';
 import { AdminLayout } from 'src/components/pageLayout';
-import OrangTuaContent from 'src/components/dashboardPage/akunPage/OrangTuaContent';
+import OrangTuaContent from 'src/components/dashboardPage/akunPage/orangTua/OrangTuaContent';
 
-const OrangTua = () => {
+const OrangTuas = () => {
   return (
     <AdminLayout>
       <OrangTuaContent />
@@ -10,4 +10,4 @@ const OrangTua = () => {
   );
 };
 
-export default OrangTua;
+export default OrangTuas;

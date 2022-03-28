@@ -1,12 +1,7 @@
 import React from 'react';
 import {
-  Box,
   Button,
   Divider,
-  Flex,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -14,15 +9,8 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Select,
-  VStack,
   Text,
-  useDisclosure,
-  InputRightElement,
-  FormControl,
-  FormErrorMessage,
 } from '@chakra-ui/react';
-import _ from 'lodash';
 
 const DeleteConfirmationModal: React.FC<Props> = ({ isOpen, onClose, onSubmit }) => {
   const interText = {

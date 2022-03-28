@@ -1,6 +1,8 @@
 import axios from 'src/store/axios';
 import { AppDispatch } from 'src/store';
+import { CreateUserType } from 'src/utils/interface';
 import { IResources, IResourcesWithId, ResourceKey } from 'src/utils/resourceInterface';
+import { generateUserName } from 'src/utils/user';
 
 interface IActionUpdate<T extends ResourceKey> {
   id: number;
@@ -33,7 +35,7 @@ export const overwriteResource = <T extends ResourceKey>(
 
 export const deleteResource = <T extends ResourceKey>(resourceName: T, id: number) => ({
   type: `resources.${resourceName}.delete`,
-  payload: { id },
+  payload: id,
 });
 
 // overwrite state by default
@@ -98,3 +100,21 @@ export const deleteData =
 
     return dispatch(deleteResource(resourceName, id));
   };
+
+export const createUser = (payload: CreateUserType) => async () => {
+  const newPayload = generateUserName(payload);
+
+  try {
+    await axios.post(`/users`, newPayload);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
+export const updateUser = (id: number, payload: Partial<CreateUserType>) => async () => {
+  try {
+    await axios.post(`/users/${id}`, payload);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};

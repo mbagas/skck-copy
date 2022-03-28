@@ -1,8 +1,8 @@
 import React from 'react';
 import { AdminLayout } from 'src/components/pageLayout';
-import SiswaContent from 'src/components/dashboardPage/akunPage/SiswaContent';
+import SiswaContent from 'src/components/dashboardPage/akunPage/siswa/SiswaContent';
 
-const Siswa = () => {
+const Siswas = () => {
   return (
     <AdminLayout>
       <SiswaContent />
@@ -10,4 +10,4 @@ const Siswa = () => {
   );
 };
 
-export default Siswa;
+export default Siswas;
