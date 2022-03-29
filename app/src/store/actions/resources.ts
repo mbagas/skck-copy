@@ -138,3 +138,14 @@ export const updateKategori =
       return Promise.reject(e);
     }
   };
+
+export const getPelanggaranSiswa =
+  (id: number, query = '', overwrite = true) =>
+  async () => {
+    await axios.get(`/${RESOURCE_NAME.SISWAS}/${id}/${RESOURCE_NAME.PELANGGARANS}?${query}`, {
+      headers: {
+        resourceName: RESOURCE_NAME.PELANGGARANS,
+        overwrite,
+      },
+    });
+  };

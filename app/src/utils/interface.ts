@@ -51,7 +51,7 @@ export interface IPelanggaran extends IBasePelanggaran {
 }
 
 export interface ISiswaPelanggaran extends IPelanggaran {
-  kategoriPelanggaran: IKategoriPelanggaran;
+  kategoriPelanggaran?: IKategoriPelanggaran;
 }
 
 export interface IOrangTua extends IBaseOrangTua {
@@ -80,7 +80,6 @@ export interface ISiswa extends IBaseSiswa {
 }
 
 export interface ISiswaDetail extends ISiswa {
-  pelanggarans: ISiswaPelanggaran[];
   orangTua: Omit<IOrangTua, 'siswas'>;
   history: IHistory[];
 }
