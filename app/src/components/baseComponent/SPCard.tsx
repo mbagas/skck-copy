@@ -5,16 +5,27 @@ import { IHistory } from 'src/utils/interface';
 
 const SPCard: React.FC<Props> = ({ history }) => {
   return (
-    <Flex borderRadius={25} alignItems="center" position={'relative'} py={3}>
-      <Grid templateColumns={{ base: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }} gap={3}>
-        <GridItem colSpan={{ base: 1, md: 2 }}>
+    <Flex
+      borderRadius={10}
+      alignItems="center"
+      position={'relative'}
+      py={2}
+      width={'100%'}
+      boxShadow="lg"
+      borderColor="black"
+      userSelect={'none'}
+    >
+      <Grid alignItems="center" templateColumns="repeat(2, 1fr)" gap={3} width={'100%'} p={3}>
+        <GridItem>
           <Flex flexDirection={'column'}>
             <Text>Surat Peringatan {history.spKe}</Text>
             <Text>{moment(history.createdAt).format('DD/MM/YYYY')}</Text>
           </Flex>
         </GridItem>
         <GridItem>
-          <Button>Unduh SP Disini</Button>
+          <Flex mr={10} justifyContent={'flex-end'}>
+            <Button>Unduh SP Disini</Button>
+          </Flex>
         </GridItem>
       </Grid>
     </Flex>

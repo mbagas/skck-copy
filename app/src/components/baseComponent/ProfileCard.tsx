@@ -6,7 +6,7 @@ import { ISiswaDetail } from 'src/utils/interface';
 
 const ProfileCard: React.FC<Props> = ({ siswa }) => {
   return (
-    <Flex borderRadius={25} alignItems="center" position={'relative'} py={3} boxShadow="lg" p={5}>
+    <Flex borderRadius={25} alignItems="center" position={'relative'} py={3} boxShadow="lg" m={5}>
       <Grid templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(4, 1fr)' }} gap={3}>
         <GridItem>
           <Flex>
