@@ -70,14 +70,7 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
 
   return (
     <React.Fragment>
-      <Flex
-        bg="royalGray.100"
-        width={'100%'}
-        height={'100%'}
-        p={3}
-        flexDirection={'column'}
-        overflow={'auto'}
-      >
+      <Flex bg="royalGray.100" width={'100%'} height={'100%'} p={3} flexDirection={'column'}>
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
           Data User Admin
         </Text>
@@ -114,42 +107,49 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
               </InputRightElement>
             </InputGroup>
           </Flex>
-          <Table>
-            <Thead>
-              <Tr>
-                <Th color="white" bg={'royalRed.200'} borderTopLeftRadius={10}>
-                  No
-                </Th>
-                <Th color="white" bg={'royalRed.200'} width={'95%'}>
-                  Username
-                </Th>
-                <Th color="white" bg={'royalRed.200'} textAlign="center" borderTopRightRadius={10}>
-                  Aksi
-                </Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {_.map(_.toArray(admins.rows), (admin, index) => (
-                <Tr key={index} bg={index % 2 !== 0 ? '#E1E1E1' : 'white'}>
-                  <Td>{index + 1}</Td>
-                  <Td>{admin.userName}</Td>
-                  <Td>
-                    <Flex justifyContent={'space-between'}>
-                      <FaEdit
-                        onClick={() => Router.push(`${Router.pathname}/${admin.id}/update`)}
-                      />
-                      <FaTrash
-                        onClick={() => {
-                          setUserId(admin.id);
-                          setIsOpen(true);
-                        }}
-                      />
-                    </Flex>
-                  </Td>
+          <Flex height={'62.5vh'} width={'100%'} overflow={'overlay'} flexDirection={'column'}>
+            <Table>
+              <Thead>
+                <Tr>
+                  <Th color="white" bg={'royalRed.200'} borderTopLeftRadius={10}>
+                    No
+                  </Th>
+                  <Th color="white" bg={'royalRed.200'} width={'95%'}>
+                    Username
+                  </Th>
+                  <Th
+                    color="white"
+                    bg={'royalRed.200'}
+                    textAlign="center"
+                    borderTopRightRadius={10}
+                  >
+                    Aksi
+                  </Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
+              </Thead>
+              <Tbody>
+                {_.map(_.toArray(admins.rows), (admin, index) => (
+                  <Tr key={index} bg={index % 2 !== 0 ? '#E1E1E1' : 'white'}>
+                    <Td>{index + 1}</Td>
+                    <Td>{admin.userName}</Td>
+                    <Td>
+                      <Flex justifyContent={'space-between'}>
+                        <FaEdit
+                          onClick={() => Router.push(`${Router.pathname}/${admin.id}/update`)}
+                        />
+                        <FaTrash
+                          onClick={() => {
+                            setUserId(admin.id);
+                            setIsOpen(true);
+                          }}
+                        />
+                      </Flex>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </Flex>
         </AkunTableContainer>
       </Flex>
       <DeleteConfirmationModal isOpen={isOpen} onClose={onClose} onSubmit={deleteUser} />

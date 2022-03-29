@@ -10,7 +10,6 @@ const AkunTableContainer: React.FC = ({ children }) => {
       borderRadius={25}
       flexDirection={'column'}
       px={10}
-      overflow={'auto'}
     >
       {children}
     </Flex>

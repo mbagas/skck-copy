@@ -65,7 +65,7 @@ const UpdateSiswaContent: React.FC<Props> = ({ getSiswaById, updateSiswa }) => {
             Data User Siswa
           </Text>
           <AdminContainer>
-            <Flex p={10} m={5} flexDirection={'column'}>
+            <Flex p={5} flexDirection={'column'} height={'100%'}>
               <Text fontFamily={'Poppins'} fontSize={'1.45rem'}>
                 Formulir Pembaruan Akun Siswa
               </Text>
@@ -88,7 +88,7 @@ const UpdateSiswaContent: React.FC<Props> = ({ getSiswaById, updateSiswa }) => {
                       handleSubmit();
                     }}
                   >
-                    <VStack spacing={2} py={5}>
+                    <VStack spacing={2} py={2}>
                       <FormControl isInvalid={!!errors.namaLengkap && touched.namaLengkap}>
                         <FormLabel>Nama Lengkap</FormLabel>
                         <Input
@@ -185,6 +185,7 @@ const UpdateSiswaContent: React.FC<Props> = ({ getSiswaById, updateSiswa }) => {
                           background: 'royalRed.300',
                         }}
                         _focus={{ border: 'none' }}
+                        type={'submit'}
                       >
                         Submit
                       </Button>

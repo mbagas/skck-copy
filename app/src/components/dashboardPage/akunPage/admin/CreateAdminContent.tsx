@@ -9,6 +9,7 @@ import {
   InputRightElement,
   FormErrorMessage,
   FormLabel,
+  Button,
 } from '@chakra-ui/react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
@@ -39,7 +40,7 @@ const CreateAdminContent: React.FC<Props> = ({ createAdmin }) => {
           Data Admin
         </Text>
         <AdminContainer>
-          <Flex p={10} m={5} flexDirection={'column'}>
+          <Flex p={5} flexDirection={'column'} height={'100%'}>
             <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={3}>
               Formulir Pembuatan Akun Admin
             </Text>
@@ -59,7 +60,7 @@ const CreateAdminContent: React.FC<Props> = ({ createAdmin }) => {
                     handleSubmit();
                   }}
                 >
-                  <VStack spacing={2} py={5}>
+                  <VStack spacing={2} py={2}>
                     <FormControl isInvalid={!!errors.userName && touched.userName}>
                       <FormLabel>Username</FormLabel>
                       <Input
@@ -101,6 +102,21 @@ const CreateAdminContent: React.FC<Props> = ({ createAdmin }) => {
                         <FormErrorMessage>{errors.password}</FormErrorMessage>
                       )}
                     </FormControl>
+                    <Button
+                      fontFamily="poppins"
+                      fontSize={'0.813rem'}
+                      px={10}
+                      borderRadius={6}
+                      color="white"
+                      bg={'royalRed.200'}
+                      _hover={{
+                        background: 'royalRed.300',
+                      }}
+                      _focus={{ border: 'none' }}
+                      type="submit"
+                    >
+                      Submit
+                    </Button>
                   </VStack>
                 </Form>
               )}

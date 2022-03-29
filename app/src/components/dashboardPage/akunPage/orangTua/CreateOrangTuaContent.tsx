@@ -41,7 +41,7 @@ const CreateOrangTuaContent: React.FC<Props> = ({ createOrangTua }) => {
           Data User Orang Tua
         </Text>
         <AdminContainer>
-          <Flex p={10} m={5} flexDirection={'column'}>
+          <Flex p={5} flexDirection={'column'} height={'100%'}>
             <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={3}>
               Formulir Pembuatan Akun Orang Tua
             </Text>
@@ -63,7 +63,7 @@ const CreateOrangTuaContent: React.FC<Props> = ({ createOrangTua }) => {
                     handleSubmit();
                   }}
                 >
-                  <VStack spacing={2} py={5}>
+                  <VStack spacing={2} py={2}>
                     <FormControl isInvalid={!!errors.namaLengkap && touched.namaLengkap}>
                       <FormLabel>Nama Lengkap</FormLabel>
                       <Input

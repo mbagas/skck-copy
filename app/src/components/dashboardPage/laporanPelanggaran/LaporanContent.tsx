@@ -51,14 +51,7 @@ const LaporanContent: React.FC<Props> = ({ siswas, getAllData }) => {
 
   return (
     <React.Fragment>
-      <Flex
-        bg="royalGray.100"
-        width={'100%'}
-        height={'100%'}
-        p={3}
-        flexDirection={'column'}
-        overflow={'auto'}
-      >
+      <Flex bg="royalGray.100" width={'100%'} height={'100%'} p={3} flexDirection={'column'}>
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
           Buat Laporan
         </Text>
@@ -80,38 +73,45 @@ const LaporanContent: React.FC<Props> = ({ siswas, getAllData }) => {
               </InputRightElement>
             </InputGroup>
           </Flex>
-          <Table>
-            <Thead>
-              <Tr>
-                <Th color="white" bg={'royalRed.200'} borderTopLeftRadius={10}>
-                  No
-                </Th>
-                <Th color="white" bg={'royalRed.200'} width={'25%'}>
-                  Nama
-                </Th>
-                <Th color="white" bg={'royalRed.200'} width={'10%'}>
-                  NIS
-                </Th>
-                <Th color="white" bg={'royalRed.200'} width={'25%'}>
-                  Nama Orang Tua
-                </Th>
-                <Th color="white" bg={'royalRed.200'} width={'30%'}>
-                  No. Telepon Orang Tua
-                </Th>
-                <Th color="white" bg={'royalRed.200'} width={'10%'} textAlign="center">
-                  Poin
-                </Th>
-                <Th color="white" bg={'royalRed.200'} textAlign="center" borderTopRightRadius={10}>
-                  Aksi
-                </Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {_.map(_.toArray(siswas.rows), (siswa, index) => (
-                <LaporanRow siswa={siswa} index={index} key={index} />
-              ))}
-            </Tbody>
-          </Table>
+          <Flex height={'62.5vh'} width={'100%'} overflow={'overlay'} flexDirection={'column'}>
+            <Table>
+              <Thead>
+                <Tr>
+                  <Th color="white" bg={'royalRed.200'} borderTopLeftRadius={10}>
+                    No
+                  </Th>
+                  <Th color="white" bg={'royalRed.200'} width={'25%'}>
+                    Nama
+                  </Th>
+                  <Th color="white" bg={'royalRed.200'} width={'10%'}>
+                    NIS
+                  </Th>
+                  <Th color="white" bg={'royalRed.200'} width={'25%'}>
+                    Nama Orang Tua
+                  </Th>
+                  <Th color="white" bg={'royalRed.200'} width={'30%'}>
+                    No. Telepon Orang Tua
+                  </Th>
+                  <Th color="white" bg={'royalRed.200'} width={'10%'} textAlign="center">
+                    Poin
+                  </Th>
+                  <Th
+                    color="white"
+                    bg={'royalRed.200'}
+                    textAlign="center"
+                    borderTopRightRadius={10}
+                  >
+                    Aksi
+                  </Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {_.map(_.toArray(siswas.rows), (siswa, index) => (
+                  <LaporanRow siswa={siswa} index={index} key={index} />
+                ))}
+              </Tbody>
+            </Table>
+          </Flex>
         </AkunTableContainer>
       </Flex>
     </React.Fragment>
