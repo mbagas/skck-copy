@@ -40,7 +40,7 @@ const CreateSiswaContent: React.FC<Props> = ({ createSiswa }) => {
           Data User Siswa
         </Text>
         <AdminContainer>
-          <Flex p={10} m={5} flexDirection={'column'}>
+          <Flex p={5} flexDirection={'column'} height={'100%'}>
             <Text fontFamily={'Poppins'} fontSize={'1.45rem'}>
               Formulir Pembuatan Akun Siswa
             </Text>
@@ -63,7 +63,7 @@ const CreateSiswaContent: React.FC<Props> = ({ createSiswa }) => {
                     handleSubmit();
                   }}
                 >
-                  <VStack spacing={2} py={5}>
+                  <VStack spacing={2} py={2}>
                     <FormControl isInvalid={!!errors.namaLengkap && touched.namaLengkap}>
                       <FormLabel>Nama Lengkap</FormLabel>
                       <Input

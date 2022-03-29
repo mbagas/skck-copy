@@ -73,14 +73,7 @@ const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
 
   return (
     <React.Fragment>
-      <Flex
-        bg="royalGray.100"
-        width={'100%'}
-        height={'100%'}
-        p={3}
-        flexDirection={'column'}
-        overflow={'auto'}
-      >
+      <Flex bg="royalGray.100" width={'100%'} height={'100%'} p={3} flexDirection={'column'}>
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
           Data User Siswa
         </Text>
@@ -117,54 +110,61 @@ const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
               </InputRightElement>
             </InputGroup>
           </Flex>
-          <Table>
-            <Thead>
-              <Tr>
-                <Th color="white" bg={'royalRed.200'} borderTopLeftRadius={10}>
-                  No
-                </Th>
-                <Th color="white" bg={'royalRed.200'} width={'65%'}>
-                  Nama
-                </Th>
-                <Th color="white" bg={'royalRed.200'} width={'10%'}>
-                  NIS
-                </Th>
-                <Th color="white" bg={'royalRed.200'} width={'10%'}>
-                  NISN
-                </Th>
-                <Th color="white" bg={'royalRed.200'} width={'15%'}>
-                  Alamat
-                </Th>
-                <Th color="white" bg={'royalRed.200'} textAlign="center" borderTopRightRadius={10}>
-                  Aksi
-                </Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {_.map(_.toArray(siswas.rows), (siswa, index) => (
-                <Tr key={index} bg={index % 2 !== 0 ? '#E1E1E1' : 'white'}>
-                  <Td>{index + 1}</Td>
-                  <Td>{siswa.namaLengkap}</Td>
-                  <Td>{siswa.nis}</Td>
-                  <Td>{siswa.nisn}</Td>
-                  <Td>{siswa.alamat}</Td>
-                  <Td>
-                    <Flex justifyContent={'space-between'}>
-                      <FaEdit
-                        onClick={() => Router.push(`${Router.pathname}/${siswa.id}/update`)}
-                      />
-                      <FaTrash
-                        onClick={() => {
-                          setUserId(siswa.userId);
-                          setIsOpen(true);
-                        }}
-                      />
-                    </Flex>
-                  </Td>
+          <Flex height={'62.5vh'} width={'100%'} overflow={'overlay'} flexDirection={'column'}>
+            <Table>
+              <Thead>
+                <Tr>
+                  <Th color="white" bg={'royalRed.200'} borderTopLeftRadius={10}>
+                    No
+                  </Th>
+                  <Th color="white" bg={'royalRed.200'} width={'65%'}>
+                    Nama
+                  </Th>
+                  <Th color="white" bg={'royalRed.200'} width={'10%'}>
+                    NIS
+                  </Th>
+                  <Th color="white" bg={'royalRed.200'} width={'10%'}>
+                    NISN
+                  </Th>
+                  <Th color="white" bg={'royalRed.200'} width={'15%'}>
+                    Alamat
+                  </Th>
+                  <Th
+                    color="white"
+                    bg={'royalRed.200'}
+                    textAlign="center"
+                    borderTopRightRadius={10}
+                  >
+                    Aksi
+                  </Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
+              </Thead>
+              <Tbody>
+                {_.map(_.toArray(siswas.rows), (siswa, index) => (
+                  <Tr key={index} bg={index % 2 !== 0 ? '#E1E1E1' : 'white'}>
+                    <Td>{index + 1}</Td>
+                    <Td>{siswa.namaLengkap}</Td>
+                    <Td>{siswa.nis}</Td>
+                    <Td>{siswa.nisn}</Td>
+                    <Td>{siswa.alamat}</Td>
+                    <Td>
+                      <Flex justifyContent={'space-between'}>
+                        <FaEdit
+                          onClick={() => Router.push(`${Router.pathname}/${siswa.id}/update`)}
+                        />
+                        <FaTrash
+                          onClick={() => {
+                            setUserId(siswa.userId);
+                            setIsOpen(true);
+                          }}
+                        />
+                      </Flex>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </Flex>
         </AkunTableContainer>
       </Flex>
       <DeleteConfirmationModal isOpen={isOpen} onClose={onClose} onSubmit={deleteUser} />

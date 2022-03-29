@@ -70,14 +70,7 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru, getAllData }) => {
 
   return (
     <React.Fragment>
-      <Flex
-        bg="royalGray.100"
-        width={'100%'}
-        height={'100%'}
-        p={3}
-        flexDirection={'column'}
-        overflow={'auto'}
-      >
+      <Flex bg="royalGray.100" width={'100%'} height={'100%'} p={3} flexDirection={'column'}>
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
           Data User Guru
         </Text>
@@ -114,48 +107,57 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru, getAllData }) => {
               </InputRightElement>
             </InputGroup>
           </Flex>
-          <Table>
-            <Thead>
-              <Tr>
-                <Th color="white" bg={'royalRed.200'} borderTopLeftRadius={10}>
-                  No
-                </Th>
-                <Th color="white" bg={'royalRed.200'} width={'65%'}>
-                  Nama Lengkap
-                </Th>
-                <Th color="white" bg={'royalRed.200'} width={'10%'}>
-                  NIP/NRK
-                </Th>
-                <Th color="white" bg={'royalRed.200'} width={'25%'}>
-                  Alamat
-                </Th>
-                <Th color="white" bg={'royalRed.200'} textAlign="center" borderTopRightRadius={10}>
-                  Aksi
-                </Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {_.map(_.toArray(gurus.rows), (guru, index) => (
-                <Tr key={index} bg={index % 2 !== 0 ? '#E1E1E1' : 'white'}>
-                  <Td>{index + 1}</Td>
-                  <Td>{guru.namaLengkap}</Td>
-                  <Td>{guru.nipNrk}</Td>
-                  <Td>{guru.alamat}</Td>
-                  <Td>
-                    <Flex justifyContent={'space-between'}>
-                      <FaEdit onClick={() => Router.push(`${Router.pathname}/${guru.id}/update`)} />
-                      <FaTrash
-                        onClick={() => {
-                          setUserId(guru.userId);
-                          setIsOpen(true);
-                        }}
-                      />
-                    </Flex>
-                  </Td>
+          <Flex height={'62.5vh'} width={'100%'} overflow={'overlay'} flexDirection={'column'}>
+            <Table>
+              <Thead>
+                <Tr>
+                  <Th color="white" bg={'royalRed.200'} borderTopLeftRadius={10}>
+                    No
+                  </Th>
+                  <Th color="white" bg={'royalRed.200'} width={'65%'}>
+                    Nama Lengkap
+                  </Th>
+                  <Th color="white" bg={'royalRed.200'} width={'10%'}>
+                    NIP/NRK
+                  </Th>
+                  <Th color="white" bg={'royalRed.200'} width={'25%'}>
+                    Alamat
+                  </Th>
+                  <Th
+                    color="white"
+                    bg={'royalRed.200'}
+                    textAlign="center"
+                    borderTopRightRadius={10}
+                  >
+                    Aksi
+                  </Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
+              </Thead>
+              <Tbody>
+                {_.map(_.toArray(gurus.rows), (guru, index) => (
+                  <Tr key={index} bg={index % 2 !== 0 ? '#E1E1E1' : 'white'}>
+                    <Td>{index + 1}</Td>
+                    <Td>{guru.namaLengkap}</Td>
+                    <Td>{guru.nipNrk}</Td>
+                    <Td>{guru.alamat}</Td>
+                    <Td>
+                      <Flex justifyContent={'space-between'}>
+                        <FaEdit
+                          onClick={() => Router.push(`${Router.pathname}/${guru.id}/update`)}
+                        />
+                        <FaTrash
+                          onClick={() => {
+                            setUserId(guru.userId);
+                            setIsOpen(true);
+                          }}
+                        />
+                      </Flex>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </Flex>
         </AkunTableContainer>
       </Flex>
       <DeleteConfirmationModal isOpen={isOpen} onClose={onClose} onSubmit={deleteUser} />
