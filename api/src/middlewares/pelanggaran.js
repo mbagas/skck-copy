@@ -2,6 +2,7 @@ const _ = require('lodash');
 const asyncMw = require('async-express-mw');
 const repository = require('../repository');
 const { isNotOrangTua, isAdminOrGuru } = require('../utils/user');
+const { KategoriPelanggarans } = require('../models');
 
 // Create new Pelanggaran by a bulk request
 exports.createPelanggaranMw = asyncMw(async (req, res, next) => {
@@ -43,7 +44,16 @@ exports.getPelanggaransMw = asyncMw(async (req, res, next) => {
   req.pelanggarans = await repository.pelanggaran.findAll(
     { ...(siswa && { siswaId: siswa.id }) },
     req.filterQueryParams,
-    req.query
+    {
+      ...(siswa && {
+        include: {
+          model: KategoriPelanggarans,
+          as: 'kategoriPelanggaran',
+          distinct: true,
+        },
+      }),
+      ...req.query,
+    }
   );
 
   return next();
@@ -96,9 +106,16 @@ exports.returnPelanggaransMw = asyncMw(async (req, res) => {
 
   return res.json({
     rows: await Promise.all(
-      _.map(pelanggarans.rows, (pelanggaran) => repository.pelanggaran.modelToResource(pelanggaran))
+      _.map(pelanggarans.rows, async (pelanggaran) => ({
+        ...(await repository.pelanggaran.modelToResource(pelanggaran)),
+        ...(req.siswa && {
+          kategoriPelanggaran: await repository.katPlgr.modelToResource(
+            pelanggaran.kategoriPelanggaran
+          ),
+        }),
+      }))
     ),
-    count: _.get(req, 'pelanggaran.count', 0),
+    count: _.get(req, 'pelanggarans.count', 0),
   });
 });
 

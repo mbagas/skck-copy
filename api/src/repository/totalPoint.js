@@ -95,8 +95,7 @@ totalPointRepository.generateTotalPoints = async (resources) => {
   await historiesRepository.generateHistory(siswaId, totalPoint);
 };
 
-totalPointRepository.recalculateTotalPoint = async (id) => {
-  const pelanggaran = await pelanggaranRepository.findOne(id);
+totalPointRepository.recalculateTotalPoint = async (pelanggaran) => {
   const katPlgr = await katPlgrRepository.findOne(pelanggaran.pelanggaranId);
   const totalPointModel = await totalPointRepository.findOne({ siswaId: pelanggaran.siswaId });
 

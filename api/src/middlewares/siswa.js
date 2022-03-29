@@ -5,7 +5,7 @@ const repository = require('../repository');
 const { isAdminOrGuru } = require('../utils/user');
 const { USER_ROLE } = require('../utils/constants');
 const { generateToken } = require('../utils/token');
-const { Pelanggarans, KategoriPelanggarans, OrangTuas } = require('../models');
+const { Histories, OrangTuas, TotalPoints } = require('../models');
 
 // Get siswa data by id.
 exports.getSiswaMw = asyncMw(async (req, res, next) => {
@@ -17,14 +17,17 @@ exports.getSiswaMw = asyncMw(async (req, res, next) => {
       {
         model: OrangTuas,
         as: 'orangTua',
+        distinct: true,
       },
       {
-        model: Pelanggarans,
-        as: 'pelanggarans',
-        include: {
-          model: KategoriPelanggarans,
-          as: 'kategoriPelanggaran',
-        },
+        model: Histories,
+        as: 'histories',
+        distinct: true,
+      },
+      {
+        model: TotalPoints,
+        as: 'totalPoint',
+        distinct: true,
       },
     ],
   });
@@ -53,7 +56,16 @@ exports.getSiswaMw = asyncMw(async (req, res, next) => {
 
 // Get all siswa data
 exports.getSiswasMw = asyncMw(async (req, res, next) => {
-  req.siswas = await repository.siswa.findAll({}, req.filterQueryParams, req.query);
+  req.siswas = await repository.siswa.findAll({}, req.filterQueryParams, {
+    include: [
+      {
+        model: TotalPoints,
+        as: 'totalPoint',
+        distinct: true,
+      },
+    ],
+    ...req.query,
+  });
 
   return next();
 });
@@ -87,11 +99,10 @@ exports.returnSiswaMw = asyncMw(async (req, res) => {
 
   return res.json({
     ...(await repository.siswa.modelToResource(siswa)),
+    totalPoint: _.get(siswa, 'totalPoint.totalPoint', 0),
     orangTua: await repository.orangTua.modelToResource(siswa.orangTua),
-    pelanggarans: await Promise.all(
-      _.map(siswa.pelanggarans, (pelanggaran) =>
-        repository.pelanggaran.modelToResource(pelanggaran)
-      )
+    histories: await Promise.all(siswa.histories, (history) =>
+      repository.history.modelToResource(history)
     ),
   });
 });
@@ -101,7 +112,12 @@ exports.returnSiswasMw = asyncMw(async (req, res) => {
   const { siswas } = req;
 
   return res.json({
-    rows: await Promise.all(_.map(siswas.rows, (siswa) => repository.siswa.modelToResource(siswa))),
+    rows: await Promise.all(
+      _.map(siswas.rows, async (siswa) => ({
+        ...(await repository.siswa.modelToResource(siswa)),
+        totalPoint: _.get(siswa, 'totalPoint.totalPoint', 0),
+      }))
+    ),
     count: _.get(req, 'siswas.count', 0),
   });
 });
