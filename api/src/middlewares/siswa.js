@@ -5,7 +5,7 @@ const repository = require('../repository');
 const { isAdminOrGuru } = require('../utils/user');
 const { USER_ROLE } = require('../utils/constants');
 const { generateToken } = require('../utils/token');
-const { Pelanggarans, KategoriPelanggarans } = require('../models');
+const { Pelanggarans, KategoriPelanggarans, OrangTuas } = require('../models');
 
 // Get siswa data by id.
 exports.getSiswaMw = asyncMw(async (req, res, next) => {
@@ -14,6 +14,10 @@ exports.getSiswaMw = asyncMw(async (req, res, next) => {
 
   const siswa = await repository.siswa.findOne(req.params.id, {
     include: [
+      {
+        model: OrangTuas,
+        as: 'orangTua',
+      },
       {
         model: Pelanggarans,
         as: 'pelanggarans',
@@ -83,6 +87,7 @@ exports.returnSiswaMw = asyncMw(async (req, res) => {
 
   return res.json({
     ...(await repository.siswa.modelToResource(siswa)),
+    orangTua: await repository.orangTua.modelToResource(siswa.orangTua),
     pelanggarans: await Promise.all(
       _.map(siswa.pelanggarans, (pelanggaran) =>
         repository.pelanggaran.modelToResource(pelanggaran)
