@@ -1,85 +1,44 @@
 import React from 'react';
 import _ from 'lodash';
-import {
-  Button,
-  Flex,
-  Grid,
-  GridItem,
-  Spacer,
-  Text,
-  FormControl,
-  Input,
-  InputRightElement,
-  FormErrorMessage,
-  FormLabel,
-  Checkbox,
-  CheckboxGroup,
-} from '@chakra-ui/react';
-import { errorToastfier } from 'src/utils/toastifier';
-import { Formik, Form } from 'formik';
-import Avatar from 'react-avatar';
-import { ISiswaDetail } from 'src/utils/interface';
+import { Button, Flex, Grid, GridItem } from '@chakra-ui/react';
+import { RootState } from 'src/store';
+import { connect, ConnectedProps } from 'react-redux';
+import { RESOURCE_NAME } from 'src/utils/constant';
+import { ListPelanggaran } from 'src/components/baseComponent';
+import { resources } from 'src/store/selectors';
 
-const ProfileCard: React.FC<Props> = ({ siswa }) => {
+const FormPelanggaranCard: React.FC<Props> = ({ kategoris }) => {
   return (
     <Flex borderRadius={25} alignItems="center" position={'relative'} py={3}>
-      <Grid templateColumns={{ base: 'repeat(3, 1fr)', sm: 'repeat(4, 1fr)' }} gap={3}>
-        <GridItem colSpan={4}>
-          <Grid templateColumns={'repeat(2, 1fr)'} gap={3}>
-            <GridItem>
-              <Checkbox value="1">Tidak Pakai Sepatu</Checkbox>
-            </GridItem>
-            <GridItem>Poin : 100</GridItem>
-
-            <GridItem>
-              <Checkbox value="1">Tidak Pakai Sepatu</Checkbox>
-            </GridItem>
-            <GridItem>Poin : 100</GridItem>
-            <GridItem>
-              <Checkbox value="1">Tidak Pakai Sepatu</Checkbox>
-            </GridItem>
-            <GridItem>Poin : 100</GridItem>
-            <GridItem>
-              <Checkbox value="1">Tidak Pakai Sepatu</Checkbox>
-            </GridItem>
-            <GridItem>Poin : 100</GridItem>
-            <GridItem>
-              <Checkbox value="1">Tidak Pakai Sepatu</Checkbox>
-            </GridItem>
-            <GridItem>Poin : 100</GridItem>
-            <GridItem>
-              <Checkbox value="1">Tidak Pakai Sepatu</Checkbox>
-            </GridItem>
-            <GridItem>Poin : 100</GridItem>
-            <GridItem>
-              <Checkbox value="1">Tidak Pakai Sepatu</Checkbox>
-            </GridItem>
-            <GridItem>Poin : 100</GridItem>
-          </Grid>
-        </GridItem>
-        <Grid templateColumns={'repeat(1, 1fr)'} gap={3}>
-          <Button
-            fontFamily="poppins"
-            fontSize={'0.813rem'}
-            px={10}
-            borderRadius={6}
-            color="white"
-            bg={'royalRed.200'}
-            _hover={{
-              background: 'royalRed.300',
-            }}
-            _focus={{ border: 'none' }}
-          >
-            Submit
-          </Button>
-        </Grid>
+      <Grid templateColumns={{ base: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' }} gap={4}>
+        {_.map(kategoris.rows, (kategori, key) => (
+          <ListPelanggaran kategori={kategori} key={key} />
+        ))}
       </Grid>
+      <Button
+        fontFamily="poppins"
+        fontSize={'0.813rem'}
+        px={10}
+        borderRadius={6}
+        color="white"
+        bg={'royalRed.200'}
+        _hover={{
+          background: 'royalRed.300',
+        }}
+        _focus={{ border: 'none' }}
+      >
+        Submit
+      </Button>
     </Flex>
   );
 };
 
-type Props = {
-  siswa: ISiswaDetail | undefined;
-};
+const mapStateToProps = (state: RootState) => ({
+  kategoris: resources.getResource(state, RESOURCE_NAME.KATEGORI_PELANGGARANS),
+});
 
-export default ProfileCard;
+const connector = connect(mapStateToProps);
+
+type Props = ConnectedProps<typeof connector>;
+
+export default connector(FormPelanggaranCard);
