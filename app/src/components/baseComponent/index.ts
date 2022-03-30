@@ -8,6 +8,8 @@ import Card from './Card';
 import SiswaCard from './SiswaCard';
 import ListPelanggaran from './ListPelanggaran';
 import Pagination from './Pagination';
+import SiswaDetail from './SiswaDetail';
+import FormPelanggaranCard from './FormPelanggaranCard';
 
 export {
   BaseTopBar,
@@ -20,4 +22,6 @@ export {
   Pagination,
   DashboardContainer,
   DashboardTableContainer,
+  SiswaDetail,
+  FormPelanggaranCard,
 };

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import _ from 'lodash';
 import useDebounce from './useDebounce';
 
 const useIdQuery = (): number => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>();
   const [queryId, setQueryId] = useState<number>(0);
 
@@ -13,15 +14,11 @@ const useIdQuery = (): number => {
 
   useDebounce(
     () => {
-      const { id } = Router.query;
+      const id = Number(router.query.id as string);
 
-      if (_.isEmpty(id)) return;
+      if (_.isNil(id)) return;
 
-      const useableId: string | undefined = _.isString(id) ? id : _.isArray(id) ? _.first(id) : id;
-
-      if (_.isNil(useableId)) return;
-
-      setQueryId(_.toNumber(useableId));
+      setQueryId(id);
     },
     500,
     [isLoading]

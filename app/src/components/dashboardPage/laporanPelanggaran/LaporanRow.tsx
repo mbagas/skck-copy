@@ -21,10 +21,7 @@ const LaporanRow: React.FC<Props> = ({ siswa, index, getDataById }) => {
     async () => {
       if (_.isNil(siswa.orangTuaId)) return;
 
-      const data = (await getDataById(
-        RESOURCE_NAME.ORANG_TUAS,
-        siswa.orangTuaId
-      )) as unknown as IOrangTua;
+      const data = (await getDataById(RESOURCE_NAME.ORANG_TUAS, siswa.orangTuaId)) as IOrangTua;
       setOrangTua(data);
     },
     500,

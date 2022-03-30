@@ -13,3 +13,8 @@ export const RESOURCE_NAME = {
   KATEGORI_PELANGGARANS: 'kategori-pelanggarans',
   PELANGGARANS: 'pelanggarans',
 } as const;
+
+export const ORDER = {
+  DESC: 'desc',
+  ASC: 'asc',
+} as const;

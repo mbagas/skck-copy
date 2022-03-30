@@ -1,5 +1,13 @@
 import { RESOURCE_NAME } from './constant';
-import { IGuru, IUser, ISiswa, IOrangTua, IKategoriPelanggaran, IPelanggaran } from './interface';
+import {
+  IGuru,
+  IUser,
+  ISiswa,
+  IOrangTua,
+  IKategoriPelanggaran,
+  IPelanggaran,
+  ISiswaDetail,
+} from './interface';
 
 export type ResourceKey = typeof RESOURCE_NAME[keyof typeof RESOURCE_NAME];
 
@@ -26,4 +34,8 @@ export interface IResourcesWithId {
   'orang-tuas': IFlexibleResource<'orang-tuas'>;
   'kategori-pelanggarans': IFlexibleResource<'kategori-pelanggarans'>;
   pelanggarans: IFlexibleResource<'pelanggarans'>;
+}
+
+export interface IDetailResource extends Omit<IResources, 'siswas'> {
+  siswas: ISiswaDetail;
 }

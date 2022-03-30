@@ -30,11 +30,11 @@ import useIdQuery from 'src/utils/useIdQuery';
 import useDebounce from 'src/utils/useDebounce';
 import { ICreateUser } from 'src/utils/interface';
 import useCustomDebounce from 'src/utils/useCustomDebounce';
+import useGetDataById from 'src/utils/useGetDataById';
 
 const UpdateSiswaContent: React.FC<Props> = ({ getDataById, updateSiswa }) => {
   const queryId = useIdQuery();
-  const [siswa, setSiswa] = useState<ISiswa>();
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const siswa = useGetDataById(RESOURCE_NAME.SISWAS, queryId);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
 
   const update = async (value: Partial<ICreateUser['SISWA']>) => {
@@ -47,30 +47,9 @@ const UpdateSiswaContent: React.FC<Props> = ({ getDataById, updateSiswa }) => {
     }
   };
 
-  useCustomDebounce(
-    async () => {
-      if (!queryId) return;
-
-      const data = (await getDataById(RESOURCE_NAME.SISWAS, queryId)) as unknown as ISiswa;
-      setSiswa(data);
-    },
-    500,
-    [queryId]
-  );
-
-  useCustomDebounce(
-    () => {
-      if (_.isEmpty(siswa)) return;
-
-      setIsLoaded(true);
-    },
-    500,
-    [siswa]
-  );
-
   return (
     <Flex py={3} px={3} height={'100%'} width={'100%'} bg={'royalGray.100'}>
-      {isLoaded ? (
+      {siswa ? (
         <Flex flexDirection="column" width="100%">
           <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
             Data User Siswa

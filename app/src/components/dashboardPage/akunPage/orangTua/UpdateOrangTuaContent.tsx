@@ -50,7 +50,7 @@ const UpdateOrangTuaContent: React.FC<Props> = ({ getDataById, updateOrangTua })
     async () => {
       if (!queryId) return;
 
-      const data = (await getDataById(RESOURCE_NAME.ORANG_TUAS, queryId)) as unknown as IOrangTua;
+      const data = (await getDataById(RESOURCE_NAME.ORANG_TUAS, queryId)) as IOrangTua;
       setOrangTua(data);
     },
     500,

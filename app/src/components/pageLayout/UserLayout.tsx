@@ -9,7 +9,7 @@ const UserLayout: React.FC = ({ children }) => {
       <Grid templateColumns={{ base: 'repeat(1,1fr)', md: 'repeat(12,1fr)' }} height={'100%'}>
         <GridItem colSpan={3} display={{ base: 'none', md: 'inline' }} width={'100%'} />
         <GridItem colSpan={{ base: 1, md: 6 }} width={'100%'}>
-          <Flex flex={1} px={2} height={'100%'} overflow={'auto'}>
+          <Flex height={'100%'} overflow={'auto'}>
             {children}
           </Flex>
         </GridItem>

@@ -9,8 +9,22 @@ import { resources } from 'src/store/selectors';
 
 const FormPelanggaranCard: React.FC<Props> = ({ kategoris }) => {
   return (
-    <Flex borderRadius={25} alignItems="center" position={'relative'} py={3}>
-      <Grid templateColumns={{ base: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' }} gap={4}>
+    <Flex
+      bg={'red.100'}
+      flexDirection={'column'}
+      alignItems="center"
+      borderRadius={25}
+      py={3}
+      p={3}
+      my={6}
+      mx={6}
+      boxShadow="lg"
+    >
+      <Grid
+        templateColumns={{ base: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' }}
+        gap={5}
+        width={'100%'}
+      >
         {_.map(kategoris.rows, (kategori, key) => (
           <ListPelanggaran kategori={kategori} key={key} />
         ))}
