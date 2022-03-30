@@ -12,7 +12,6 @@ const SiswaCard: React.FC<Props> = ({ siswa }) => {
       position={'relative'}
       py={2}
       width={'100%'}
-      bg="red.100"
       boxShadow="lg"
       borderColor="black"
     >

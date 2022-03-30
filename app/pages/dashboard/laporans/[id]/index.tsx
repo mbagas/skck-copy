@@ -1,11 +1,11 @@
 import React from 'react';
 import { AdminLayout } from 'src/components/pageLayout';
-import LaporanSiswaContent from 'src/components/dashboardPage/laporanPelanggaran/LaporanSiswaContent';
+import SiswaDetail from 'src/components/baseComponent/SiswaDetail';
 
 const LaporanDetail = () => {
   return (
     <AdminLayout>
-      <LaporanSiswaContent />
+      <SiswaDetail />
     </AdminLayout>
   );
 };

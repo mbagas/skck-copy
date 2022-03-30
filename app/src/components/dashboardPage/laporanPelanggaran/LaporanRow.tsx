@@ -19,7 +19,6 @@ const LaporanRow: React.FC<Props> = ({ siswa, index, getDataById }) => {
 
   useCustomDebounce(
     async () => {
-      console.log(siswa);
       if (_.isNil(siswa.orangTuaId)) return;
 
       const data = (await getDataById(

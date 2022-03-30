@@ -56,7 +56,7 @@ export interface ISiswaPelanggaran extends IPelanggaran {
 
 export interface IOrangTua extends IBaseOrangTua {
   id: number;
-  siswas: Omit<IBaseSiswa, 'pelanggarans' | 'orangTua' | 'totalPoint' | 'history'>[];
+  siswas: Omit<IBaseSiswa, 'pelanggarans' | 'orangTua' | 'totalPoint' | 'histories'>[];
 }
 
 export interface ITotalPoint {
@@ -81,7 +81,7 @@ export interface ISiswa extends IBaseSiswa {
 
 export interface ISiswaDetail extends ISiswa {
   orangTua: Omit<IOrangTua, 'siswas'>;
-  history: IHistory[];
+  histories: IHistory[];
 }
 
 export interface IGuru extends IBaseGuru {
