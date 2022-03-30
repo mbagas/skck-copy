@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import _ from 'lodash';
 import {
   Flex,
   Text,
@@ -15,20 +16,23 @@ import {
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
-import AdminContainer from '../../AdminContainer';
 import { guruSchema } from 'src/utils/formSchema';
 import { createUserInput } from 'src/utils/styles';
 import { USER_ROLE, RESOURCE_NAME } from 'src/utils/constant';
 import { RootState } from 'src/store';
-import { updateUser as _updateUser } from 'src/store/actions/resources';
-import { getResourceByIdInRoutes } from 'src/store/selectors/resources';
+import {
+  updateUser as _updateUser,
+  getDataById as _getDataById,
+} from 'src/store/actions/resources';
 import { errorToastfier } from 'src/utils/toastifier';
 import { IGuru } from 'src/utils/interface';
 import useIdQuery from 'src/utils/useIdQuery';
 import useDebounce from 'src/utils/useDebounce';
 import { ICreateUser } from 'src/utils/interface';
+import useCustomDebounce from 'src/utils/useCustomDebounce';
+import DashboardContainer from 'src/components/baseComponent/DashboardContainer';
 
-const UpdateOrangTuaContent: React.FC<Props> = ({ getGuruById, updateGuru }) => {
+const UpdateOrangTuaContent: React.FC<Props> = ({ getDataById, updateGuru }) => {
   const queryId = useIdQuery();
   const [guru, setGuru] = useState<IGuru>();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -42,16 +46,21 @@ const UpdateOrangTuaContent: React.FC<Props> = ({ getGuruById, updateGuru }) => 
     }
   };
 
-  useDebounce(
-    () => {
-      setGuru(getGuruById(queryId));
+  useCustomDebounce(
+    async () => {
+      if (!queryId) return;
+
+      const data = (await getDataById(RESOURCE_NAME.GURUS, queryId)) as unknown as IGuru;
+      setGuru(data);
     },
     500,
     [queryId]
   );
 
-  useDebounce(
+  useCustomDebounce(
     () => {
+      if (_.isEmpty(guru)) return;
+
       setIsLoaded(true);
     },
     500,
@@ -65,7 +74,7 @@ const UpdateOrangTuaContent: React.FC<Props> = ({ getGuruById, updateGuru }) => 
           <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
             Data User Orang Tua
           </Text>
-          <AdminContainer>
+          <DashboardContainer>
             <Flex p={5} flexDirection={'column'} height={'100%'}>
               <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={3}>
                 Formulir Pembaruan Akun Guru
@@ -179,19 +188,16 @@ const UpdateOrangTuaContent: React.FC<Props> = ({ getGuruById, updateGuru }) => 
                 )}
               </Formik>
             </Flex>
-          </AdminContainer>
+          </DashboardContainer>
         </Flex>
       ) : null}
     </Flex>
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  getGuruById: getResourceByIdInRoutes(RESOURCE_NAME.GURUS, state),
-});
-
-const connector = connect(mapStateToProps, {
+const connector = connect(null, {
   updateGuru: _updateUser,
+  getDataById: _getDataById,
 });
 
 type Props = ConnectedProps<typeof connector>;

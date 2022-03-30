@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import { Flex, Text } from '@chakra-ui/react';
 import { connect, ConnectedProps } from 'react-redux';
-import AdminContainer from '../dashboardPage/AdminContainer';
 import useIdQuery from 'src/utils/useIdQuery';
 import { ISiswaDetail } from 'src/utils/interface';
 import { RESOURCE_NAME } from 'src/utils/constant';
@@ -11,7 +10,12 @@ import {
   getPelanggaranSiswa as _getPelanggaranSiswa,
   deleteData as _deleteData,
 } from 'src/store/actions/resources';
-import { PelanggaranCard, ProfileCard, SPCard } from 'src/components/baseComponent';
+import {
+  DashboardContainer,
+  PelanggaranCard,
+  ProfileCard,
+  SPCard,
+} from 'src/components/baseComponent';
 import useCustomDebounce from 'src/utils/useCustomDebounce';
 import { canDelete } from 'src/utils/sessionUtils';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
@@ -105,7 +109,7 @@ const SiswaDetail: React.FC<Props> = ({
             <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={2}>
               Buat Laporan
             </Text>
-            <AdminContainer>
+            <DashboardContainer>
               <Flex p={10} flexDirection={'column'} height={'100%'} width={'100%'}>
                 <ProfileCard siswa={siswa} />
                 <Flex flexDirection="column" overflow="auto" height={'40vh'} mt={7} px={2}>
@@ -136,7 +140,7 @@ const SiswaDetail: React.FC<Props> = ({
                   ))}
                 </Flex>
               </Flex>
-            </AdminContainer>
+            </DashboardContainer>
           </Flex>
         ) : null}
       </Flex>

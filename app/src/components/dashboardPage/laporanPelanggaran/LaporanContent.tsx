@@ -14,7 +14,6 @@ import {
 } from '@chakra-ui/react';
 import { connect, ConnectedProps } from 'react-redux';
 import { FaSearch } from 'react-icons/fa';
-import AkunTableContainer from '../akunPage/AkunTableContainer';
 import { RESOURCE_NAME } from 'src/utils/constant';
 import { RootState } from 'src/store';
 import { resources } from 'src/store/selectors';
@@ -22,15 +21,21 @@ import { getAllData as _getAllData } from 'src/store/actions/resources';
 import useCustomDebounce from 'src/utils/useCustomDebounce';
 import { getSiswaFilter } from 'src/utils/user';
 import LaporanRow from './LaporanRow';
+import {
+  DashboardContainer,
+  DashboardTableContainer,
+  Pagination,
+} from 'src/components/baseComponent';
 
 const LaporanContent: React.FC<Props> = ({ siswas, getAllData }) => {
   const [page, setPage] = useState<number>(1);
   const [searchValue, setSearchValue] = useState<string>('');
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
+  const [limit] = useState<number>(15);
 
   useEffect(() => {
     (async () => {
-      await getAllData(RESOURCE_NAME.SISWAS, `page=${page}&limit=15`);
+      await getAllData(RESOURCE_NAME.SISWAS, `page=${page}&limit=${limit}`);
 
       setFirstLoad(false);
     })();
@@ -42,7 +47,7 @@ const LaporanContent: React.FC<Props> = ({ siswas, getAllData }) => {
 
       await getAllData(
         RESOURCE_NAME.SISWAS,
-        `page=${page}&limit=15&${getSiswaFilter(searchValue)}`
+        `page=${page}&limit=${limit}&${getSiswaFilter(searchValue)}`
       );
     },
     1000,
@@ -55,7 +60,7 @@ const LaporanContent: React.FC<Props> = ({ siswas, getAllData }) => {
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
           Buat Laporan
         </Text>
-        <AkunTableContainer>
+        <DashboardContainer px={10} flexDirection={'column'}>
           <Flex mb={4} mt={8} justifyContent={'flex-end'} alignItems="center">
             <InputGroup width={'15rem'} boxShadow={'lg'} borderRadius={25}>
               <Input
@@ -73,7 +78,7 @@ const LaporanContent: React.FC<Props> = ({ siswas, getAllData }) => {
               </InputRightElement>
             </InputGroup>
           </Flex>
-          <Flex height={'62.5vh'} width={'100%'} overflow={'overlay'} flexDirection={'column'}>
+          <DashboardTableContainer>
             <Table>
               <Thead>
                 <Tr>
@@ -111,8 +116,9 @@ const LaporanContent: React.FC<Props> = ({ siswas, getAllData }) => {
                 ))}
               </Tbody>
             </Table>
-          </Flex>
-        </AkunTableContainer>
+          </DashboardTableContainer>
+          <Pagination limit={limit} total={siswas.count} page={page} setPage={setPage} />
+        </DashboardContainer>
       </Flex>
     </React.Fragment>
   );

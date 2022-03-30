@@ -22,10 +22,14 @@ import { resources } from 'src/store/selectors';
 import { deleteData, getAllData as _getAllData } from 'src/store/actions/resources';
 import { errorToastfier } from 'src/utils/toastifier';
 import { RESOURCE_NAME } from 'src/utils/constant';
-import AkunTableContainer from '../AkunTableContainer';
 import DeleteConfirmationModal from 'src/components/baseComponent/DeleteConfirmationModal';
 import useCustomDebounce from 'src/utils/useCustomDebounce';
 import { getSiswaFilter } from 'src/utils/user';
+import {
+  DashboardContainer,
+  DashboardTableContainer,
+  Pagination,
+} from 'src/components/baseComponent';
 
 const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -33,6 +37,7 @@ const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
   const [page, setPage] = useState<number>(1);
   const [searchValue, setSearchValue] = useState<string>('');
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
+  const [limit] = useState<number>(15);
 
   const onClose = () => {
     setIsOpen(false);
@@ -52,7 +57,7 @@ const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
 
   useEffect(() => {
     (async () => {
-      await getAllData(RESOURCE_NAME.SISWAS, `page=${page}&limit=15`);
+      await getAllData(RESOURCE_NAME.SISWAS, `page=${page}&limit=${limit}`);
 
       setFirstLoad(false);
     })();
@@ -64,7 +69,7 @@ const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
 
       await getAllData(
         RESOURCE_NAME.SISWAS,
-        `page=${page}&limit=15&${getSiswaFilter(searchValue)}`
+        `page=${page}&limit=${limit}&${getSiswaFilter(searchValue)}`
       );
     },
     1000,
@@ -77,7 +82,7 @@ const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
           Data User Siswa
         </Text>
-        <AkunTableContainer>
+        <DashboardContainer px={10} flexDirection={'column'}>
           <Flex mb={4} mt={8} justifyContent={'space-between'} alignItems="center">
             <Button
               fontFamily="poppins"
@@ -110,7 +115,7 @@ const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
               </InputRightElement>
             </InputGroup>
           </Flex>
-          <Flex height={'62.5vh'} width={'100%'} overflow={'overlay'} flexDirection={'column'}>
+          <DashboardTableContainer>
             <Table>
               <Thead>
                 <Tr>
@@ -142,7 +147,7 @@ const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
               <Tbody>
                 {_.map(_.toArray(siswas.rows), (siswa, index) => (
                   <Tr key={index} bg={index % 2 !== 0 ? '#E1E1E1' : 'white'}>
-                    <Td>{index + 1}</Td>
+                    <Td>{(page === 1 ? 1 : (page - 1) * limit + 1) + index}</Td>
                     <Td>{siswa.namaLengkap}</Td>
                     <Td>{siswa.nis}</Td>
                     <Td>{siswa.nisn}</Td>
@@ -164,8 +169,9 @@ const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
                 ))}
               </Tbody>
             </Table>
-          </Flex>
-        </AkunTableContainer>
+          </DashboardTableContainer>
+          <Pagination limit={limit} total={siswas.count} page={page} setPage={setPage} />
+        </DashboardContainer>
       </Flex>
       <DeleteConfirmationModal isOpen={isOpen} onClose={onClose} onSubmit={deleteUser} />
     </React.Fragment>

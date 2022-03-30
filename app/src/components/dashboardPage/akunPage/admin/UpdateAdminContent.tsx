@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import _ from 'lodash';
 import {
   Flex,
   Text,
@@ -14,19 +15,23 @@ import {
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
-import AdminContainer from '../../AdminContainer';
+import { DashboardContainer } from 'src/components/baseComponent';
 import { adminSchema } from 'src/utils/formSchema';
 import { createUserInput } from 'src/utils/styles';
 import { RESOURCE_NAME, USER_ROLE } from 'src/utils/constant';
-import { updateUser as _updateUser } from 'src/store/actions/resources';
+import {
+  updateUser as _updateUser,
+  getDataById as _getDataById,
+} from 'src/store/actions/resources';
 import { errorToastfier } from 'src/utils/toastifier';
 import useIdQuery from 'src/utils/useIdQuery';
 import useDebounce from 'src/utils/useDebounce';
+import useCustomDebounce from 'src/utils/useCustomDebounce';
 import { ICreateUser, IUser } from 'src/utils/interface';
 import { RootState } from 'src/store';
 import { getResourceByIdInRoutes } from 'src/store/selectors/resources';
 
-const UpdateAdminContent: React.FC<Props> = ({ getAdminById, updateAdmin }) => {
+const UpdateAdminContent: React.FC<Props> = ({ getDataById, updateAdmin }) => {
   const queryId = useIdQuery();
   const [admin, setAdmin] = useState<IUser>();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -40,16 +45,21 @@ const UpdateAdminContent: React.FC<Props> = ({ getAdminById, updateAdmin }) => {
     }
   };
 
-  useDebounce(
-    () => {
-      setAdmin(getAdminById(queryId));
+  useCustomDebounce(
+    async () => {
+      if (!queryId) return;
+
+      const data = (await getDataById(RESOURCE_NAME.USERS, queryId)) as unknown as IUser;
+      setAdmin(data);
     },
     500,
     [queryId]
   );
 
-  useDebounce(
+  useCustomDebounce(
     () => {
+      if (_.isEmpty(admin)) return;
+
       setIsLoaded(true);
     },
     500,
@@ -63,7 +73,7 @@ const UpdateAdminContent: React.FC<Props> = ({ getAdminById, updateAdmin }) => {
           <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
             Data Admin
           </Text>
-          <AdminContainer>
+          <DashboardContainer>
             <Flex p={5} flexDirection={'column'} height={'100%'}>
               <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={3}>
                 Formulir Pembaruan Akun Admin
@@ -146,19 +156,16 @@ const UpdateAdminContent: React.FC<Props> = ({ getAdminById, updateAdmin }) => {
                 )}
               </Formik>
             </Flex>
-          </AdminContainer>
+          </DashboardContainer>
         </Flex>
       ) : null}
     </Flex>
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  getAdminById: getResourceByIdInRoutes(RESOURCE_NAME.USERS, state),
-});
-
-const connector = connect(mapStateToProps, {
+const connector = connect(null, {
   updateAdmin: _updateUser,
+  getDataById: _getDataById,
 });
 
 type Props = ConnectedProps<typeof connector>;

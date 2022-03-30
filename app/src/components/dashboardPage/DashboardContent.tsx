@@ -2,8 +2,7 @@ import { Flex, Text, AspectRatio, Grid, GridItem } from '@chakra-ui/react';
 import React from 'react';
 import { FaUser, FaCalendarDay, FaListOl } from 'react-icons/fa';
 import { RiBook2Fill } from 'react-icons/ri';
-import { Card } from '../baseComponent';
-import AdminContainer from './AdminContainer';
+import { Card, DashboardContainer } from '../baseComponent';
 
 const DashboardContent = () => {
   return (
@@ -48,11 +47,11 @@ const DashboardContent = () => {
           </Card>
         </GridItem>
       </Grid>
-      <AdminContainer>
+      <DashboardContainer>
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} px={5} py={5}>
           Data Kategori Pelanggaran Harian
         </Text>
-      </AdminContainer>
+      </DashboardContainer>
     </Flex>
   );
 };

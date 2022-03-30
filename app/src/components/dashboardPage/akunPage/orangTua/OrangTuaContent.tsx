@@ -22,10 +22,14 @@ import { deleteData, getAllData as _getAllData } from 'src/store/actions/resourc
 import { errorToastfier } from 'src/utils/toastifier';
 import { RootState } from 'src/store';
 import { RESOURCE_NAME } from 'src/utils/constant';
-import AkunTableContainer from '../AkunTableContainer';
 import DeleteConfirmationModal from 'src/components/baseComponent/DeleteConfirmationModal';
 import useCustomDebounce from 'src/utils/useCustomDebounce';
 import { getOrangTuaFilter } from 'src/utils/user';
+import {
+  DashboardContainer,
+  DashboardTableContainer,
+  Pagination,
+} from 'src/components/baseComponent';
 
 const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllData }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -33,6 +37,7 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
   const [page, setPage] = useState<number>(1);
   const [searchValue, setSearchValue] = useState<string>('');
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
+  const [limit] = useState<number>(15);
 
   const onClose = () => {
     setIsOpen(false);
@@ -52,7 +57,7 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
 
   useEffect(() => {
     (async () => {
-      await getAllData(RESOURCE_NAME.ORANG_TUAS, `page=${page}&limit=15`);
+      await getAllData(RESOURCE_NAME.ORANG_TUAS, `page=${page}&limit=${limit}`);
 
       setFirstLoad(false);
     })();
@@ -64,7 +69,7 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
 
       await getAllData(
         RESOURCE_NAME.ORANG_TUAS,
-        `page=${page}&limit=15&${getOrangTuaFilter(searchValue)}`
+        `page=${page}&limit=${limit}&${getOrangTuaFilter(searchValue)}`
       );
     },
     1000,
@@ -77,7 +82,7 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
           Data User Orang Tua
         </Text>
-        <AkunTableContainer>
+        <DashboardContainer px={10} flexDirection={'column'}>
           <Flex mb={4} mt={8} justifyContent={'space-between'} alignItems="center">
             <Button
               fontFamily="poppins"
@@ -110,7 +115,7 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
               </InputRightElement>
             </InputGroup>
           </Flex>
-          <Flex height={'62.5vh'} width={'100%'} overflow={'overlay'} flexDirection={'column'}>
+          <DashboardTableContainer>
             <Table>
               <Thead>
                 <Tr>
@@ -139,7 +144,7 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
               <Tbody>
                 {_.map(_.toArray(orangTuas.rows), (orangTua, index) => (
                   <Tr key={index} bg={index % 2 !== 0 ? '#E1E1E1' : 'white'}>
-                    <Td>{index + 1}</Td>
+                    <Td>{(page === 1 ? 1 : (page - 1) * limit + 1) + index}</Td>
                     <Td>{orangTua.namaLengkap}</Td>
                     <Td>{orangTua.alamat}</Td>
                     <Td>{orangTua.noTelp}</Td>
@@ -160,8 +165,9 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
                 ))}
               </Tbody>
             </Table>
-          </Flex>
-        </AkunTableContainer>
+          </DashboardTableContainer>
+          <Pagination limit={limit} total={orangTuas.count} page={page} setPage={setPage} />
+        </DashboardContainer>
       </Flex>
       <DeleteConfirmationModal isOpen={isOpen} onClose={onClose} onSubmit={deleteUser} />
     </React.Fragment>

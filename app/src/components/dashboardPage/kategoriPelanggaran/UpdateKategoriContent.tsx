@@ -12,7 +12,6 @@ import {
 } from '@chakra-ui/react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
-import AdminContainer from '../AdminContainer';
 import { kategoriSchema } from 'src/utils/formSchema';
 import { createUserInput } from 'src/utils/styles';
 import { RESOURCE_NAME } from 'src/utils/constant';
@@ -23,6 +22,7 @@ import { errorToastfier } from 'src/utils/toastifier';
 import { IKategoriPelanggaran } from 'src/utils/interface';
 import useIdQuery from 'src/utils/useIdQuery';
 import useDebounce from 'src/utils/useDebounce';
+import { DashboardContainer } from 'src/components/baseComponent';
 
 const UpdateKategoriContent: React.FC<Props> = ({ updateKategori, getKategoriById }) => {
   const queryId = useIdQuery();
@@ -60,7 +60,7 @@ const UpdateKategoriContent: React.FC<Props> = ({ updateKategori, getKategoriByI
           <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
             Kategori Pelanggaran
           </Text>
-          <AdminContainer>
+          <DashboardContainer>
             <Flex p={10} m={5} flexDirection={'column'}>
               <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={3}>
                 Formulir Pembaruan Pelanggaran
@@ -132,7 +132,7 @@ const UpdateKategoriContent: React.FC<Props> = ({ updateKategori, getKategoriByI
                 )}
               </Formik>
             </Flex>
-          </AdminContainer>
+          </DashboardContainer>
         </Flex>
       ) : null}
     </Flex>
