@@ -39,6 +39,12 @@ export const isAuthenticated = (): boolean => {
   return !token && !isExpired();
 };
 
+export const canDelete = (): boolean => {
+  const role = getRole();
+
+  return role === 'admin' || role === 'guru';
+};
+
 const SessionUtils = {
   getToken,
   setToken,
