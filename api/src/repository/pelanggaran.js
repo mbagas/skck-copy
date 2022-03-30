@@ -27,9 +27,20 @@ pelanggaranRepository.modelToResource = async (model) => {
   return _.omit(resource, ['updatedAt']);
 };
 
+pelanggaranRepository.singleToMany = async (resource) => {
+  const resources = _.map(resource.pelanggaransId, (pelanggaran) => ({
+    pelanggaranId: pelanggaran,
+    siswaId: resource.siswaId,
+  }));
+
+  return resources;
+};
+
 pelanggaranRepository.bulkCreate = async (resources) => {
   const models = await Promise.all(
-    _.map(resources, (resource) => pelanggaranRepository.resourceToModel(resource))
+    _.map(await pelanggaranRepository.singleToMany(resources), (resource) =>
+      pelanggaranRepository.resourceToModel(resource)
+    )
   );
 
   await totalPointRepository.generateTotalPoints(models);
@@ -39,7 +50,8 @@ pelanggaranRepository.bulkCreate = async (resources) => {
 };
 
 pelanggaranRepository.delete = async (id) => {
-  await totalPointRepository.recalculateTotalPoint(id);
+  const pelanggaran = await pelanggaranRepository.findOne(id);
+  await totalPointRepository.recalculateTotalPoint(pelanggaran);
 
   await Pelanggarans.destroy({
     where: {
