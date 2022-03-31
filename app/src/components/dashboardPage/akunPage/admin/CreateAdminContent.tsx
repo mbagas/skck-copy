@@ -14,7 +14,7 @@ import {
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
-import AdminContainer from '../../AdminContainer';
+import { DashboardContainer } from 'src/components/baseComponent';
 import { adminSchema } from 'src/utils/formSchema';
 import { createUserInput } from 'src/utils/styles';
 import { USER_ROLE } from 'src/utils/constant';
@@ -39,7 +39,7 @@ const CreateAdminContent: React.FC<Props> = ({ createAdmin }) => {
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
           Data Admin
         </Text>
-        <AdminContainer>
+        <DashboardContainer>
           <Flex p={5} flexDirection={'column'} height={'100%'}>
             <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={3}>
               Formulir Pembuatan Akun Admin
@@ -122,7 +122,7 @@ const CreateAdminContent: React.FC<Props> = ({ createAdmin }) => {
               )}
             </Formik>
           </Flex>
-        </AdminContainer>
+        </DashboardContainer>
       </Flex>
     </Flex>
   );

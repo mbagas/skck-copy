@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import _ from 'lodash';
 import {
   Flex,
   Text,
@@ -14,20 +15,23 @@ import {
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
-import AdminContainer from '../../AdminContainer';
 import { siswaSchema } from 'src/utils/formSchema';
+import { DashboardContainer } from 'src/components/baseComponent';
 import { createUserInput } from 'src/utils/styles';
 import { USER_ROLE, RESOURCE_NAME } from 'src/utils/constant';
 import { RootState } from 'src/store';
-import { updateUser as _updateUser } from 'src/store/actions/resources';
-import { getResourceByIdInRoutes } from 'src/store/selectors/resources';
+import {
+  updateUser as _updateUser,
+  getDataById as _getDataById,
+} from 'src/store/actions/resources';
 import { errorToastfier } from 'src/utils/toastifier';
 import { ISiswa } from 'src/utils/interface';
 import useIdQuery from 'src/utils/useIdQuery';
 import useDebounce from 'src/utils/useDebounce';
 import { ICreateUser } from 'src/utils/interface';
+import useCustomDebounce from 'src/utils/useCustomDebounce';
 
-const UpdateSiswaContent: React.FC<Props> = ({ getSiswaById, updateSiswa }) => {
+const UpdateSiswaContent: React.FC<Props> = ({ getDataById, updateSiswa }) => {
   const queryId = useIdQuery();
   const [siswa, setSiswa] = useState<ISiswa>();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -35,22 +39,29 @@ const UpdateSiswaContent: React.FC<Props> = ({ getSiswaById, updateSiswa }) => {
 
   const update = async (value: Partial<ICreateUser['SISWA']>) => {
     try {
+      if (_.isNil(siswa)) return;
+
       await updateSiswa(queryId, value);
     } catch (e) {
       errorToastfier(e);
     }
   };
 
-  useDebounce(
-    () => {
-      setSiswa(getSiswaById(queryId));
+  useCustomDebounce(
+    async () => {
+      if (!queryId) return;
+
+      const data = (await getDataById(RESOURCE_NAME.SISWAS, queryId)) as unknown as ISiswa;
+      setSiswa(data);
     },
     500,
     [queryId]
   );
 
-  useDebounce(
+  useCustomDebounce(
     () => {
+      if (_.isEmpty(siswa)) return;
+
       setIsLoaded(true);
     },
     500,
@@ -64,7 +75,7 @@ const UpdateSiswaContent: React.FC<Props> = ({ getSiswaById, updateSiswa }) => {
           <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
             Data User Siswa
           </Text>
-          <AdminContainer>
+          <DashboardContainer>
             <Flex p={5} flexDirection={'column'} height={'100%'}>
               <Text fontFamily={'Poppins'} fontSize={'1.45rem'}>
                 Formulir Pembaruan Akun Siswa
@@ -194,19 +205,16 @@ const UpdateSiswaContent: React.FC<Props> = ({ getSiswaById, updateSiswa }) => {
                 )}
               </Formik>
             </Flex>
-          </AdminContainer>
+          </DashboardContainer>
         </Flex>
       ) : null}
     </Flex>
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  getSiswaById: getResourceByIdInRoutes(RESOURCE_NAME.SISWAS, state),
-});
-
-const connector = connect(mapStateToProps, {
+const connector = connect(null, {
   updateSiswa: _updateUser,
+  getDataById: _getDataById,
 });
 
 type Props = ConnectedProps<typeof connector>;

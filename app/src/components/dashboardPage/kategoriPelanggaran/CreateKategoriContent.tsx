@@ -12,12 +12,12 @@ import {
 } from '@chakra-ui/react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
-import AdminContainer from '../AdminContainer';
 import { kategoriSchema } from 'src/utils/formSchema';
 import { createUserInput } from 'src/utils/styles';
 import { createKategori as _createKategori } from 'src/store/actions/resources';
 import { errorToastfier } from 'src/utils/toastifier';
 import { IBaseKategoriPelanggaran } from 'src/utils/interface';
+import { DashboardContainer } from 'src/components/baseComponent';
 
 const CreateKategoriContent: React.FC<Props> = ({ createKategori }) => {
   const create = async (value: IBaseKategoriPelanggaran) => {
@@ -34,7 +34,7 @@ const CreateKategoriContent: React.FC<Props> = ({ createKategori }) => {
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
           Kategori Pelanggaran
         </Text>
-        <AdminContainer>
+        <DashboardContainer>
           <Flex p={10} m={5} flexDirection={'column'}>
             <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={3}>
               Formulir Pembuatan Pelanggaran
@@ -106,7 +106,7 @@ const CreateKategoriContent: React.FC<Props> = ({ createKategori }) => {
               )}
             </Formik>
           </Flex>
-        </AdminContainer>
+        </DashboardContainer>
       </Flex>
     </Flex>
   );

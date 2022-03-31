@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Flex, Text } from '@chakra-ui/react';
-import AdminContainer from '../AdminContainer';
 import useIdQuery from 'src/utils/useIdQuery';
 import { ISiswaDetail } from 'src/utils/interface';
 import { RESOURCE_NAME } from 'src/utils/constant';
 import { getDataById as _getDataById } from 'src/store/actions/resources';
-import { ProfileCard } from 'src/components/baseComponent';
+import { DashboardContainer, ProfileCard } from 'src/components/baseComponent';
 
 const LaporanSiswaCreate: React.FC<Props> = ({ getDataById }) => {
   const queryId = useIdQuery();
@@ -26,9 +25,9 @@ const LaporanSiswaCreate: React.FC<Props> = ({ getDataById }) => {
           Buat Laporan
         </Text>
       </Flex>
-      <AdminContainer>
+      <DashboardContainer>
         <ProfileCard siswa={siswa} />
-      </AdminContainer>
+      </DashboardContainer>
     </Flex>
   );
 };

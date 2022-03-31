@@ -17,7 +17,6 @@ import {
 import Router from 'next/router';
 import { connect, ConnectedProps } from 'react-redux';
 import { FaSearch, FaEdit, FaTrash } from 'react-icons/fa';
-import AkunTableContainer from '../akunPage/AkunTableContainer';
 import { RESOURCE_NAME } from 'src/utils/constant';
 import { RootState } from 'src/store';
 import { resources } from 'src/store/selectors';
@@ -26,6 +25,11 @@ import { deleteData, getAllData as _getAllData } from 'src/store/actions/resourc
 import useCustomDebounce from 'src/utils/useCustomDebounce';
 import { getKategoriPelanggaranFilter } from 'src/utils/pelanggaran';
 import DeleteConfirmationModal from 'src/components/baseComponent/DeleteConfirmationModal';
+import {
+  Pagination,
+  DashboardContainer,
+  DashboardTableContainer,
+} from 'src/components/baseComponent';
 
 const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllData }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -33,6 +37,7 @@ const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllDat
   const [page, setPage] = useState<number>(1);
   const [searchValue, setSearchValue] = useState<string>('');
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
+  const [limit] = useState<number>(15);
 
   const onClose = () => {
     setIsOpen(false);
@@ -52,7 +57,7 @@ const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllDat
 
   useEffect(() => {
     (async () => {
-      await getAllData(RESOURCE_NAME.KATEGORI_PELANGGARANS, `page=${page}&limit=15`);
+      await getAllData(RESOURCE_NAME.KATEGORI_PELANGGARANS, `page=${page}&limit=${limit}`);
 
       setFirstLoad(false);
     })();
@@ -64,7 +69,7 @@ const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllDat
 
       await getAllData(
         RESOURCE_NAME.KATEGORI_PELANGGARANS,
-        `page=${page}&limit=15&${getKategoriPelanggaranFilter(searchValue)}`
+        `page=${page}&limit=${limit}&${getKategoriPelanggaranFilter(searchValue)}`
       );
     },
     1000,
@@ -77,7 +82,7 @@ const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllDat
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
           Kategori Pelanggaran
         </Text>
-        <AkunTableContainer>
+        <DashboardContainer px={10} flexDirection={'column'}>
           <Flex mb={4} mt={8} justifyContent={'space-between'} alignItems="center">
             <Button
               fontFamily="poppins"
@@ -109,7 +114,7 @@ const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllDat
               </InputRightElement>
             </InputGroup>
           </Flex>
-          <Flex height={'62.5vh'} width={'100%'} overflow={'overlay'} flexDirection={'column'}>
+          <DashboardTableContainer>
             <Table>
               <Thead>
                 <Tr>
@@ -155,8 +160,9 @@ const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllDat
                 ))}
               </Tbody>
             </Table>
-          </Flex>
-        </AkunTableContainer>
+          </DashboardTableContainer>
+          <Pagination limit={limit} total={kategoris.count} page={page} setPage={setPage} />
+        </DashboardContainer>
       </Flex>
       <DeleteConfirmationModal isOpen={isOpen} onClose={onClose} onSubmit={deleteUser} />
     </React.Fragment>

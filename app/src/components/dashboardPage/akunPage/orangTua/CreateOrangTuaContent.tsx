@@ -15,7 +15,7 @@ import {
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
-import AdminContainer from '../../AdminContainer';
+import { DashboardContainer } from 'src/components/baseComponent';
 import { orangTuaSchema } from 'src/utils/formSchema';
 import { createUserInput } from 'src/utils/styles';
 import { USER_ROLE } from 'src/utils/constant';
@@ -40,7 +40,7 @@ const CreateOrangTuaContent: React.FC<Props> = ({ createOrangTua }) => {
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
           Data User Orang Tua
         </Text>
-        <AdminContainer>
+        <DashboardContainer>
           <Flex p={5} flexDirection={'column'} height={'100%'}>
             <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={3}>
               Formulir Pembuatan Akun Orang Tua
@@ -156,7 +156,7 @@ const CreateOrangTuaContent: React.FC<Props> = ({ createOrangTua }) => {
               )}
             </Formik>
           </Flex>
-        </AdminContainer>
+        </DashboardContainer>
       </Flex>
     </Flex>
   );

@@ -22,10 +22,14 @@ import { deleteData, getAllData as _getAllData } from 'src/store/actions/resourc
 import { errorToastfier } from 'src/utils/toastifier';
 import { RootState } from 'src/store';
 import { RESOURCE_NAME } from 'src/utils/constant';
-import AkunTableContainer from '../AkunTableContainer';
 import DeleteConfirmationModal from 'src/components/baseComponent/DeleteConfirmationModal';
 import useCustomDebounce from 'src/utils/useCustomDebounce';
 import { getUserFilter } from 'src/utils/user';
+import {
+  DashboardContainer,
+  DashboardTableContainer,
+  Pagination,
+} from 'src/components/baseComponent';
 
 const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -33,6 +37,7 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
   const [page, setPage] = useState<number>(1);
   const [searchValue, setSearchValue] = useState<string>('');
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
+  const [limit] = useState<number>(15);
 
   const onClose = () => {
     setIsOpen(false);
@@ -52,7 +57,7 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
 
   useEffect(() => {
     (async () => {
-      await getAllData(RESOURCE_NAME.USERS, `page=${page}&limit=15`);
+      await getAllData(RESOURCE_NAME.USERS, `page=${page}&limit=${limit}`);
 
       setFirstLoad(false);
     })();
@@ -62,7 +67,10 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
     async () => {
       if (firstLoad) return;
 
-      await getAllData(RESOURCE_NAME.USERS, `page=${page}&limit=15&${getUserFilter(searchValue)}`);
+      await getAllData(
+        RESOURCE_NAME.USERS,
+        `page=${page}&limit=${limit}&${getUserFilter(searchValue)}`
+      );
     },
     1000,
     [searchValue]
@@ -74,7 +82,7 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
           Data User Admin
         </Text>
-        <AkunTableContainer>
+        <DashboardContainer px={10} flexDirection={'column'}>
           <Flex mb={4} mt={8} justifyContent={'space-between'} alignItems="center">
             <Button
               fontFamily="poppins"
@@ -107,7 +115,7 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
               </InputRightElement>
             </InputGroup>
           </Flex>
-          <Flex height={'62.5vh'} width={'100%'} overflow={'overlay'} flexDirection={'column'}>
+          <DashboardTableContainer>
             <Table>
               <Thead>
                 <Tr>
@@ -130,7 +138,7 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
               <Tbody>
                 {_.map(_.toArray(admins.rows), (admin, index) => (
                   <Tr key={index} bg={index % 2 !== 0 ? '#E1E1E1' : 'white'}>
-                    <Td>{index + 1}</Td>
+                    <Td>{(page === 1 ? 1 : (page - 1) * limit + 1) + index}</Td>
                     <Td>{admin.userName}</Td>
                     <Td>
                       <Flex justifyContent={'space-between'}>
@@ -149,8 +157,9 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
                 ))}
               </Tbody>
             </Table>
-          </Flex>
-        </AkunTableContainer>
+          </DashboardTableContainer>
+          <Pagination limit={limit} total={admins.count} page={page} setPage={setPage} />
+        </DashboardContainer>
       </Flex>
       <DeleteConfirmationModal isOpen={isOpen} onClose={onClose} onSubmit={deleteUser} />
     </React.Fragment>
