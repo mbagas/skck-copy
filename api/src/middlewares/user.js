@@ -88,6 +88,15 @@ exports.updateUserMw = asyncMw(async (req, res, next) => {
   return next();
 });
 
+exports.updateUserByRoleMw = asyncMw(async (req, res, next) => {
+  // If the updated one is an admin, then skip the process
+  if (req.body.role === USER_ROLE.ADMIN) return next();
+
+  await repository.user.conditionalUpdate(req.params.id, req.body);
+
+  return next();
+});
+
 exports.deleteUserMw = asyncMw(async (req, res) => {
   const { userAuth } = req;
 

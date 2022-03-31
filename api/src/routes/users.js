@@ -18,6 +18,7 @@ router.patch(
   user.authMw,
   user.getUserMw,
   user.updateUserMw,
+  user.updateUserByRoleMw,
   user.getUserMw,
   user.returnUserMw
 );

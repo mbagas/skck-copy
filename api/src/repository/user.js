@@ -76,6 +76,18 @@ userRepository.conditionalCreate = async (resource) => {
   return role;
 };
 
+userRepository.conditionalUpdate = async (id, resource) => {
+  const resourceRole = getUserRole(resource.role);
+
+  const user = await repository[resourceRole].findOne({ userId: id });
+
+  // If the user is not found then cut off the process
+  if (!user) return;
+
+  const body = await repository[resourceRole].resourceToModel(resource);
+  await repository[resourceRole].update(user.id, body);
+};
+
 /**
  * Validate the user login data.
  * @param {Object} resource
