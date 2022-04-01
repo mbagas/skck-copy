@@ -1,4 +1,4 @@
-import { InputProps } from '@chakra-ui/react';
+import { ButtonProps, InputProps } from '@chakra-ui/react';
 
 const createDefaultInput = {
   borderRadius: 0,
@@ -24,4 +24,15 @@ export const createUserInput: InputProps = {
   },
   _pressed: { ...createDefaultInput },
   outline: 'none',
+};
+
+export const buttonStyle = {
+  confirmation: {
+    bg: 'royalRed.200',
+    color: 'white',
+    _hover: {
+      background: 'royalRed.200',
+      color: 'white',
+    },
+  } as ButtonProps,
 };

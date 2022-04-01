@@ -13,7 +13,7 @@ import {
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { kategoriSchema } from 'src/utils/formSchema';
-import { createUserInput } from 'src/utils/styles';
+import { buttonStyle, createUserInput } from 'src/utils/styles';
 import { RESOURCE_NAME } from 'src/utils/constant';
 import { RootState } from 'src/store';
 import { updateKategori as _updateKategori } from 'src/store/actions/resources';
@@ -22,7 +22,7 @@ import { errorToastfier } from 'src/utils/toastifier';
 import { IKategoriPelanggaran } from 'src/utils/interface';
 import useIdQuery from 'src/utils/useIdQuery';
 import useDebounce from 'src/utils/useDebounce';
-import { DashboardContainer } from 'src/components/baseComponent';
+import { DashboardContainer, DashboardMainContainer } from 'src/components/baseComponent';
 
 const UpdateKategoriContent: React.FC<Props> = ({ updateKategori, getKategoriById }) => {
   const queryId = useIdQuery();
@@ -54,9 +54,9 @@ const UpdateKategoriContent: React.FC<Props> = ({ updateKategori, getKategoriByI
   );
 
   return (
-    <Flex py={3} px={3} height={'100%'} width={'100%'} bg={'royalGray.100'}>
+    <DashboardMainContainer>
       {isLoaded ? (
-        <Flex flexDirection="column" width="100%">
+        <React.Fragment>
           <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
             Kategori Pelanggaran
           </Text>
@@ -114,15 +114,11 @@ const UpdateKategoriContent: React.FC<Props> = ({ updateKategori, getKategoriByI
                     </VStack>
                     <Spacer />
                     <Button
+                      {...buttonStyle.confirmation}
                       fontFamily="poppins"
                       fontSize={'0.813rem'}
                       px={10}
                       borderRadius={6}
-                      color="white"
-                      bg={'royalRed.200'}
-                      _hover={{
-                        background: 'royalRed.300',
-                      }}
                       _focus={{ border: 'none' }}
                       type="submit"
                     >
@@ -133,9 +129,9 @@ const UpdateKategoriContent: React.FC<Props> = ({ updateKategori, getKategoriByI
               </Formik>
             </Flex>
           </DashboardContainer>
-        </Flex>
+        </React.Fragment>
       ) : null}
-    </Flex>
+    </DashboardMainContainer>
   );
 };
 

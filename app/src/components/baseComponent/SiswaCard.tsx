@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import Router from 'next/router';
 import { Flex, Grid, GridItem, Text } from '@chakra-ui/react';
 import { BiCoinStack } from 'react-icons/bi';
 import { ISiswa } from 'src/utils/interface';
@@ -14,6 +15,7 @@ const SiswaCard: React.FC<Props> = ({ siswa }) => {
       width={'100%'}
       boxShadow="lg"
       borderColor="black"
+      onClick={() => Router.push(`${Router.pathname}/${siswa.id}`)}
     >
       <Grid alignItems="center" templateColumns="repeat(2, 1fr)" gap={3} width={'100%'}>
         <GridItem>

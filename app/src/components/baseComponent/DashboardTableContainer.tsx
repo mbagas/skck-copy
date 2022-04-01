@@ -3,7 +3,7 @@ import { Flex } from '@chakra-ui/react';
 
 const DashboardTableContainer: React.FC = ({ children }) => {
   return (
-    <Flex height={'58vh'} width={'100%'} overflow={'overlay'} flexDirection={'column'}>
+    <Flex height={'100%'} width={'100%'} overflow={'auto'} flexDirection={'column'}>
       {children}
     </Flex>
   );

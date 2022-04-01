@@ -11,6 +11,7 @@ import {
   ModalOverlay,
   Text,
 } from '@chakra-ui/react';
+import { buttonStyle } from 'src/utils/styles';
 
 const DeleteConfirmationModal: React.FC<Props> = ({ isOpen, onClose, onSubmit }) => {
   const interText = {
@@ -46,16 +47,7 @@ const DeleteConfirmationModal: React.FC<Props> = ({ isOpen, onClose, onSubmit })
           >
             Tidak
           </Button>
-          <Button
-            bg={'royalRed.200'}
-            color={'white'}
-            onClick={onSubmit}
-            _hover={{
-              background: 'royalRed.200',
-              color: 'white',
-            }}
-            px={10}
-          >
+          <Button {...buttonStyle.confirmation} onClick={onSubmit} px={10}>
             Ya
           </Button>
         </ModalFooter>

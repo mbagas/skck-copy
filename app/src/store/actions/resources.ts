@@ -2,7 +2,12 @@
 import axios from 'src/store/axios';
 import { AppDispatch } from 'src/store';
 import { CreateUserType, IBaseKategoriPelanggaran } from 'src/utils/interface';
-import { IResources, IResourcesWithId, ResourceKey } from 'src/utils/resourceInterface';
+import {
+  IDetailResource,
+  IResources,
+  IResourcesWithId,
+  ResourceKey,
+} from 'src/utils/resourceInterface';
 import { generateUserName } from 'src/utils/user';
 import { RESOURCE_NAME } from 'src/utils/constant';
 
@@ -63,7 +68,7 @@ export const getDataById =
       },
     });
 
-    return data;
+    return data as IDetailResource[T];
   };
 
 // Add new data to resource

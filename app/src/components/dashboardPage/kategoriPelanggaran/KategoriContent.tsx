@@ -28,8 +28,10 @@ import DeleteConfirmationModal from 'src/components/baseComponent/DeleteConfirma
 import {
   Pagination,
   DashboardContainer,
+  DashboardMainContainer,
   DashboardTableContainer,
 } from 'src/components/baseComponent';
+import { buttonStyle } from 'src/utils/styles';
 
 const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllData }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -78,22 +80,18 @@ const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllDat
 
   return (
     <React.Fragment>
-      <Flex bg="royalGray.100" width={'100%'} height={'100%'} p={3} flexDirection={'column'}>
+      <DashboardMainContainer>
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
           Kategori Pelanggaran
         </Text>
         <DashboardContainer px={10} flexDirection={'column'}>
           <Flex mb={4} mt={8} justifyContent={'space-between'} alignItems="center">
             <Button
+              {...buttonStyle.confirmation}
               fontFamily="poppins"
               fontSize={'0.813rem'}
               px={10}
               borderRadius={25}
-              color="white"
-              bg={'royalRed.200'}
-              _hover={{
-                background: 'royalRed.300',
-              }}
               _focus={{ border: 'none' }}
             >
               Tambah
@@ -163,7 +161,7 @@ const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllDat
           </DashboardTableContainer>
           <Pagination limit={limit} total={kategoris.count} page={page} setPage={setPage} />
         </DashboardContainer>
-      </Flex>
+      </DashboardMainContainer>
       <DeleteConfirmationModal isOpen={isOpen} onClose={onClose} onSubmit={deleteUser} />
     </React.Fragment>
   );
