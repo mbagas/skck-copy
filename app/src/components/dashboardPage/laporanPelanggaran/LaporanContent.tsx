@@ -23,6 +23,7 @@ import { getSiswaFilter } from 'src/utils/user';
 import LaporanRow from './LaporanRow';
 import {
   DashboardContainer,
+  DashboardMainContainer,
   DashboardTableContainer,
   Pagination,
 } from 'src/components/baseComponent';
@@ -55,72 +56,65 @@ const LaporanContent: React.FC<Props> = ({ siswas, getAllData }) => {
   );
 
   return (
-    <React.Fragment>
-      <Flex bg="royalGray.100" width={'100%'} height={'100%'} p={3} flexDirection={'column'}>
-        <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
-          Buat Laporan
-        </Text>
-        <DashboardContainer px={10} flexDirection={'column'}>
-          <Flex mb={4} mt={8} justifyContent={'flex-end'} alignItems="center">
-            <InputGroup width={'15rem'} boxShadow={'lg'} borderRadius={25}>
-              <Input
-                px={10}
-                color="black"
-                borderRadius={25}
-                fontFamily="poppins"
-                fontSize={'0.813rem'}
-                placeholder="Cari"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-              />
-              <InputRightElement pointerEvents="none">
-                <FaSearch />
-              </InputRightElement>
-            </InputGroup>
-          </Flex>
-          <DashboardTableContainer>
-            <Table>
-              <Thead>
-                <Tr>
-                  <Th color="white" bg={'royalRed.200'} borderTopLeftRadius={10}>
-                    No
-                  </Th>
-                  <Th color="white" bg={'royalRed.200'} width={'25%'}>
-                    Nama
-                  </Th>
-                  <Th color="white" bg={'royalRed.200'} width={'10%'}>
-                    NIS
-                  </Th>
-                  <Th color="white" bg={'royalRed.200'} width={'25%'}>
-                    Nama Orang Tua
-                  </Th>
-                  <Th color="white" bg={'royalRed.200'} width={'30%'}>
-                    No. Telepon Orang Tua
-                  </Th>
-                  <Th color="white" bg={'royalRed.200'} width={'10%'} textAlign="center">
-                    Poin
-                  </Th>
-                  <Th
-                    color="white"
-                    bg={'royalRed.200'}
-                    textAlign="center"
-                    borderTopRightRadius={10}
-                  >
-                    Aksi
-                  </Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {_.map(_.toArray(siswas.rows), (siswa, index) => (
-                  <LaporanRow siswa={siswa} index={index} key={index} />
-                ))}
-              </Tbody>
-            </Table>
-          </DashboardTableContainer>
-          <Pagination limit={limit} total={siswas.count} page={page} setPage={setPage} />
-        </DashboardContainer>
-      </Flex>
-    </React.Fragment>
+    <DashboardMainContainer>
+      <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
+        Buat Laporan
+      </Text>
+      <DashboardContainer px={10} flexDirection={'column'}>
+        <Flex mb={4} mt={8} justifyContent={'flex-end'} alignItems="center">
+          <InputGroup width={'15rem'} boxShadow={'lg'} borderRadius={25}>
+            <Input
+              px={10}
+              color="black"
+              borderRadius={25}
+              fontFamily="poppins"
+              fontSize={'0.813rem'}
+              placeholder="Cari"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+            />
+            <InputRightElement pointerEvents="none">
+              <FaSearch />
+            </InputRightElement>
+          </InputGroup>
+        </Flex>
+        <DashboardTableContainer>
+          <Table>
+            <Thead>
+              <Tr>
+                <Th color="white" bg={'royalRed.200'} borderTopLeftRadius={10}>
+                  No
+                </Th>
+                <Th color="white" bg={'royalRed.200'} width={'25%'}>
+                  Nama
+                </Th>
+                <Th color="white" bg={'royalRed.200'} width={'10%'}>
+                  NIS
+                </Th>
+                <Th color="white" bg={'royalRed.200'} width={'25%'}>
+                  Nama Orang Tua
+                </Th>
+                <Th color="white" bg={'royalRed.200'} width={'30%'}>
+                  No. Telepon Orang Tua
+                </Th>
+                <Th color="white" bg={'royalRed.200'} width={'10%'} textAlign="center">
+                  Poin
+                </Th>
+                <Th color="white" bg={'royalRed.200'} textAlign="center" borderTopRightRadius={10}>
+                  Aksi
+                </Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {_.map(_.toArray(siswas.rows), (siswa, index) => (
+                <LaporanRow siswa={siswa} index={index} key={index} />
+              ))}
+            </Tbody>
+          </Table>
+        </DashboardTableContainer>
+        <Pagination limit={limit} total={siswas.count} page={page} setPage={setPage} />
+      </DashboardContainer>
+    </DashboardMainContainer>
   );
 };
 

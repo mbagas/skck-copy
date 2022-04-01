@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { Button, Flex, Grid, GridItem } from '@chakra-ui/react';
+import { Button, Flex, Grid } from '@chakra-ui/react';
 import { RootState } from 'src/store';
 import { connect, ConnectedProps } from 'react-redux';
 import { RESOURCE_NAME } from 'src/utils/constant';

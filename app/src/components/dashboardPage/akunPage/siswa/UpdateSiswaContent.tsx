@@ -16,23 +16,16 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
 import { siswaSchema } from 'src/utils/formSchema';
-import { DashboardContainer } from 'src/components/baseComponent';
-import { createUserInput } from 'src/utils/styles';
+import { DashboardContainer, DashboardMainContainer } from 'src/components/baseComponent';
+import { buttonStyle, createUserInput } from 'src/utils/styles';
 import { USER_ROLE, RESOURCE_NAME } from 'src/utils/constant';
-import { RootState } from 'src/store';
-import {
-  updateUser as _updateUser,
-  getDataById as _getDataById,
-} from 'src/store/actions/resources';
+import { updateUser as _updateUser } from 'src/store/actions/resources';
 import { errorToastfier } from 'src/utils/toastifier';
-import { ISiswa } from 'src/utils/interface';
 import useIdQuery from 'src/utils/useIdQuery';
-import useDebounce from 'src/utils/useDebounce';
 import { ICreateUser } from 'src/utils/interface';
-import useCustomDebounce from 'src/utils/useCustomDebounce';
 import useGetDataById from 'src/utils/useGetDataById';
 
-const UpdateSiswaContent: React.FC<Props> = ({ getDataById, updateSiswa }) => {
+const UpdateSiswaContent: React.FC<Props> = ({ updateSiswa }) => {
   const queryId = useIdQuery();
   const siswa = useGetDataById(RESOURCE_NAME.SISWAS, queryId);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
@@ -48,9 +41,9 @@ const UpdateSiswaContent: React.FC<Props> = ({ getDataById, updateSiswa }) => {
   };
 
   return (
-    <Flex py={3} px={3} height={'100%'} width={'100%'} bg={'royalGray.100'}>
+    <DashboardMainContainer>
       {siswa ? (
-        <Flex flexDirection="column" width="100%">
+        <React.Fragment>
           <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
             Data User Siswa
           </Text>
@@ -165,15 +158,11 @@ const UpdateSiswaContent: React.FC<Props> = ({ getDataById, updateSiswa }) => {
                         )}
                       </FormControl>
                       <Button
+                        {...buttonStyle.confirmation}
                         fontFamily="poppins"
                         fontSize={'0.813rem'}
                         px={10}
                         borderRadius={6}
-                        color="white"
-                        bg={'royalRed.200'}
-                        _hover={{
-                          background: 'royalRed.300',
-                        }}
                         _focus={{ border: 'none' }}
                         type={'submit'}
                       >
@@ -185,15 +174,14 @@ const UpdateSiswaContent: React.FC<Props> = ({ getDataById, updateSiswa }) => {
               </Formik>
             </Flex>
           </DashboardContainer>
-        </Flex>
+        </React.Fragment>
       ) : null}
-    </Flex>
+    </DashboardMainContainer>
   );
 };
 
 const connector = connect(null, {
   updateSiswa: _updateUser,
-  getDataById: _getDataById,
 });
 
 type Props = ConnectedProps<typeof connector>;

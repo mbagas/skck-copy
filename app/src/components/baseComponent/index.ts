@@ -1,5 +1,6 @@
 import BaseTopBar from './BaseTopBar';
 import DashboardContainer from './DashboardContainer';
+import DashboardMainContainer from './DashboardMainContainer';
 import DashboardTableContainer from './DashboardTableContainer';
 import PelanggaranCard from './PelanggaranCard';
 import ProfileCard from './ProfileCard';
@@ -24,4 +25,5 @@ export {
   DashboardTableContainer,
   SiswaDetail,
   FormPelanggaranCard,
+  DashboardMainContainer,
 };

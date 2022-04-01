@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import _ from 'lodash';
 import {
   Flex,
   Text,
@@ -11,31 +10,23 @@ import {
   FormErrorMessage,
   FormLabel,
   Button,
-  Spacer,
 } from '@chakra-ui/react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
-import { DashboardContainer } from 'src/components/baseComponent';
+import { DashboardContainer, DashboardMainContainer } from 'src/components/baseComponent';
 import { orangTuaSchema } from 'src/utils/formSchema';
-import { createUserInput } from 'src/utils/styles';
+import { buttonStyle, createUserInput } from 'src/utils/styles';
 import { USER_ROLE, RESOURCE_NAME } from 'src/utils/constant';
-import { RootState } from 'src/store';
-import {
-  updateUser as _updateUser,
-  getDataById as _getDataById,
-} from 'src/store/actions/resources';
-import { getResourceByIdInRoutes } from 'src/store/selectors/resources';
+import { updateUser as _updateUser } from 'src/store/actions/resources';
 import { errorToastfier } from 'src/utils/toastifier';
-import { IOrangTua } from 'src/utils/interface';
 import useIdQuery from 'src/utils/useIdQuery';
-import useCustomDebounce from 'src/utils/useCustomDebounce';
 import { ICreateUser } from 'src/utils/interface';
+import useGetDataById from 'src/utils/useGetDataById';
 
-const UpdateOrangTuaContent: React.FC<Props> = ({ getDataById, updateOrangTua }) => {
+const UpdateOrangTuaContent: React.FC<Props> = ({ updateOrangTua }) => {
   const queryId = useIdQuery();
-  const [orangTua, setOrangTua] = useState<IOrangTua>();
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const orangTua = useGetDataById(RESOURCE_NAME.ORANG_TUAS, queryId);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
 
   const update = async (value: Partial<ICreateUser['ORANG_TUA']>) => {
@@ -46,31 +37,10 @@ const UpdateOrangTuaContent: React.FC<Props> = ({ getDataById, updateOrangTua })
     }
   };
 
-  useCustomDebounce(
-    async () => {
-      if (!queryId) return;
-
-      const data = (await getDataById(RESOURCE_NAME.ORANG_TUAS, queryId)) as IOrangTua;
-      setOrangTua(data);
-    },
-    500,
-    [queryId]
-  );
-
-  useCustomDebounce(
-    () => {
-      if (_.isEmpty(orangTua)) return;
-
-      setIsLoaded(true);
-    },
-    500,
-    [orangTua]
-  );
-
   return (
-    <Flex py={3} px={3} height={'100%'} width={'100%'} bg={'royalGray.100'}>
-      {isLoaded ? (
-        <Flex flexDirection="column" width="100%">
+    <DashboardMainContainer>
+      {orangTua ? (
+        <React.Fragment>
           <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
             Data User Orang Tua
           </Text>
@@ -171,37 +141,31 @@ const UpdateOrangTuaContent: React.FC<Props> = ({ getDataById, updateOrangTua })
                           <FormErrorMessage>{errors.alamat}</FormErrorMessage>
                         )}
                       </FormControl>
-                      <Spacer />
-                      <Button
-                        fontFamily="poppins"
-                        fontSize={'0.813rem'}
-                        px={10}
-                        borderRadius={6}
-                        color="white"
-                        bg={'royalRed.200'}
-                        _hover={{
-                          background: 'royalRed.300',
-                        }}
-                        _focus={{ border: 'none' }}
-                        type={'submit'}
-                      >
-                        Update
-                      </Button>
                     </VStack>
+                    <Button
+                      {...buttonStyle.confirmation}
+                      fontFamily="poppins"
+                      fontSize={'0.813rem'}
+                      px={10}
+                      borderRadius={6}
+                      _focus={{ border: 'none' }}
+                      type={'submit'}
+                    >
+                      Update
+                    </Button>
                   </Form>
                 )}
               </Formik>
             </Flex>
           </DashboardContainer>
-        </Flex>
+        </React.Fragment>
       ) : null}
-    </Flex>
+    </DashboardMainContainer>
   );
 };
 
 const connector = connect(null, {
   updateOrangTua: _updateUser,
-  getDataById: _getDataById,
 });
 
 type Props = ConnectedProps<typeof connector>;

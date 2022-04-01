@@ -10,7 +10,7 @@ const useGetDataById = <T extends ResourceKey>(resourceName: T, id: number) => {
     async () => {
       if (!id) return;
 
-      const data = (await getDataById(resourceName, id)()) as IDetailResource[T];
+      const data = await getDataById(resourceName, id)();
       setData(data);
     },
     500,

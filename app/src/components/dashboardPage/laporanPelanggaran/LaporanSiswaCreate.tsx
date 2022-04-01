@@ -1,41 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import Router from 'next/router';
+import React, { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Flex, Text } from '@chakra-ui/react';
 import useIdQuery from 'src/utils/useIdQuery';
-import { ISiswaDetail } from 'src/utils/interface';
 import { RESOURCE_NAME } from 'src/utils/constant';
+import { getAllData as _getAllData } from 'src/store/actions/resources';
 import {
-  getAllData as _getAllData,
-  getDataById as _getDataById,
-} from 'src/store/actions/resources';
-import { DashboardContainer, ProfileCard, FormPelanggaranCard } from 'src/components/baseComponent';
-import useCustomDebounce from 'src/utils/useCustomDebounce';
+  DashboardContainer,
+  DashboardMainContainer,
+  ProfileCard,
+  FormPelanggaranCard,
+} from 'src/components/baseComponent';
+import useGetDataById from 'src/utils/useGetDataById';
 
-const LaporanSiswaCreate: React.FC<Props> = ({ getDataById, getAllData }) => {
+const LaporanSiswaCreate: React.FC<Props> = ({ getAllData }) => {
   const queryId = useIdQuery();
-  const [siswa, setSiswa] = useState<ISiswaDetail>();
+  const siswa = useGetDataById(RESOURCE_NAME.SISWAS, queryId);
 
   useEffect(() => {
     (async () => {
       // Get all kategori
       await getAllData(RESOURCE_NAME.KATEGORI_PELANGGARANS, 'limit=all');
     })();
-  }, []);
-
-  useCustomDebounce(
-    async () => {
-      if (!queryId) return;
-
-      const data = (await getDataById(RESOURCE_NAME.SISWAS, queryId)) as ISiswaDetail;
-      setSiswa(data);
-    },
-    500,
-    [queryId]
-  );
+  }, []); // eslint-disable-line
 
   return (
-    <Flex py={3} px={3} height={'100%'} width={'100%'} bg={'royalGray.00'} flexDirection={'column'}>
+    <DashboardMainContainer>
       <Flex flexDirection="column" width="100%">
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
           Buat Laporan
@@ -47,12 +36,11 @@ const LaporanSiswaCreate: React.FC<Props> = ({ getDataById, getAllData }) => {
           <FormPelanggaranCard />
         </DashboardContainer>
       ) : null}
-    </Flex>
+    </DashboardMainContainer>
   );
 };
 
 const connector = connect(null, {
-  getDataById: _getDataById,
   getAllData: _getAllData,
 });
 

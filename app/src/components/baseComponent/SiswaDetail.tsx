@@ -23,6 +23,7 @@ import DeleteConfirmationModal from './DeleteConfirmationModal';
 import { toastfier, errorToastfier } from 'src/utils/toastifier';
 import { RootState } from 'src/store';
 import { resources } from 'src/store/selectors';
+import { buttonStyle } from 'src/utils/styles';
 
 const SiswaDetail: React.FC<Props> = ({
   getDataById,
@@ -113,42 +114,32 @@ const SiswaDetail: React.FC<Props> = ({
             <DashboardContainer justifyContent={'center'} alignItems={'center'}>
               <Flex flexDirection={'column'} width={'95%'} height={'95%'}>
                 <ProfileCard siswa={siswa} />
-                <Flex flexDirection="column" flex={1} mt={5}>
+                <Flex flexDirection="column" mt={5} overflow={'auto'} px={2}>
                   {!_.isEmpty(_.get(siswa, 'histories', [])) && (
-                    <Flex flexDirection="column" width={'100%'} mb={5}>
-                      <Flex>
-                        <Text boxShadow={'lg'} borderBottom={'1px solid black'}>
-                          History Surat Peringatan
-                        </Text>
-                      </Flex>
+                    <Flex flexDirection={'column'} px={2}>
+                      <Text boxShadow={'lg'} borderBottom={'1px solid black'}>
+                        History Surat Peringatan
+                      </Text>
                       {_.map(siswa?.histories, (history, index) => (
                         <SPCard history={history} key={index} />
                       ))}
                     </Flex>
                   )}
-                  <Flex>
-                    <Text boxShadow={'lg'} borderBottom={'1px solid black'}>
-                      History Pelanggaran
-                    </Text>
-                  </Flex>
-                  <Flex overflow={'auto'} flexDirection={'column'} px={2}>
-                    {_.map(pelanggarans.rows, (pelanggaran, index) => (
-                      <PelanggaranCard
-                        pelanggaran={pelanggaran}
-                        deleteAble={isDeleteable}
-                        onClickDelete={onClickDelete}
-                        key={index}
-                      />
-                    ))}
-                  </Flex>
+                  <Text boxShadow={'lg'} borderBottom={'1px solid black'} pt={3}>
+                    History Pelanggaran
+                  </Text>
+                  {_.map(pelanggarans.rows, (pelanggaran, index) => (
+                    <PelanggaranCard
+                      pelanggaran={pelanggaran}
+                      deleteAble={isDeleteable}
+                      onClickDelete={onClickDelete}
+                      key={index}
+                    />
+                  ))}
                 </Flex>
                 <Flex py={3} px={2}>
                   <Button
-                    bg="royalRed.200"
-                    color="white"
-                    _hover={{
-                      background: 'royalRed.300',
-                    }}
+                    {...buttonStyle.confirmation}
                     width={{ base: '100%', md: 'auto' }}
                     onClick={() =>
                       Router.push({

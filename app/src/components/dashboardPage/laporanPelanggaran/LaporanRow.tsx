@@ -1,32 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Router from 'next/router';
 import _ from 'lodash';
 import { Flex, Tr, Td } from '@chakra-ui/react';
 import { connect, ConnectedProps } from 'react-redux';
 import { FaEdit } from 'react-icons/fa';
-import { ISiswa, IOrangTua } from 'src/utils/interface';
-import { getDataById as _getDataById } from 'src/store/actions/resources';
+import { ISiswa } from 'src/utils/interface';
 import { RESOURCE_NAME } from 'src/utils/constant';
-import useCustomDebounce from 'src/utils/useCustomDebounce';
+import useGetDataById from 'src/utils/useGetDataById';
 
-const LaporanRow: React.FC<Props> = ({ siswa, index, getDataById }) => {
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const [orangTua, setOrangTua] = useState<IOrangTua>();
-
-  useEffect(() => {
-    setIsLoaded(false);
-  }, []);
-
-  useCustomDebounce(
-    async () => {
-      if (_.isNil(siswa.orangTuaId)) return;
-
-      const data = (await getDataById(RESOURCE_NAME.ORANG_TUAS, siswa.orangTuaId)) as IOrangTua;
-      setOrangTua(data);
-    },
-    500,
-    [isLoaded]
-  ); // eslint-disable-line
+const LaporanRow: React.FC<Props> = ({ siswa, index }) => {
+  const orangTua = useGetDataById(RESOURCE_NAME.ORANG_TUAS, siswa.orangTuaId);
 
   return (
     <Tr bg={index % 2 !== 0 ? '#E1E1E1' : 'white'}>
@@ -45,9 +28,7 @@ const LaporanRow: React.FC<Props> = ({ siswa, index, getDataById }) => {
   );
 };
 
-const connector = connect(null, {
-  getDataById: _getDataById,
-});
+const connector = connect(null, {});
 
 type Props = ConnectedProps<typeof connector> & {
   siswa: ISiswa;

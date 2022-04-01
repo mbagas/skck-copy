@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import _ from 'lodash';
 import {
   Flex,
   Text,
@@ -11,31 +10,23 @@ import {
   FormErrorMessage,
   FormLabel,
   Button,
-  Spacer,
 } from '@chakra-ui/react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
 import { guruSchema } from 'src/utils/formSchema';
-import { createUserInput } from 'src/utils/styles';
+import { buttonStyle, createUserInput } from 'src/utils/styles';
 import { USER_ROLE, RESOURCE_NAME } from 'src/utils/constant';
-import { RootState } from 'src/store';
-import {
-  updateUser as _updateUser,
-  getDataById as _getDataById,
-} from 'src/store/actions/resources';
+import { updateUser as _updateUser } from 'src/store/actions/resources';
 import { errorToastfier } from 'src/utils/toastifier';
-import { IGuru } from 'src/utils/interface';
 import useIdQuery from 'src/utils/useIdQuery';
-import useDebounce from 'src/utils/useDebounce';
 import { ICreateUser } from 'src/utils/interface';
-import useCustomDebounce from 'src/utils/useCustomDebounce';
-import DashboardContainer from 'src/components/baseComponent/DashboardContainer';
+import { DashboardContainer, DashboardMainContainer } from 'src/components/baseComponent';
+import useGetDataById from 'src/utils/useGetDataById';
 
-const UpdateOrangTuaContent: React.FC<Props> = ({ getDataById, updateGuru }) => {
+const UpdateOrangTuaContent: React.FC<Props> = ({ updateGuru }) => {
   const queryId = useIdQuery();
-  const [guru, setGuru] = useState<IGuru>();
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const guru = useGetDataById(RESOURCE_NAME.GURUS, queryId);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
 
   const update = async (value: Partial<ICreateUser['GURU']>) => {
@@ -46,31 +37,10 @@ const UpdateOrangTuaContent: React.FC<Props> = ({ getDataById, updateGuru }) => 
     }
   };
 
-  useCustomDebounce(
-    async () => {
-      if (!queryId) return;
-
-      const data = (await getDataById(RESOURCE_NAME.GURUS, queryId)) as IGuru;
-      setGuru(data);
-    },
-    500,
-    [queryId]
-  );
-
-  useCustomDebounce(
-    () => {
-      if (_.isEmpty(guru)) return;
-
-      setIsLoaded(true);
-    },
-    500,
-    [guru]
-  );
-
   return (
-    <Flex py={3} px={3} height={'100%'} width={'100%'} bg={'royalGray.100'}>
-      {isLoaded ? (
-        <Flex flexDirection="column" width="100%">
+    <DashboardMainContainer>
+      {guru ? (
+        <React.Fragment>
           <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
             Data User Orang Tua
           </Text>
@@ -167,37 +137,31 @@ const UpdateOrangTuaContent: React.FC<Props> = ({ getDataById, updateGuru }) => 
                           <FormErrorMessage>{errors.alamat}</FormErrorMessage>
                         )}
                       </FormControl>
-                      <Spacer />
-                      <Button
-                        fontFamily="poppins"
-                        fontSize={'0.813rem'}
-                        px={10}
-                        borderRadius={6}
-                        color="white"
-                        bg={'royalRed.200'}
-                        _hover={{
-                          background: 'royalRed.300',
-                        }}
-                        _focus={{ border: 'none' }}
-                        type={'submit'}
-                      >
-                        Update
-                      </Button>
                     </VStack>
+                    <Button
+                      {...buttonStyle.confirmation}
+                      fontFamily="poppins"
+                      fontSize={'0.813rem'}
+                      px={10}
+                      borderRadius={6}
+                      _focus={{ border: 'none' }}
+                      type={'submit'}
+                    >
+                      Update
+                    </Button>
                   </Form>
                 )}
               </Formik>
             </Flex>
           </DashboardContainer>
-        </Flex>
+        </React.Fragment>
       ) : null}
-    </Flex>
+    </DashboardMainContainer>
   );
 };
 
 const connector = connect(null, {
   updateGuru: _updateUser,
-  getDataById: _getDataById,
 });
 
 type Props = ConnectedProps<typeof connector>;

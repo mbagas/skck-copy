@@ -3,7 +3,7 @@ import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import * as reducers from './reducers';
 import { applyInterceptors } from './axios';
-``;
+
 const rootReducer = combineReducers(reducers);
 const composeEnhancers =
   // @ts-ignore

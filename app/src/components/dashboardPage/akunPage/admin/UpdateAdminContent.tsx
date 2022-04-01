@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import _ from 'lodash';
 import {
   Flex,
   Text,
@@ -15,18 +14,14 @@ import {
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
-import { DashboardContainer } from 'src/components/baseComponent';
+import { DashboardContainer, DashboardMainContainer } from 'src/components/baseComponent';
 import { adminSchema } from 'src/utils/formSchema';
-import { createUserInput } from 'src/utils/styles';
+import { buttonStyle, createUserInput } from 'src/utils/styles';
 import { RESOURCE_NAME, USER_ROLE } from 'src/utils/constant';
 import { updateUser as _updateUser } from 'src/store/actions/resources';
 import { errorToastfier } from 'src/utils/toastifier';
 import useIdQuery from 'src/utils/useIdQuery';
-import useDebounce from 'src/utils/useDebounce';
-import useCustomDebounce from 'src/utils/useCustomDebounce';
-import { ICreateUser, IUser } from 'src/utils/interface';
-import { RootState } from 'src/store';
-import { getResourceByIdInRoutes } from 'src/store/selectors/resources';
+import { ICreateUser } from 'src/utils/interface';
 import useGetDataById from 'src/utils/useGetDataById';
 
 const UpdateAdminContent: React.FC<Props> = ({ updateAdmin }) => {
@@ -43,9 +38,9 @@ const UpdateAdminContent: React.FC<Props> = ({ updateAdmin }) => {
   };
 
   return (
-    <Flex py={3} px={3} height={'100%'} width={'100%'} bg={'royalGray.100'}>
+    <DashboardMainContainer>
       {admin ? (
-        <Flex flexDirection="column" width="100%">
+        <React.Fragment>
           <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
             Data Admin
           </Text>
@@ -114,15 +109,11 @@ const UpdateAdminContent: React.FC<Props> = ({ updateAdmin }) => {
                       </FormControl>
                     </VStack>
                     <Button
+                      {...buttonStyle.confirmation}
                       fontFamily="poppins"
                       fontSize={'0.813rem'}
                       px={10}
                       borderRadius={6}
-                      color="white"
-                      bg={'royalRed.200'}
-                      _hover={{
-                        background: 'royalRed.300',
-                      }}
                       _focus={{ border: 'none' }}
                       type={'submit'}
                     >
@@ -133,9 +124,9 @@ const UpdateAdminContent: React.FC<Props> = ({ updateAdmin }) => {
               </Formik>
             </Flex>
           </DashboardContainer>
-        </Flex>
+        </React.Fragment>
       ) : null}
-    </Flex>
+    </DashboardMainContainer>
   );
 };
 
