@@ -12,6 +12,7 @@ import {
   FormLabel,
   Button,
 } from '@chakra-ui/react';
+import Router from 'next/router';
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
@@ -20,7 +21,7 @@ import { DashboardContainer, DashboardMainContainer } from 'src/components/baseC
 import { buttonStyle, createUserInput } from 'src/utils/styles';
 import { USER_ROLE, RESOURCE_NAME } from 'src/utils/constant';
 import { updateUser as _updateUser } from 'src/store/actions/resources';
-import { errorToastfier } from 'src/utils/toastifier';
+import { errorToastfier, toastfier } from 'src/utils/toastifier';
 import useIdQuery from 'src/utils/useIdQuery';
 import { ICreateUser } from 'src/utils/interface';
 import useGetDataById from 'src/utils/useGetDataById';
@@ -28,16 +29,26 @@ import useGetDataById from 'src/utils/useGetDataById';
 const UpdateSiswaContent: React.FC<Props> = ({ updateSiswa }) => {
   const queryId = useIdQuery();
   const siswa = useGetDataById(RESOURCE_NAME.SISWAS, queryId);
+  const [isRequested, setIsRequested] = useState<boolean>(false);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
 
   const update = async (value: Partial<ICreateUser['SISWA']>) => {
-    try {
-      if (_.isNil(siswa)) return;
+    if (_.isNil(siswa)) return;
 
-      await updateSiswa(queryId, value);
+    setIsRequested(true);
+
+    try {
+      await updateSiswa(siswa.userId, value);
+      toastfier('Siswa berhasil diperbarui', { type: 'success' });
+
+      return setTimeout(() => {
+        Router.push('/dashboard/akun/siswas');
+      }, 3000);
     } catch (e) {
       errorToastfier(e);
     }
+
+    setIsRequested(false);
   };
 
   return (
@@ -47,7 +58,7 @@ const UpdateSiswaContent: React.FC<Props> = ({ updateSiswa }) => {
           <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
             Data User Siswa
           </Text>
-          <DashboardContainer>
+          <DashboardContainer overflow={'auto'}>
             <Flex p={5} flexDirection={'column'} height={'100%'}>
               <Text fontFamily={'Poppins'} fontSize={'1.45rem'}>
                 Formulir Pembaruan Akun Siswa
@@ -165,6 +176,7 @@ const UpdateSiswaContent: React.FC<Props> = ({ updateSiswa }) => {
                         borderRadius={6}
                         _focus={{ border: 'none' }}
                         type={'submit'}
+                        disabled={isRequested}
                       >
                         Submit
                       </Button>

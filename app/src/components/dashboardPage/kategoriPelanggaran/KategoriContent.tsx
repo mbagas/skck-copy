@@ -13,6 +13,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Spacer,
 } from '@chakra-ui/react';
 import Router from 'next/router';
 import { connect, ConnectedProps } from 'react-redux';
@@ -93,6 +94,7 @@ const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllDat
               px={10}
               borderRadius={25}
               _focus={{ border: 'none' }}
+              onClick={() => Router.push(`${Router.pathname}/create`)}
             >
               Tambah
             </Button>
@@ -146,6 +148,7 @@ const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllDat
                         <FaEdit
                           onClick={() => Router.push(`${Router.pathname}/${kategori.id}/update`)}
                         />
+                        <Spacer />
                         <FaTrash
                           onClick={() => {
                             setKategoriId(kategori.id);

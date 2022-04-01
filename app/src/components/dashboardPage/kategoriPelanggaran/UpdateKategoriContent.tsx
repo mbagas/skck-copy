@@ -10,6 +10,7 @@ import {
   Spacer,
   Button,
 } from '@chakra-ui/react';
+import Router from 'next/router';
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { kategoriSchema } from 'src/utils/formSchema';
@@ -18,57 +19,52 @@ import { RESOURCE_NAME } from 'src/utils/constant';
 import { RootState } from 'src/store';
 import { updateKategori as _updateKategori } from 'src/store/actions/resources';
 import { getResourceByIdInRoutes } from 'src/store/selectors/resources';
-import { errorToastfier } from 'src/utils/toastifier';
+import { errorToastfier, toastfier } from 'src/utils/toastifier';
 import { IKategoriPelanggaran } from 'src/utils/interface';
 import useIdQuery from 'src/utils/useIdQuery';
 import useDebounce from 'src/utils/useDebounce';
 import { DashboardContainer, DashboardMainContainer } from 'src/components/baseComponent';
+import useGetDataById from 'src/utils/useGetDataById';
 
 const UpdateKategoriContent: React.FC<Props> = ({ updateKategori, getKategoriById }) => {
   const queryId = useIdQuery();
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const [kategori, setKategori] = useState<IKategoriPelanggaran>();
+  const kategori = useGetDataById(RESOURCE_NAME.KATEGORI_PELANGGARANS, queryId);
+  const [isRequested, setIsRequested] = useState<boolean>(false);
 
   const create = async (value: Partial<IKategoriPelanggaran>) => {
+    setIsRequested(true);
+
     try {
       await updateKategori(queryId, value);
+
+      toastfier('Kategori berhasil diperbarui', { type: 'success' });
+
+      return setTimeout(() => {
+        Router.push('/dashboard/kategori-pelanggarans');
+      }, 3000);
     } catch (e) {
       errorToastfier(e);
     }
+
+    setIsRequested(false);
   };
-
-  useDebounce(
-    () => {
-      setKategori(getKategoriById(queryId));
-    },
-    500,
-    [queryId]
-  );
-
-  useDebounce(
-    () => {
-      setIsLoaded(true);
-    },
-    500,
-    [kategori]
-  );
 
   return (
     <DashboardMainContainer>
-      {isLoaded ? (
+      {kategori ? (
         <React.Fragment>
           <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
             Kategori Pelanggaran
           </Text>
-          <DashboardContainer>
+          <DashboardContainer overflow={'auto'}>
             <Flex p={10} m={5} flexDirection={'column'}>
               <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={3}>
                 Formulir Pembaruan Pelanggaran
               </Text>
               <Formik
                 initialValues={{
-                  namaKategori: '',
-                  poin: 0,
+                  namaKategori: kategori?.namaKategori,
+                  poin: kategori?.poin,
                 }}
                 validationSchema={kategoriSchema}
                 onSubmit={create}
@@ -121,6 +117,7 @@ const UpdateKategoriContent: React.FC<Props> = ({ updateKategori, getKategoriByI
                       borderRadius={6}
                       _focus={{ border: 'none' }}
                       type="submit"
+                      disabled={isRequested}
                     >
                       Tambah Aturan
                     </Button>

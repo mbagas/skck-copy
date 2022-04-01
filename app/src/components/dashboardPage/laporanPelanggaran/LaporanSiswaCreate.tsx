@@ -33,7 +33,7 @@ const LaporanSiswaCreate: React.FC<Props> = ({ getAllData }) => {
       {siswa ? (
         <DashboardContainer flexDirection={'column'}>
           <ProfileCard siswa={siswa} />
-          <FormPelanggaranCard />
+          <FormPelanggaranCard siswa={siswa} />
         </DashboardContainer>
       ) : null}
     </DashboardMainContainer>

@@ -11,6 +11,7 @@ import {
   FormLabel,
   Button,
 } from '@chakra-ui/react';
+import Router from 'next/router';
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
@@ -19,7 +20,7 @@ import { adminSchema } from 'src/utils/formSchema';
 import { buttonStyle, createUserInput } from 'src/utils/styles';
 import { RESOURCE_NAME, USER_ROLE } from 'src/utils/constant';
 import { updateUser as _updateUser } from 'src/store/actions/resources';
-import { errorToastfier } from 'src/utils/toastifier';
+import { errorToastfier, toastfier } from 'src/utils/toastifier';
 import useIdQuery from 'src/utils/useIdQuery';
 import { ICreateUser } from 'src/utils/interface';
 import useGetDataById from 'src/utils/useGetDataById';
@@ -27,14 +28,24 @@ import useGetDataById from 'src/utils/useGetDataById';
 const UpdateAdminContent: React.FC<Props> = ({ updateAdmin }) => {
   const queryId = useIdQuery();
   const admin = useGetDataById(RESOURCE_NAME.USERS, queryId);
+  const [isRequested, setIsRequested] = useState<boolean>(false);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
 
   const update = async (value: Partial<ICreateUser['ADMIN']>) => {
+    setIsRequested(true);
+
     try {
       await updateAdmin(queryId, value);
+      toastfier('Admin berhasil diperbarui', { type: 'success' });
+
+      return setTimeout(() => {
+        Router.push('/dashboard/akun/admins');
+      }, 3000);
     } catch (e) {
       errorToastfier(e);
     }
+
+    setIsRequested(false);
   };
 
   return (
@@ -44,7 +55,7 @@ const UpdateAdminContent: React.FC<Props> = ({ updateAdmin }) => {
           <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
             Data Admin
           </Text>
-          <DashboardContainer>
+          <DashboardContainer overflow={'auto'}>
             <Flex p={5} flexDirection={'column'} height={'100%'}>
               <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={3}>
                 Formulir Pembaruan Akun Admin
@@ -116,6 +127,7 @@ const UpdateAdminContent: React.FC<Props> = ({ updateAdmin }) => {
                       borderRadius={6}
                       _focus={{ border: 'none' }}
                       type={'submit'}
+                      disabled={isRequested}
                     >
                       Update
                     </Button>

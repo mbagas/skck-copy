@@ -13,6 +13,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Spacer,
 } from '@chakra-ui/react';
 import Router from 'next/router';
 import { connect, ConnectedProps } from 'react-redux';
@@ -143,6 +144,7 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
                         <FaEdit
                           onClick={() => Router.push(`${Router.pathname}/${admin.id}/update`)}
                         />
+                        <Spacer />
                         <FaTrash
                           onClick={() => {
                             setUserId(admin.id);

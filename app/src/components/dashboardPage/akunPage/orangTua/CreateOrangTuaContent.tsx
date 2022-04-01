@@ -11,6 +11,7 @@ import {
   FormLabel,
   Button,
 } from '@chakra-ui/react';
+import Router from 'next/router';
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
@@ -19,18 +20,28 @@ import { orangTuaSchema } from 'src/utils/formSchema';
 import { buttonStyle, createUserInput } from 'src/utils/styles';
 import { USER_ROLE } from 'src/utils/constant';
 import { createUser as _createUser } from 'src/store/actions/resources';
-import { errorToastfier } from 'src/utils/toastifier';
+import { errorToastfier, toastfier } from 'src/utils/toastifier';
 import { ICreateUser } from 'src/utils/interface';
 
 const CreateOrangTuaContent: React.FC<Props> = ({ createOrangTua }) => {
+  const [isRequested, setIsRequested] = useState<boolean>(false);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
 
   const create = async (value: ICreateUser['ORANG_TUA']) => {
+    setIsRequested(true);
+
     try {
       await createOrangTua(value);
+      toastfier('Orang Tua berhasil ditambahkan', { type: 'success' });
+
+      return setTimeout(() => {
+        Router.push('/dashboard/akun/orang-tuas');
+      }, 3000);
     } catch (e) {
       errorToastfier(e);
     }
+
+    setIsRequested(false);
   };
 
   return (
@@ -38,7 +49,7 @@ const CreateOrangTuaContent: React.FC<Props> = ({ createOrangTua }) => {
       <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
         Data User Orang Tua
       </Text>
-      <DashboardContainer>
+      <DashboardContainer overflow={'auto'}>
         <Flex p={5} flexDirection={'column'} height={'100%'}>
           <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={3}>
             Formulir Pembuatan Akun Orang Tua
@@ -140,6 +151,7 @@ const CreateOrangTuaContent: React.FC<Props> = ({ createOrangTua }) => {
                   color="white"
                   _focus={{ border: 'none' }}
                   type="submit"
+                  disabled={isRequested}
                 >
                   Submit
                 </Button>

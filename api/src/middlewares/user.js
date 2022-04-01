@@ -5,6 +5,7 @@ const repository = require('../repository');
 const { USER_ROLE } = require('../utils/constants');
 const { isAdminOrGuru } = require('../utils/user');
 const { generateToken } = require('../utils/token');
+const { getUserRole } = require('../utils/user');
 
 exports.authMw = asyncMw(async (req, res, next) => {
   if (!req.headers.authorization) return res.status(401).json({ message: 'Unauthorized' });
@@ -116,7 +117,12 @@ exports.returnConditionalUserMw = asyncMw(async (req, res) => {
     body: { role },
   } = req;
 
-  return res.json(await repository[role || USER_ROLE.SISWA].modelToResource(user));
+  if (role === USER_ROLE.ADMIN) return res.json(await repository.user.modelToResource(user));
+  if (role === USER_ROLE.ORANG_TUA) {
+    return res.json(await repository.orangTua.modelToResource(user));
+  }
+
+  return res.json(await repository[getUserRole(role)].modelToResource(user));
 });
 
 exports.returnUserMw = asyncMw(async (req, res) => {
