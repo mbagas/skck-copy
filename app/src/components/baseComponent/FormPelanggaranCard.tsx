@@ -1,19 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
+import Router from 'next/router';
 import { Button, Flex, Grid } from '@chakra-ui/react';
-import { RootState } from 'src/store';
 import { connect, ConnectedProps } from 'react-redux';
+import { RootState } from 'src/store';
+import { createPelanggarans as _createPelanggarans } from 'src/store/actions/resources';
 import { RESOURCE_NAME } from 'src/utils/constant';
 import { ListPelanggaran } from 'src/components/baseComponent';
 import { resources } from 'src/store/selectors';
+import { errorToastfier, toastfier } from 'src/utils/toastifier';
+import { ISiswaDetail } from 'src/utils/interface';
 
-const FormPelanggaranCard: React.FC<Props> = ({ kategoris }) => {
+const FormPelanggaranCard: React.FC<Props> = ({ siswa, kategoris, createPelanggarans }) => {
+  const [checked, setChecked] = useState<Record<number, number>>({});
+  const [isRequested, setIsRequested] = useState<boolean>(false);
+
+  // e => Input Event
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // name => Name of the input
+    const name = e.target.name;
+    // temp => Clone current checked data
+    const temp = _.cloneDeep(checked);
+
+    // If its check, delete the data
+    if (_.get(checked, name) && name) {
+      delete temp[+name];
+    } else {
+      // If its uncheck, add the data
+      temp[+name] = +name;
+    }
+
+    // Update state
+    setChecked(temp);
+  };
+
+  const onSubmit = async () => {
+    setIsRequested(true);
+
+    try {
+      await createPelanggarans(siswa.id, _.values(checked));
+      return setTimeout(() => {
+        toastfier('Berhasil menambahkan laporan', { type: 'success' });
+        Router.push(`/dashboard/laporans/`);
+      }, 3000);
+    } catch (e) {
+      errorToastfier(e);
+    }
+
+    setIsRequested(false);
+  };
+
   return (
     <Flex
-      bg={'red.100'}
       flexDirection={'column'}
       alignItems="center"
-      borderRadius={25}
+      borderRadius={15}
       py={3}
       p={3}
       my={6}
@@ -26,7 +67,7 @@ const FormPelanggaranCard: React.FC<Props> = ({ kategoris }) => {
         width={'100%'}
       >
         {_.map(kategoris.rows, (kategori, key) => (
-          <ListPelanggaran kategori={kategori} key={key} />
+          <ListPelanggaran kategori={kategori} key={key} onChange={onChange} checked={checked} />
         ))}
       </Grid>
       <Button
@@ -40,6 +81,8 @@ const FormPelanggaranCard: React.FC<Props> = ({ kategoris }) => {
           background: 'royalRed.300',
         }}
         _focus={{ border: 'none' }}
+        onClick={onSubmit}
+        disabled={isRequested}
       >
         Submit
       </Button>
@@ -51,8 +94,12 @@ const mapStateToProps = (state: RootState) => ({
   kategoris: resources.getResource(state, RESOURCE_NAME.KATEGORI_PELANGGARANS),
 });
 
-const connector = connect(mapStateToProps);
+const connector = connect(mapStateToProps, {
+  createPelanggarans: _createPelanggarans,
+});
 
-type Props = ConnectedProps<typeof connector>;
+type Props = ConnectedProps<typeof connector> & {
+  siswa: ISiswaDetail;
+};
 
 export default connector(FormPelanggaranCard);

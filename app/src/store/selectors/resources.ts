@@ -24,7 +24,7 @@ export const getResourceCounts =
     state.resources[resourceName].count;
 
 export const getResourceOrder = (state: RootState, order: typeof ORDER[keyof typeof ORDER]) => {
-  const resource = state.resources['pelanggarans'];
+  const resource = state.resources.pelanggarans;
 
   const sorted = _.toArray(resource.rows).sort((a, b) => {
     const date1 = Number(new Date(_.get(a, 'createdAt')));

@@ -13,6 +13,7 @@ import {
 } from 'src/store/actions/resources';
 import {
   DashboardContainer,
+  DashboardMainContainer,
   PelanggaranCard,
   ProfileCard,
   SPCard,
@@ -98,32 +99,30 @@ const SiswaDetail: React.FC<Props> = ({
 
   return (
     <React.Fragment>
-      <Flex
-        px={3}
-        width={'100%'}
-        height={'100%'}
-        alignItems={'center'}
-        justifyContent={'center'}
-        bg={'royalGray.100'}
-      >
+      <DashboardMainContainer>
         {isLoaded ? (
           <Flex flexDirection="column" width={'100%'} height={'100%'}>
             <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={2}>
               Buat Laporan
             </Text>
-            <DashboardContainer justifyContent={'center'} alignItems={'center'}>
+            <DashboardContainer
+              justifyContent={'center'}
+              alignItems={'center'}
+              height={'100%'}
+              pb={10}
+            >
               <Flex flexDirection={'column'} width={'95%'} height={'95%'}>
                 <ProfileCard siswa={siswa} />
-                <Flex flexDirection="column" mt={5} overflow={'auto'} px={2}>
+                <Flex flexDirection="column" mt={5} px={2}>
                   {!_.isEmpty(_.get(siswa, 'histories', [])) && (
-                    <Flex flexDirection={'column'} px={2}>
+                    <React.Fragment>
                       <Text boxShadow={'lg'} borderBottom={'1px solid black'}>
                         History Surat Peringatan
                       </Text>
                       {_.map(siswa?.histories, (history, index) => (
                         <SPCard history={history} key={index} />
                       ))}
-                    </Flex>
+                    </React.Fragment>
                   )}
                   <Text boxShadow={'lg'} borderBottom={'1px solid black'} pt={3}>
                     History Pelanggaran
@@ -157,14 +156,14 @@ const SiswaDetail: React.FC<Props> = ({
             </DashboardContainer>
           </Flex>
         ) : null}
-      </Flex>
+      </DashboardMainContainer>
       <DeleteConfirmationModal isOpen={showConfirmation} onSubmit={onDelete} onClose={closeModal} />
     </React.Fragment>
   );
 };
 
 const mapStateToProps = (state: RootState) => ({
-  pelanggarans: resources.getResourceOrder(state, ORDER.DESC),
+  pelanggarans: resources.getResourceOrder(state, ORDER.ASC),
 });
 
 const connector = connect(mapStateToProps, {

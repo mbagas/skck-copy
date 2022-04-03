@@ -56,16 +56,12 @@ userRepository.conditionalCreate = async (resource) => {
 
   if (isExist) return {};
 
-  // If the username is not exist and the role is admin
-  // create only admin account and stop the process
-  if (resourceRole === USER_ROLE.ADMIN) {
-    return {
-      ...(await userRepository.create(await userRepository.resourceToModel(resource))),
-    };
-  }
-
   const userData = await userRepository.resourceToModel(resource);
   const user = await userRepository.create(userData);
+
+  // If the username is not exist and the role is admin
+  // create only admin account and stop the process
+  if (resourceRole === USER_ROLE.ADMIN) return user;
 
   const roleData = await repository[resourceRole].resourceToModel(resource);
   const role = await repository[resourceRole].create({

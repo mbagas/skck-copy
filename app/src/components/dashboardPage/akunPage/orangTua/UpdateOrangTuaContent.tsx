@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import _ from 'lodash';
 import {
   Flex,
   Text,
@@ -11,6 +12,7 @@ import {
   FormLabel,
   Button,
 } from '@chakra-ui/react';
+import Router from 'next/router';
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
@@ -19,7 +21,7 @@ import { orangTuaSchema } from 'src/utils/formSchema';
 import { buttonStyle, createUserInput } from 'src/utils/styles';
 import { USER_ROLE, RESOURCE_NAME } from 'src/utils/constant';
 import { updateUser as _updateUser } from 'src/store/actions/resources';
-import { errorToastfier } from 'src/utils/toastifier';
+import { errorToastfier, toastfier } from 'src/utils/toastifier';
 import useIdQuery from 'src/utils/useIdQuery';
 import { ICreateUser } from 'src/utils/interface';
 import useGetDataById from 'src/utils/useGetDataById';
@@ -27,11 +29,21 @@ import useGetDataById from 'src/utils/useGetDataById';
 const UpdateOrangTuaContent: React.FC<Props> = ({ updateOrangTua }) => {
   const queryId = useIdQuery();
   const orangTua = useGetDataById(RESOURCE_NAME.ORANG_TUAS, queryId);
+  const [isRequested, setIsRequested] = useState<boolean>(false);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
 
   const update = async (value: Partial<ICreateUser['ORANG_TUA']>) => {
+    if (_.isNil(orangTua)) return;
+
+    setIsRequested(true);
+
     try {
-      await updateOrangTua(queryId, value);
+      await updateOrangTua(orangTua.userId, value);
+      toastfier('Orang Tua berhasil diperbarui', { type: 'success' });
+
+      return setTimeout(() => {
+        Router.push('/dashboard/akun/orang-tuas');
+      }, 3000);
     } catch (e) {
       errorToastfier(e);
     }
@@ -44,7 +56,7 @@ const UpdateOrangTuaContent: React.FC<Props> = ({ updateOrangTua }) => {
           <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
             Data User Orang Tua
           </Text>
-          <DashboardContainer>
+          <DashboardContainer overflow={'auto'}>
             <Flex p={5} flexDirection={'column'} height={'100%'}>
               <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={3}>
                 Formulir Pembaruan Akun Orang Tua
@@ -150,6 +162,7 @@ const UpdateOrangTuaContent: React.FC<Props> = ({ updateOrangTua }) => {
                       borderRadius={6}
                       _focus={{ border: 'none' }}
                       type={'submit'}
+                      disabled={isRequested}
                     >
                       Update
                     </Button>

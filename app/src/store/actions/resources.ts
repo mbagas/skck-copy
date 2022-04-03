@@ -154,3 +154,11 @@ export const getPelanggaranSiswa =
       },
     });
   };
+
+export const createPelanggarans = (siswaId: number, pelanggaransId: number[]) => async () => {
+  try {
+    await axios.post(`/${RESOURCE_NAME.PELANGGARANS}`, { siswaId, pelanggaransId });
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};

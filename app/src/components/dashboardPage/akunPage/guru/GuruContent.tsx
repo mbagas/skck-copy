@@ -13,6 +13,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Spacer,
 } from '@chakra-ui/react';
 import Router from 'next/router';
 import { connect, ConnectedProps } from 'react-redux';
@@ -151,6 +152,7 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru, getAllData }) => {
                         <FaEdit
                           onClick={() => Router.push(`${Router.pathname}/${guru.id}/update`)}
                         />
+                        <Spacer />
                         <FaTrash
                           onClick={() => {
                             setUserId(guru.userId);
