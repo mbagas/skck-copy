@@ -8,10 +8,10 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       nisn: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       nis: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       namaLengkap: {
         type: Sequelize.STRING,

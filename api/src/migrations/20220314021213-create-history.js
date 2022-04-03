@@ -18,6 +18,15 @@ module.exports = {
         },
         onDelete: 'CASCADE',
       },
+      shortUrl: {
+        type: Sequelize.STRING,
+      },
+      longUrl: {
+        type: Sequelize.STRING,
+      },
+      totalPoint: {
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
