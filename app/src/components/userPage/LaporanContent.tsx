@@ -26,10 +26,10 @@ const LaporanContent: React.FC<Props> = ({ getAllData }) => {
   return (
     <DashboardMainContainer>
       {siswa ? (
-        <DashboardContainer flexDirection={'column'}>
+        <DashboardContainer flexDirection={'column'} height={'100%'}>
           <Flex flexDirection="column" width="100%">
             <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
-              Buat Laporan
+              Form Pelanggaran
             </Text>
           </Flex>
           <ProfileCard siswa={siswa} />

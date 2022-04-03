@@ -10,6 +10,8 @@ import { ListPelanggaran } from 'src/components/baseComponent';
 import { resources } from 'src/store/selectors';
 import { errorToastfier, toastfier } from 'src/utils/toastifier';
 import { ISiswaDetail } from 'src/utils/interface';
+import { getRole } from 'src/utils/sessionUtils';
+import { USER_ROLE } from 'src/utils/constant';
 
 const FormPelanggaranCard: React.FC<Props> = ({ siswa, kategoris, createPelanggarans }) => {
   const [checked, setChecked] = useState<Record<number, number>>({});
@@ -35,13 +37,20 @@ const FormPelanggaranCard: React.FC<Props> = ({ siswa, kategoris, createPelangga
   };
 
   const onSubmit = async () => {
+    if (_.isEmpty(checked)) return;
+
     setIsRequested(true);
 
     try {
       await createPelanggarans(siswa.id, _.values(checked));
       return setTimeout(() => {
         toastfier('Berhasil menambahkan laporan', { type: 'success' });
-        Router.push(`/dashboard/laporans/`);
+
+        const role = getRole();
+
+        if (role === USER_ROLE.ADMIN) return Router.push(`/dashboard/laporans`);
+        if (role === USER_ROLE.SISWA) return Router.push('/');
+        return Router.push(`/${Router.query.id!}`);
       }, 3000);
     } catch (e) {
       errorToastfier(e);
@@ -60,11 +69,13 @@ const FormPelanggaranCard: React.FC<Props> = ({ siswa, kategoris, createPelangga
       my={6}
       mx={6}
       boxShadow="lg"
+      flex={1}
     >
       <Grid
         templateColumns={{ base: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' }}
         gap={5}
         width={'100%'}
+        flex={1}
       >
         {_.map(kategoris.rows, (kategori, key) => (
           <ListPelanggaran kategori={kategori} key={key} onChange={onChange} checked={checked} />

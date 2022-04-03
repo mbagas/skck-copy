@@ -1,5 +1,5 @@
 import React from 'react';
-import LaporanContent from 'src/components/dashboardPage/laporanPelanggaran/LaporanContent';
+import LaporanContent from 'src/components/userPage/LaporanContent';
 import { UserLayout } from 'src/components/pageLayout';
 
 const CreateLaporan = () => {

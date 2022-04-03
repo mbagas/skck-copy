@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { createRef, useEffect } from 'react';
 import { AspectRatio, Flex, Image, Spacer, Text, VStack } from '@chakra-ui/react';
 import useBasePath from 'src/utils/useBasePath';
 
 const BaseTopBar: React.FC = ({ children }) => {
   const basePath = useBasePath();
+  const topBarRef = createRef<HTMLDivElement>();
+
+  useEffect(() => {
+    localStorage.setItem('top_bar_height', `${topBarRef.current?.scrollHeight}`);
+  }, []);
 
   const aliceText = {
     fontFamily: 'Alice',
@@ -32,6 +37,7 @@ const BaseTopBar: React.FC = ({ children }) => {
       color="white"
       bgColor={'royalBlack.100'}
       userSelect="none"
+      ref={topBarRef}
     >
       <Flex alignItems="center">
         <Flex align="center" mr={5}>
@@ -46,7 +52,7 @@ const BaseTopBar: React.FC = ({ children }) => {
         </VStack>
       </Flex>
       <Spacer />
-      <Flex display={{ base: 'none', md: 'flex' }}>{children}</Flex>
+      <Flex>{children}</Flex>
     </Flex>
   );
 };
