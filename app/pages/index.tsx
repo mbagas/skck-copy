@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Router from 'next/router';
 import { getRole, isAuthenticated } from 'src/utils/sessionUtils';
-import { UserLayout } from 'src/components/pageLayout';
+import UserContent from 'src/components/userPage/UserContent';
 import { USER_ROLE } from 'src/utils/constant';
 
 const Home = () => {
@@ -14,7 +14,7 @@ const Home = () => {
       case USER_ROLE.ADMIN:
         return Router.push('/dashboard');
       default:
-        return <UserLayout />;
+        return <UserContent />;
     }
   };
 

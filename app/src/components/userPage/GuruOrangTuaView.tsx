@@ -11,7 +11,7 @@ import useCustomDebounce from 'src/utils/useCustomDebounce';
 import { getSiswaFilter } from 'src/utils/user';
 import { FaSearch } from 'react-icons/fa';
 
-const HomeContent: React.FC<Props> = ({ siswas, getAllData }) => {
+const GuruOrangTuaView: React.FC<Props> = ({ siswas, getAllData }) => {
   const [page, setPage] = useState<number>(1);
   const [searchValue, setSearchValue] = useState<string>('');
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
@@ -98,4 +98,4 @@ const connector = connect(mapStateToProps, {
 
 type Props = ConnectedProps<typeof connector>;
 
-export default connector(HomeContent);
+export default connector(GuruOrangTuaView);

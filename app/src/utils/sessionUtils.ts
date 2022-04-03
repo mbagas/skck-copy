@@ -1,5 +1,6 @@
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import _ from 'lodash';
+import { USER_ROLE } from './constant';
 import { RoleType } from './interface';
 
 interface IJWT extends Omit<JwtPayload, 'exp'> {
@@ -42,7 +43,17 @@ export const isAuthenticated = (): boolean => {
 export const canDelete = (): boolean => {
   const role = getRole();
 
-  return role === 'admin' || role === 'guru';
+  return role === USER_ROLE.ADMIN || role === USER_ROLE.GURU;
+};
+
+export const getAccountId = (): number | undefined => {
+  const token = getToken();
+
+  if (_.isNil(token)) return;
+
+  const { accountId } = jwtDecode<IJWT>(token);
+
+  return accountId;
 };
 
 const SessionUtils = {
