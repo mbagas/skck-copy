@@ -29,6 +29,8 @@ historiesRepository.generateHistory = async (siswaId, totalPoint) => {
   const siswa = await siswaRepository.findOne(siswaId);
   const orangTua = await orangTuaRepository.findOne({ id: siswa.orangTuaId });
 
+  if (!siswa || !orangTua) return;
+
   const SP1 = await historiesRepository.findOne({ spKe: SP_NAME.SP1, siswaId });
   const SP2 = await historiesRepository.findOne({ spKe: SP_NAME.SP2, siswaId });
   const SP3 = await historiesRepository.findOne({ spKe: SP_NAME.SP3, siswaId });

@@ -70,20 +70,14 @@ const GuruOrangTuaView: React.FC<Props> = ({ siswas, getAllData }) => {
           <option value="3">SP 3</option>
         </Select>
       </Flex>
-      <Flex mt={3} flexDirection={'column'} width={'100%'}>
-        <VStack
-          height={{ base: '50vh', md: '42.5vh' }}
-          flexDirection={'column'}
-          overflow={'auto'}
-          spacing={4}
-          mb={2}
-        >
+      <Flex mt={3} flexDirection={'column'} width={'100%'} flex={1}>
+        <VStack flexDirection={'column'} spacing={4} mb={2}>
           {_.map(siswas.rows, (siswa, key) => (
             <SiswaCard siswa={siswa} key={key} />
           ))}
         </VStack>
-        <Pagination limit={limit} page={page} setPage={setPage} total={siswas.count} />
       </Flex>
+      <Pagination limit={limit} page={page} setPage={setPage} total={siswas.count} />
     </Flex>
   );
 };

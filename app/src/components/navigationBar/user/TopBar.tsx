@@ -15,7 +15,9 @@ const TopBar: React.FC = () => {
 
   return (
     <BaseTopBar>
-      <HStack spacing={10}>{generateGridItem()}</HStack>
+      <HStack spacing={10} display={{ base: 'none', md: 'flex' }}>
+        {generateGridItem()}
+      </HStack>
     </BaseTopBar>
   );
 };

@@ -102,15 +102,10 @@ const SiswaDetail: React.FC<Props> = ({
       <DashboardMainContainer>
         {isLoaded ? (
           <Flex flexDirection="column" width={'100%'} height={'100%'}>
-            <DashboardContainer
-              justifyContent={'center'}
-              alignItems={'center'}
-              height={'100%'}
-              pb={10}
-            >
+            <DashboardContainer justifyContent={'center'} alignItems={'center'} height={'100%'}>
               <Flex flexDirection={'column'} width={'95%'} height={'95%'}>
                 <ProfileCard siswa={siswa} />
-                <Flex flexDirection="column" mt={5} px={2}>
+                <Flex flexDirection="column" mt={5} px={2} flex={1}>
                   {!_.isEmpty(_.get(siswa, 'histories', [])) && (
                     <React.Fragment>
                       <Text boxShadow={'lg'} borderBottom={'1px solid black'}>
