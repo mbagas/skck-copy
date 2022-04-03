@@ -17,8 +17,8 @@ import { GoSignOut } from 'react-icons/go';
 import { FaUser, FaHome, FaChartBar } from 'react-icons/fa';
 import { RiAddCircleFill, RiBook2Fill } from 'react-icons/ri';
 
-const SideBar: React.FC = () => {
-  const [isOnBase, isOnMd] = useMediaQuery(['(max-width: 48em)', '(min-width: 48em)']);
+const SideBar: React.FC<Props> = ({ show }) => {
+  const [isOnBase] = useMediaQuery(['(max-width: 48em)', '(min-width: 48em)']);
 
   const generateAccordion = () =>
     _.map(USER_ROLE, (role, key) => {
@@ -37,7 +37,16 @@ const SideBar: React.FC = () => {
     });
 
   return (
-    <Flex height={'100%'} width={{ base: 0, md: '20rem' }} mr={{ base: 0, md: 5 }}>
+    <Flex
+      height={'100%'}
+      width={{ base: '100%', md: '20rem' }}
+      mr={{ base: 0, md: 5 }}
+      position={{
+        base: 'absolute',
+        md: 'relative',
+      }}
+      {...(isOnBase && { left: show ? 0 : '-100%' })}
+    >
       <VStack spacing={5} alignItems={'flex-start'} py={4} px={5} width={'100%'} height={'100%'}>
         <Flex
           width={'90%'}
@@ -115,6 +124,10 @@ const SideBar: React.FC = () => {
       </VStack>
     </Flex>
   );
+};
+
+type Props = {
+  show: boolean;
 };
 
 export default SideBar;
