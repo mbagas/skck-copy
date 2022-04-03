@@ -7,6 +7,7 @@ const siswas = require('../routes/siswas');
 const orangTuas = require('../routes/orangTua');
 const kategoriPelanggarans = require('../routes/kategoriPelanggaran');
 const pelanggarans = require('../routes/pelanggarans');
+const suratPeringatan = require('../routes/suratPeringatan');
 
 /**
  * Use all the routes and middleware from the api folder
@@ -23,4 +24,5 @@ module.exports = (app) => {
   app.use('/orang-tuas', orangTuas);
   app.use('/kategori-pelanggarans', kategoriPelanggarans);
   app.use('/pelanggarans', pelanggarans);
+  app.use('/sp', suratPeringatan);
 };

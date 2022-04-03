@@ -19,6 +19,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       spKe: DataTypes.INTEGER,
       siswaId: DataTypes.INTEGER,
+      shortUrl: DataTypes.STRING,
+      longUrl: DataTypes.STRING,
+      totalPoint: DataTypes.INTEGER,
     },
     {
       sequelize,

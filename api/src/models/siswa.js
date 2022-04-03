@@ -38,8 +38,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   Siswa.init(
     {
-      nisn: DataTypes.INTEGER,
-      nis: DataTypes.INTEGER,
+      nisn: DataTypes.STRING,
+      nis: DataTypes.STRING,
       namaLengkap: DataTypes.STRING,
       alamat: DataTypes.STRING,
       userId: DataTypes.INTEGER,
