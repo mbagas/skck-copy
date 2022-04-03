@@ -16,17 +16,14 @@ import { Formik, Form } from 'formik';
 import { kategoriSchema } from 'src/utils/formSchema';
 import { buttonStyle, createUserInput } from 'src/utils/styles';
 import { RESOURCE_NAME } from 'src/utils/constant';
-import { RootState } from 'src/store';
 import { updateKategori as _updateKategori } from 'src/store/actions/resources';
-import { getResourceByIdInRoutes } from 'src/store/selectors/resources';
 import { errorToastfier, toastfier } from 'src/utils/toastifier';
 import { IKategoriPelanggaran } from 'src/utils/interface';
 import useIdQuery from 'src/utils/useIdQuery';
-import useDebounce from 'src/utils/useDebounce';
 import { DashboardContainer, DashboardMainContainer } from 'src/components/baseComponent';
 import useGetDataById from 'src/utils/useGetDataById';
 
-const UpdateKategoriContent: React.FC<Props> = ({ updateKategori, getKategoriById }) => {
+const UpdateKategoriContent: React.FC<Props> = ({ updateKategori }) => {
   const queryId = useIdQuery();
   const kategori = useGetDataById(RESOURCE_NAME.KATEGORI_PELANGGARANS, queryId);
   const [isRequested, setIsRequested] = useState<boolean>(false);
@@ -132,11 +129,7 @@ const UpdateKategoriContent: React.FC<Props> = ({ updateKategori, getKategoriByI
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  getKategoriById: getResourceByIdInRoutes(RESOURCE_NAME.KATEGORI_PELANGGARANS, state),
-});
-
-const connector = connect(mapStateToProps, {
+const connector = connect(null, {
   updateKategori: _updateKategori,
 });
 
