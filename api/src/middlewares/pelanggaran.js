@@ -2,7 +2,7 @@ const _ = require('lodash');
 const asyncMw = require('async-express-mw');
 const repository = require('../repository');
 const { isNotOrangTua, isAdminOrGuru } = require('../utils/user');
-const { KategoriPelanggarans } = require('../models');
+const { INCLUDE_KATEGORI } = require('../utils/constants');
 
 // Create new Pelanggaran by a bulk request
 exports.createPelanggaranMw = asyncMw(async (req, res, next) => {
@@ -46,11 +46,7 @@ exports.getPelanggaransMw = asyncMw(async (req, res, next) => {
     req.filterQueryParams,
     {
       ...(siswa && {
-        include: {
-          model: KategoriPelanggarans,
-          as: 'kategoriPelanggaran',
-          distinct: true,
-        },
+        include: INCLUDE_KATEGORI,
       }),
       ...req.query,
     }

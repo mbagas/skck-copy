@@ -8,27 +8,32 @@ const {
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const orangTuaUsers = await Users.bulkCreate(
-      _.map(Array(3), async (val, index) => ({
-        userName: `orangTua${index + 1}`,
-        password: await hashText(`orangTua${index + 1}`),
-        role: USER_ROLE.ORANG_TUA,
-      }))
+      await Promise.all(
+        _.map(Array(3), async (val, index) => ({
+          userName: `orangTua${index + 1}`,
+          password: await hashText(`orangTua${index + 1}`),
+          role: USER_ROLE.ORANG_TUA,
+        }))
+      )
     );
 
     const orangTuas = await OrangTuas.bulkCreate(
       _.map(orangTuaUsers, (orangTua, index) => ({
         namaLengkap: `orangTua${index + 1}`,
         alamat: `alamat${index + 1}`,
+        noTelp: _.map(Array(9), (val, id) => `${id + 1}`).join(''),
         userId: orangTua.id,
       }))
     );
 
     const users = await Users.bulkCreate(
-      _.map(Array(9), async (value, index) => ({
-        userName: `siswa${index + 1}`,
-        password: await hashText(`siswa${index + 1}`),
-        role: USER_ROLE.SISWA,
-      }))
+      await Promise.all(
+        _.map(Array(9), async (value, index) => ({
+          userName: `siswa${index + 1}`,
+          password: await hashText(`siswa${index + 1}`),
+          role: USER_ROLE.SISWA,
+        }))
+      )
     );
 
     let counter = 0;

@@ -11,6 +11,7 @@ import ListPelanggaran from './ListPelanggaran';
 import Pagination from './Pagination';
 import SiswaDetail from './SiswaDetail';
 import FormPelanggaranCard from './FormPelanggaranCard';
+import SPLetter from './SPLetter';
 
 export {
   BaseTopBar,
@@ -26,4 +27,5 @@ export {
   SiswaDetail,
   FormPelanggaranCard,
   DashboardMainContainer,
+  SPLetter,
 };

@@ -3,9 +3,8 @@ const bcrypt = require('bcrypt');
 const asyncMw = require('async-express-mw');
 const repository = require('../repository');
 const { isAdminOrGuru } = require('../utils/user');
-const { USER_ROLE } = require('../utils/constants');
+const { USER_ROLE, INCLUDE_SISWA } = require('../utils/constants');
 const { generateToken } = require('../utils/token');
-const { Siswas } = require('../models');
 
 // Get orang tua data by id.
 exports.getOrangTuaMw = asyncMw(async (req, res, next) => {
@@ -13,12 +12,7 @@ exports.getOrangTuaMw = asyncMw(async (req, res, next) => {
   const userAuthId = parseInt(userAuth.id, 10);
 
   const orangTua = await repository.orangTua.findOne(req.params.id, {
-    include: [
-      {
-        model: Siswas,
-        as: 'siswas',
-      },
-    ],
+    include: [INCLUDE_SISWA],
   });
 
   // If selected orang tua is not found, return a 404 error.

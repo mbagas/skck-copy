@@ -3,9 +3,14 @@ const bcrypt = require('bcrypt');
 const asyncMw = require('async-express-mw');
 const repository = require('../repository');
 const { isAdminOrGuru } = require('../utils/user');
-const { USER_ROLE } = require('../utils/constants');
+const {
+  USER_ROLE,
+  INCLUDE_ORANG_TUA,
+  INCLUDE_TOTAL_POINT,
+  INCLUDE_HISTORY,
+  INCLUDE_HISTORY_SISWA,
+} = require('../utils/constants');
 const { generateToken } = require('../utils/token');
-const { Histories, OrangTuas, TotalPoints } = require('../models');
 
 // Get siswa data by id.
 exports.getSiswaMw = asyncMw(async (req, res, next) => {
@@ -13,23 +18,7 @@ exports.getSiswaMw = asyncMw(async (req, res, next) => {
   const userAuthId = parseInt(userAuth.id, 10);
 
   const siswa = await repository.siswa.findOne(req.params.id, {
-    include: [
-      {
-        model: OrangTuas,
-        as: 'orangTua',
-        distinct: true,
-      },
-      {
-        model: Histories,
-        as: 'histories',
-        distinct: true,
-      },
-      {
-        model: TotalPoints,
-        as: 'totalPoint',
-        distinct: true,
-      },
-    ],
+    include: [INCLUDE_ORANG_TUA, INCLUDE_HISTORY, INCLUDE_TOTAL_POINT],
   });
 
   // If selected siswa is not found, return a 404 error.
@@ -56,14 +45,14 @@ exports.getSiswaMw = asyncMw(async (req, res, next) => {
 
 // Get all siswa data
 exports.getSiswasMw = asyncMw(async (req, res, next) => {
+  const spKe = _.get(req, 'query.spKe', null);
+  const isValidFilter = !_.isNil(spKe) && _.trim(spKe) && _.isNumber(_.toNumber(spKe));
+
+  const include = [INCLUDE_TOTAL_POINT];
+  if (isValidFilter) include.push(INCLUDE_HISTORY_SISWA(spKe));
+
   req.siswas = await repository.siswa.findAll({}, req.filterQueryParams, {
-    include: [
-      {
-        model: TotalPoints,
-        as: 'totalPoint',
-        distinct: true,
-      },
-    ],
+    include,
     ...req.query,
   });
 
@@ -113,10 +102,16 @@ exports.returnSiswasMw = asyncMw(async (req, res) => {
 
   return res.json({
     rows: await Promise.all(
-      _.map(siswas.rows, async (siswa) => ({
-        ...(await repository.siswa.modelToResource(siswa)),
-        totalPoint: _.get(siswa, 'totalPoint.totalPoint', 0),
-      }))
+      _.map(siswas.rows, async (siswa) => {
+        const data = {
+          ...(await repository.siswa.modelToResource(siswa)),
+          totalPoint: _.get(siswa, 'totalPoint.totalPoint', 0),
+        };
+
+        delete data.histories;
+
+        return data;
+      })
     ),
     count: _.get(req, 'siswas.count', 0),
   });
