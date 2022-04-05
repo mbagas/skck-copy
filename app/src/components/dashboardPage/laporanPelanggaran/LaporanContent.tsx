@@ -52,7 +52,7 @@ const LaporanContent: React.FC<Props> = ({ siswas, getAllData }) => {
       );
     },
     1000,
-    [searchValue]
+    [searchValue, page]
   );
 
   return (

@@ -16,7 +16,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
 import { DashboardContainer, DashboardMainContainer } from 'src/components/baseComponent';
-import { siswaSchema } from 'src/utils/formSchema';
+import { createSiswaSchema } from 'src/utils/formSchema';
 import { buttonStyle, createUserInput } from 'src/utils/styles';
 import { USER_ROLE } from 'src/utils/constant';
 import { createUser as _createUser } from 'src/store/actions/resources';
@@ -63,7 +63,7 @@ const CreateSiswaContent: React.FC<Props> = ({ createSiswa }) => {
               alamat: '',
               role: USER_ROLE.SISWA,
             }}
-            validationSchema={siswaSchema}
+            validationSchema={createSiswaSchema}
             onSubmit={create}
           >
             {({ values, errors, touched, handleChange, handleSubmit, handleBlur }) => (

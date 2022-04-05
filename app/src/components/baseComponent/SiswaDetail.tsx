@@ -38,7 +38,7 @@ const SiswaDetail: React.FC<Props> = ({
   const [pelanggaranId, setPelanggaranId] = useState<number>();
   const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
   const [isDeleteable, setIsDeleteable] = useState<boolean>(false);
-  const [limit] = useState<number>(5);
+  const [limit] = useState<string | number>('all');
 
   const closeModal = () => {
     setShowConfirmation(false);

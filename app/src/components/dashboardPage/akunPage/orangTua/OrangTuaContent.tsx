@@ -76,7 +76,7 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
       );
     },
     1000,
-    [searchValue]
+    [searchValue, page]
   );
 
   return (

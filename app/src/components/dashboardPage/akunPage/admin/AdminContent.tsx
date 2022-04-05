@@ -76,7 +76,7 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
       );
     },
     1000,
-    [searchValue]
+    [searchValue, page]
   );
 
   return (
