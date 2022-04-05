@@ -16,7 +16,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
 import { DashboardContainer, DashboardMainContainer } from 'src/components/baseComponent';
-import { guruSchema } from 'src/utils/formSchema';
+import { createGuruSchema } from 'src/utils/formSchema';
 import { buttonStyle, createUserInput } from 'src/utils/styles';
 import { USER_ROLE } from 'src/utils/constant';
 import { createUser as _createUser } from 'src/store/actions/resources';
@@ -62,7 +62,7 @@ const CreateGuruContent: React.FC<Props> = ({ createGuru }) => {
               alamat: '',
               role: USER_ROLE.GURU,
             }}
-            validationSchema={guruSchema}
+            validationSchema={createGuruSchema}
             onSubmit={create}
           >
             {({ values, errors, touched, handleChange, handleSubmit, handleBlur }) => (
