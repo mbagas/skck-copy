@@ -76,7 +76,7 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru, getAllData }) => {
       );
     },
     1000,
-    [searchValue]
+    [searchValue, page]
   );
 
   return (

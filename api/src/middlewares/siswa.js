@@ -51,10 +51,19 @@ exports.getSiswasMw = asyncMw(async (req, res, next) => {
   const include = [INCLUDE_TOTAL_POINT];
   if (isValidFilter) include.push(INCLUDE_HISTORY_SISWA(spKe));
 
-  req.siswas = await repository.siswa.findAll({}, req.filterQueryParams, {
-    include,
-    ...req.query,
-  });
+  req.siswas = await repository.siswa.findAll(
+    {
+      // Show only siswa that has orangTuaId that match in the query.
+      ...(req.query.orangTuaId && {
+        orangTuaId: req.query.orangTuaId,
+      }),
+    },
+    req.filterQueryParams,
+    {
+      include,
+      ...req.query,
+    }
+  );
 
   return next();
 });

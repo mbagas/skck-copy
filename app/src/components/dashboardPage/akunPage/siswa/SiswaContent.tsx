@@ -76,7 +76,7 @@ const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
       );
     },
     1000,
-    [searchValue]
+    [searchValue, page]
   );
 
   return (

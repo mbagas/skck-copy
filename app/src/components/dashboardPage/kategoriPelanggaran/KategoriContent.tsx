@@ -76,7 +76,7 @@ const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllDat
       );
     },
     1000,
-    [searchValue]
+    [searchValue, page]
   );
 
   return (
@@ -140,7 +140,7 @@ const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllDat
               <Tbody>
                 {_.map(_.toArray(kategoris.rows), (kategori, index) => (
                   <Tr key={index} bg={index % 2 !== 0 ? '#E1E1E1' : 'white'}>
-                    <Td>{index + 1}</Td>
+                    <Td>{(page === 1 ? 1 : (page - 1) * limit + 1) + index}</Td>
                     <Td>{kategori.namaKategori}</Td>
                     <Td>{kategori.poin}</Td>
                     <Td>

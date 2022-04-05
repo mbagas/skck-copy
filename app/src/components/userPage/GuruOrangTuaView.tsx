@@ -38,7 +38,7 @@ const GuruOrangTuaView: React.FC<Props> = ({ siswas, getAllData }) => {
       );
     },
     1000,
-    [searchValue, filter]
+    [searchValue, filter, page]
   );
 
   return (

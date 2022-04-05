@@ -1,5 +1,6 @@
 import { USER_ROLE } from './constant';
 import { RoleType, CreateUserType, ICreateUser } from './interface';
+import { getAccountId, getRole } from './sessionUtils';
 
 export const generateLoginUrl = (value: string) => {
   switch (value) {
@@ -47,7 +48,12 @@ export const getUserFilter = (search: string) => {
 };
 
 export const getSiswaFilter = (search: string) => {
-  const filters = `filters=nis CONTAINS "${search}" OR nisn CONTAINS "${search}" OR namaLengkap CONTAINS "${search}"`;
+  const role = getRole();
+  const isOrangTua = role === USER_ROLE.ORANG_TUA;
+
+  const filters = `filters=nis CONTAINS "${search}" OR nisn CONTAINS "${search}" OR namaLengkap CONTAINS "${search}"${
+    isOrangTua ? `&orangTuaId=${getAccountId()}` : ''
+  }`;
 
   return filters;
 };
