@@ -5,7 +5,9 @@ const SPLayout: React.FC = ({ children }) => {
   return (
     <Flex flexDirection={'column'}>
       <BaseTopBar />
-      <Flex>{children}</Flex>
+      <Flex width={'100%'} height={'100%'}>
+        {children}
+      </Flex>
     </Flex>
   );
 };
