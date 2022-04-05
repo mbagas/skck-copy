@@ -16,6 +16,7 @@ const GuruOrangTuaView: React.FC<Props> = ({ siswas, getAllData }) => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
   const [limit] = useState<number>(15);
+  const [filter, setFilter] = useState<string>('Semua');
 
   useEffect(() => {
     (async () => {
@@ -31,11 +32,13 @@ const GuruOrangTuaView: React.FC<Props> = ({ siswas, getAllData }) => {
 
       await getAllData(
         RESOURCE_NAME.SISWAS,
-        `page=${page}&limit=${limit}&${getSiswaFilter(searchValue)}`
+        `page=${page}&limit=${limit}&${getSiswaFilter(searchValue)}&spKe=${
+          filter === 'Semua' ? '' : filter
+        }`
       );
     },
     1000,
-    [searchValue]
+    [searchValue, filter]
   );
 
   return (
@@ -63,7 +66,12 @@ const GuruOrangTuaView: React.FC<Props> = ({ siswas, getAllData }) => {
         </Flex>
       </Flex>
       <Flex justifyContent="space-between">
-        <Select p={2} width={{ base: '65%', md: '30%' }}>
+        <Select
+          p={2}
+          width={{ base: '65%', md: '30%' }}
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        >
           <option value="Semua">Semua</option>
           <option value="1">SP 1</option>
           <option value="2">SP 2</option>
