@@ -1,13 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'src/store/axios';
 import { AppDispatch } from 'src/store';
-import { CreateUserType, IBaseKategoriPelanggaran } from 'src/utils/interface';
+import {
+  CreateUserType,
+  IBaseKategoriPelanggaran,
+  RoleType,
+  IChangePass,
+} from 'src/utils/interface';
 import {
   IDetailResource,
   IResources,
   IResourcesWithId,
   ResourceKey,
 } from 'src/utils/resourceInterface';
+import { getResourceURL } from 'src/utils/user';
 import { generateUserName } from 'src/utils/user';
 import { RESOURCE_NAME } from 'src/utils/constant';
 
@@ -158,6 +164,14 @@ export const getPelanggaranSiswa =
 export const createPelanggarans = (siswaId: number, pelanggaransId: number[]) => async () => {
   try {
     await axios.post(`/${RESOURCE_NAME.PELANGGARANS}`, { siswaId, pelanggaransId });
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const changePassword = (id: number, role: RoleType, payload: IChangePass) => async () => {
+  try {
+    await axios.post(`/${getResourceURL(role)}/${id}/password`, payload);
   } catch (err) {
     return Promise.reject(err);
   }

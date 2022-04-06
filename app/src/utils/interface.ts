@@ -114,3 +114,9 @@ export interface ICreateUser {
 }
 
 export type CreateUserType = IBaseUser | ICreateGuru | ICreateOrangTua | ICreateSiswa;
+
+export interface IChangePass {
+  oldPassword: string;
+  password: string;
+  confirmationPassword: string;
+}

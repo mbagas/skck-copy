@@ -6,7 +6,7 @@ import { BaseTopBar } from 'src/components/baseComponent';
 const TopBar: React.FC<Props> = ({ setShow }) => {
   return (
     <BaseTopBar>
-      <Flex display={{ base: 'flex', md: 'none' }}>
+      <Flex display={{ base: 'flex', md: 'none' }} _hover={{ color: 'royalRed.100' }}>
         <GiHamburgerMenu onClick={() => setShow((curr) => !curr)} />
       </Flex>
     </BaseTopBar>

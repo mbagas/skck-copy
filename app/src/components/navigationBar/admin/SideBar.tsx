@@ -11,15 +11,22 @@ import {
   Text,
   useMediaQuery,
 } from '@chakra-ui/react';
-import Router from 'next/router';
-import { USER_ROLE } from 'src/utils/constant';
+import { useRouter } from 'next/router';
 import { GoSignOut } from 'react-icons/go';
 import { FaUser, FaHome, FaChartBar } from 'react-icons/fa';
 import { RiAddCircleFill, RiBook2Fill } from 'react-icons/ri';
+import { USER_ROLE } from 'src/utils/constant';
+import { removeToken } from 'src/utils/sessionUtils';
 
 const SideBar: React.FC<Props> = ({ show }) => {
+  const router = useRouter();
   const [decreasor, setDecreasor] = useState<string>();
   const [isOnBase] = useMediaQuery(['(max-width: 48em)', '(min-width: 48em)']);
+
+  const isActive = {
+    fontWeight: 'bold',
+    color: 'royalRed.200',
+  };
 
   useEffect(() => {
     setDecreasor(localStorage.getItem('top_bar_height')!); // eslint-disable-line
@@ -34,7 +41,8 @@ const SideBar: React.FC<Props> = ({ show }) => {
           cursor={'pointer'}
           padding={3}
           key={key}
-          onClick={() => Router.push(`/dashboard/akun/${resource.join('-')}s`)}
+          _hover={{ color: 'royalRed.100' }}
+          onClick={() => router.push(`/dashboard/akun/${resource.join('-')}s`)}
         >
           {_.map(resource, (r) => _.capitalize(r)).join(' ')}
         </Text>
@@ -60,7 +68,9 @@ const SideBar: React.FC<Props> = ({ show }) => {
           alignItems={'center'}
           userSelect={'none'}
           cursor={'pointer'}
-          onClick={() => Router.push('/dashboard')}
+          onClick={() => router.push('/dashboard')}
+          _hover={{ color: 'royalRed.100' }}
+          {...(router.pathname === '/dashboard' && isActive)}
         >
           <AspectRatio ratio={1} width={8} mr={2}>
             <FaHome />
@@ -70,7 +80,13 @@ const SideBar: React.FC<Props> = ({ show }) => {
         <Accordion allowMultiple width={'100%'}>
           <AccordionItem border={'none'}>
             <AccordionButton padding={0}>
-              <Flex width={'90%'} alignItems={'center'} userSelect={'none'}>
+              <Flex
+                width={'90%'}
+                alignItems={'center'}
+                userSelect={'none'}
+                _hover={{ color: 'royalRed.100' }}
+                {...(_.includes(router.pathname, '/dashboard/akun') && isActive)}
+              >
                 <AspectRatio ratio={1} width={8} mr={2}>
                   <FaUser />
                 </AspectRatio>
@@ -85,7 +101,9 @@ const SideBar: React.FC<Props> = ({ show }) => {
           alignItems={'center'}
           userSelect={'none'}
           cursor={'pointer'}
-          onClick={() => Router.push('/dashboard/laporans')}
+          onClick={() => router.push('/dashboard/laporans')}
+          _hover={{ color: 'royalRed.100' }}
+          {...(_.includes(router.pathname, '/dashboard/laporans') && isActive)}
         >
           <AspectRatio justifyContent={'flex-start'} ratio={1} width={8} mr={2}>
             <RiAddCircleFill />
@@ -97,19 +115,9 @@ const SideBar: React.FC<Props> = ({ show }) => {
           alignItems={'center'}
           userSelect={'none'}
           cursor={'pointer'}
-          onClick={() => Router.push('/grafik')}
-        >
-          <AspectRatio ratio={1} width={8} mr={2}>
-            <FaChartBar />
-          </AspectRatio>
-          <Text>Grafik Pelanggaran</Text>
-        </Flex>
-        <Flex
-          width={'90%'}
-          alignItems={'center'}
-          userSelect={'none'}
-          cursor={'pointer'}
-          onClick={() => Router.push('/dashboard/kategori-pelanggarans')}
+          onClick={() => router.push('dashboard/kategori-pelanggarans')}
+          _hover={{ color: 'royalRed.100' }}
+          {...(_.includes(router.pathname, '/dashboard/kategori-pelanggarans') && isActive)}
         >
           <AspectRatio ratio={1} width={8} mr={2}>
             <RiBook2Fill />
@@ -121,7 +129,11 @@ const SideBar: React.FC<Props> = ({ show }) => {
           alignItems={'center'}
           userSelect={'none'}
           cursor={'pointer'}
-          onClick={() => Router.push('/')}
+          onClick={() => {
+            removeToken();
+            router.push('/');
+          }}
+          _hover={{ color: 'royalRed.100' }}
         >
           <AspectRatio justifyContent={'center'} ratio={1} width={8} mr={3}>
             <GoSignOut />

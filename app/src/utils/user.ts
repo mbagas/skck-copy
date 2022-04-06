@@ -2,7 +2,7 @@ import { USER_ROLE } from './constant';
 import { RoleType, CreateUserType, ICreateUser } from './interface';
 import { getAccountId, getRole } from './sessionUtils';
 
-export const generateLoginUrl = (value: string) => {
+export const getResourceURL = (value: string) => {
   switch (value) {
     case USER_ROLE.ADMIN:
       return 'users';
