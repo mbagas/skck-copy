@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const asyncMw = require('async-express-mw');
-const { sequelize } = require('../models');
 const { QueryTypes } = require('sequelize');
+const { sequelize } = require('../models');
 
 // Get all Pelanggaran data
 exports.getParamTimeSeriesMw = asyncMw(async (req, res, next) => {
