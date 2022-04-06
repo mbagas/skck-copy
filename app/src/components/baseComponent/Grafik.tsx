@@ -10,6 +10,7 @@ import { getGrafik as _getGrafik } from 'src/store/actions/resources';
 import { resources } from 'src/store/selectors';
 import { type } from 'os';
 import moment from 'moment';
+import {}
 
 import {
   Chart as ChartJS,
