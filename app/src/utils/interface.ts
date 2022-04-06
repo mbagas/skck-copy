@@ -122,6 +122,22 @@ export type CreateUserType =
   | ICreateOrangTua
   | (ICreateSiswa & { orangTuaId: number });
 
+export interface IGrafikTimeSeriesMultiParams {
+  namaKategori: string;
+  jumlah: number;
+  bulan: number;
+}
+
+export interface IGrafikTimeSeriesTotal {
+  y: number;
+  x: string;
+}
+
+export interface IGrafikBarPelanggaran {
+  namaKategori: string;
+  jumlah: number;
+}
+
 export interface IChangePass {
   oldPassword: string;
   password: string;
@@ -131,4 +147,10 @@ export interface IChangePass {
 export interface ISuratPeringatan {
   history: IHistory;
   siswa: ISiswa;
+}
+
+export interface IGrafiks {
+  grafikTimeSeriesMultiParams: IGrafikTimeSeriesMultiParams;
+  grafikTimeSeriesTotal: IGrafikTimeSeriesTotal;
+  grafikBarPelanggaran: IGrafikBarPelanggaran;
 }

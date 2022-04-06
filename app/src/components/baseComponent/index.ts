@@ -12,6 +12,7 @@ import Pagination from './Pagination';
 import SiswaDetail from './SiswaDetail';
 import FormPelanggaranCard from './FormPelanggaranCard';
 import * as SPLetter from './SPLetter';
+import Grafik from './Grafik';
 
 export {
   BaseTopBar,
@@ -28,4 +29,5 @@ export {
   FormPelanggaranCard,
   DashboardMainContainer,
   SPLetter,
+  Grafik,
 };

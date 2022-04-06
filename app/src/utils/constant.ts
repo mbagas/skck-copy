@@ -20,3 +20,4 @@ export const ORDER = {
 } as const;
 
 export const SP_URL = 'sp/spGenerator';
+export const GRAFIKS_URL = 'grafiks' as const;

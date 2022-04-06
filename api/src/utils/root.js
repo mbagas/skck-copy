@@ -8,6 +8,7 @@ const orangTuas = require('../routes/orangTua');
 const kategoriPelanggarans = require('../routes/kategoriPelanggaran');
 const pelanggarans = require('../routes/pelanggarans');
 const suratPeringatan = require('../routes/suratPeringatan');
+const grafiks = require('../routes/grafik');
 
 /**
  * Use all the routes and middleware from the api folder
@@ -25,4 +26,5 @@ module.exports = (app) => {
   app.use('/kategori-pelanggarans', kategoriPelanggarans);
   app.use('/pelanggarans', pelanggarans);
   app.use('/sp', suratPeringatan);
+  app.use('/grafiks', grafiks);
 };

@@ -1,10 +1,24 @@
 import { Flex, Text, AspectRatio, Grid, GridItem } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaUser, FaCalendarDay, FaListOl } from 'react-icons/fa';
 import { RiBook2Fill } from 'react-icons/ri';
 import { Card, DashboardContainer } from '../baseComponent';
+import { getGrafik as _getGrafik } from 'src/store/actions/resources';
+import { connect, ConnectedProps } from 'react-redux';
+import { resources } from 'src/store/selectors';
+import { GRAFIKS_URL } from 'src/utils/constant';
+import { IGrafiks } from 'src/utils/interface';
+import { Grafik } from '../baseComponent';
 
-const DashboardContent = () => {
+const DashboardContent: React.FC<Props> = ({ getGrafik }) => {
+  const [grafik, setGrafik] = useState<IGrafiks>();
+
+  useEffect(() => {
+    (async () => {
+      setGrafik(await getGrafik());
+    })();
+  }, []);
+
   return (
     <Flex
       flexDirection={'column'}
@@ -47,13 +61,18 @@ const DashboardContent = () => {
           </Card>
         </GridItem>
       </Grid>
-      <DashboardContainer>
+      <DashboardContainer flexDirection="column">
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} px={5} py={5}>
           Data Kategori Pelanggaran Harian
         </Text>
+        <Grafik grafik={grafik} />
       </DashboardContainer>
     </Flex>
   );
 };
 
-export default DashboardContent;
+const connector = connect(null, { getGrafik: _getGrafik });
+
+type Props = ConnectedProps<typeof connector>;
+
+export default connector(DashboardContent);
