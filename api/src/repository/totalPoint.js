@@ -99,6 +99,8 @@ totalPointRepository.recalculateTotalPoint = async (pelanggaran) => {
   const katPlgr = await katPlgrRepository.findOne(pelanggaran.pelanggaranId);
   const totalPointModel = await totalPointRepository.findOne({ siswaId: pelanggaran.siswaId });
 
+  if (!totalPointModel) return;
+
   // Update existing total point
   // The minimal value of totalPoint is 0, using max to prevent negative value
   const totalPoint = Math.max(

@@ -3,7 +3,7 @@ import { UserLayout } from 'src/components/pageLayout';
 import { USER_ROLE } from 'src/utils/constant';
 import SessionUtils from 'src/utils/sessionUtils';
 import GuruOrangTuaView from './GuruOrangTuaView';
-import SiswaDetail from './SiswaDetail';
+import { SiswaDetailSiswa } from 'src/components/userPage/SiswaDetail';
 
 const UserContent = () => {
   const [isGuruOrangTua, setIsGuruOrangTua] = useState<boolean>(false);
@@ -14,7 +14,7 @@ const UserContent = () => {
     setIsGuruOrangTua(role === USER_ROLE.GURU || role === USER_ROLE.ORANG_TUA);
   }, []);
 
-  return <UserLayout>{isGuruOrangTua ? <GuruOrangTuaView /> : <SiswaDetail />}</UserLayout>;
+  return <UserLayout>{isGuruOrangTua ? <GuruOrangTuaView /> : <SiswaDetailSiswa />}</UserLayout>;
 };
 
 export default UserContent;

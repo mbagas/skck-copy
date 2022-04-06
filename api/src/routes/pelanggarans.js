@@ -1,9 +1,17 @@
 const router = require('express').Router();
 const user = require('../middlewares/user');
 const pelanggaran = require('../middlewares/pelanggaran');
+const validator = require('../middlewares/requestValidation');
 
 // POST /pelanggarans
-router.post('/', user.authMw, pelanggaran.createPelanggaranMw, pelanggaran.returnBulkPelanggaranMw);
+router.post(
+  '/',
+  user.authMw,
+  validator.pelanggaranSchema,
+  validator.validationMw,
+  pelanggaran.createPelanggaranMw,
+  pelanggaran.returnBulkPelanggaranMw
+);
 
 // GET /pelanggarans
 router.get('/', user.authMw, pelanggaran.getPelanggaransMw, pelanggaran.returnPelanggaransMw);

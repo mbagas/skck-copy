@@ -1,8 +1,16 @@
 const router = require('express').Router();
 const user = require('../middlewares/user');
+const validator = require('../middlewares/requestValidation');
 
 // POST /users
-router.post('/', user.authMw, user.createUserMw, user.returnConditionalUserMw);
+router.post(
+  '/',
+  user.authMw,
+  validator.userSchema,
+  validator.validationMw,
+  user.createUserMw,
+  user.returnConditionalUserMw
+);
 
 // POST /siswas/login
 router.post('/login', user.loginMw);
