@@ -28,7 +28,7 @@ const Card: React.FC<Props> = ({ bGround, title, data, children }) => {
 type Props = {
   bGround: string;
   title: string;
-  data: number;
+  data: number | string;
 };
 
 export default Card;

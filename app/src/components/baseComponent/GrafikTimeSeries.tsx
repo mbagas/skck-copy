@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import _ from 'lodash';
-
-import { IGrafiks, ISiswaDetail } from 'src/utils/interface';
-
-import { getGrafik as _getGrafik } from 'src/store/actions/resources';
-
+import { IGrafiks } from 'src/utils/interface';
 import moment from 'moment';
-
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -18,7 +13,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Line, Bar } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
@@ -30,7 +25,8 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-export const options = {
+
+const options = {
   // responsive: true,
   maintainAspectRatio: false,
   plugins: {
@@ -39,7 +35,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Chart.js Line Chart',
+      text: 'Jumlah Pelanggaran / Bulan',
     },
   },
   options: {
@@ -51,19 +47,16 @@ export const options = {
 };
 
 const Grafik: React.FC<Props> = ({ grafik }) => {
-  console.log(_.map(grafik?.grafikTimeSeriesTotal, (grafik) => grafik.jumlah));
-
-  const labelsTimeSeries = _.map(grafik?.grafikTimeSeriesTotal, (grafik) => {
-    const bulan = moment(grafik.x).format('MMM');
-    return bulan;
-  });
+  const labelsTimeSeries = _.map(_.get(grafik, 'grafikTimeSeriesTotal', []), (grafik) =>
+    moment(grafik.x).format('MMM')
+  );
 
   const dataTimeSeries = {
     labels: labelsTimeSeries,
     datasets: [
       {
-        label: 'Jumlah Pelanggaran / Bulan',
-        data: _.map(grafik?.grafikTimeSeriesTotal, (grafik) => grafik.y),
+        label: 'Bulan',
+        data: _.map(_.get(grafik, 'grafikTimeSeriesTotal', []), (grafik) => grafik.y),
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
         tension: 0.1,
@@ -74,5 +67,6 @@ const Grafik: React.FC<Props> = ({ grafik }) => {
   return <Line options={options} data={dataTimeSeries} width={100} height={100} />;
 };
 
-type Props = { grafik: IGrafiks | undefined };
+type Props = { grafik?: IGrafiks };
+
 export default Grafik;

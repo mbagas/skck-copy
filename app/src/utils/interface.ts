@@ -138,6 +138,22 @@ export interface IGrafikBarPelanggaran {
   jumlah: number;
 }
 
+export interface ITotalSiswa {
+  totalSiswa: number;
+}
+
+export interface IHighestPelanggaran {
+  nama: string;
+}
+
+export interface ITotalPelanggaran {
+  total: number;
+}
+
+export interface IJumlahPelanggaranToday {
+  jumlah: number;
+}
+
 export interface IChangePass {
   oldPassword: string;
   password: string;
@@ -150,7 +166,11 @@ export interface ISuratPeringatan {
 }
 
 export interface IGrafiks {
-  grafikTimeSeriesMultiParams: IGrafikTimeSeriesMultiParams;
-  grafikTimeSeriesTotal: IGrafikTimeSeriesTotal;
-  grafikBarPelanggaran: IGrafikBarPelanggaran;
+  grafikTimeSeriesMultiParams: IGrafikTimeSeriesMultiParams[];
+  grafikTimeSeriesTotal: IGrafikTimeSeriesTotal[];
+  grafikBarPelanggaran: IGrafikBarPelanggaran[];
+  highestPelanggaran: IHighestPelanggaran[];
+  totalSiswa: ITotalSiswa[];
+  totalPelanggaran: ITotalPelanggaran[];
+  jumlahPelanggaranToday: IJumlahPelanggaranToday[];
 }

@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
-import Router from 'next/router';
-import { Button, Flex, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { connect, ConnectedProps } from 'react-redux';
-import useIdQuery from 'src/utils/useIdQuery';
-import { IGrafiks, ISiswaDetail } from 'src/utils/interface';
-import { RESOURCE_NAME, ORDER } from 'src/utils/constant';
+import { IGrafiks } from 'src/utils/interface';
 import { getGrafik as _getGrafik } from 'src/store/actions/resources';
-import { resources } from 'src/store/selectors';
-import { type } from 'os';
-import moment from 'moment';
 import {
   DashboardContainer,
   DashboardMainContainer,
@@ -36,7 +30,7 @@ const GrafikContent: React.FC<Props> = ({ getGrafik }) => {
           width={'100%'}
           height={'100%'}
         >
-          <Flex width={'100%'} height={'100%'}>
+          <Flex width={'100%'}>
             <Text>Grafik Pelanggaran</Text>
           </Flex>
           <Flex width={'100%'} height={'100%'}>

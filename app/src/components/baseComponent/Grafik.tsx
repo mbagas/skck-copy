@@ -1,15 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import _ from 'lodash';
-import { Button, Flex, Text } from '@chakra-ui/react';
-import { IGrafiks, ISiswaDetail } from 'src/utils/interface';
-import { getGrafik as _getGrafik } from 'src/store/actions/resources';
-import moment from 'moment';
-import {
-  DashboardContainer,
-  DashboardMainContainer,
-  GrafikBar,
-  GrafikTimeSeries,
-} from '../baseComponent';
+import { Flex } from '@chakra-ui/react';
+import { IGrafiks } from 'src/utils/interface';
+import { GrafikBar, GrafikTimeSeries } from '../baseComponent';
 
 const Grafik: React.FC<Props> = ({ grafik }) => {
   return (
@@ -30,5 +23,6 @@ const Grafik: React.FC<Props> = ({ grafik }) => {
   );
 };
 
-type Props = { grafik: IGrafiks | undefined };
+type Props = { grafik?: IGrafiks };
+
 export default Grafik;

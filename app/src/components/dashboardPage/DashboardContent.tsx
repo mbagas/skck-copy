@@ -1,12 +1,11 @@
-import { Flex, Text, AspectRatio, Grid, GridItem } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
+import { Flex, Text, AspectRatio, Grid, GridItem } from '@chakra-ui/react';
 import { FaUser, FaCalendarDay, FaListOl } from 'react-icons/fa';
 import { RiBook2Fill } from 'react-icons/ri';
 import { Card, DashboardContainer } from '../baseComponent';
 import { getGrafik as _getGrafik } from 'src/store/actions/resources';
 import { connect, ConnectedProps } from 'react-redux';
-import { resources } from 'src/store/selectors';
-import { GRAFIKS_URL } from 'src/utils/constant';
 import { IGrafiks } from 'src/utils/interface';
 import { Grafik } from '../baseComponent';
 
@@ -33,28 +32,44 @@ const DashboardContent: React.FC<Props> = ({ getGrafik }) => {
       </Text>
       <Grid templateColumns={{ base: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' }} my={3} gap={4}>
         <GridItem colSpan={1}>
-          <Card bGround="#4F72D9" title="asd" data={123}>
+          <Card
+            bGround="#4F72D9"
+            title="JUMLAH SISWA"
+            data={_.first(_.get(grafik, 'totalSiswa', []))?.totalSiswa || 0}
+          >
             <AspectRatio ratio={1} width={12}>
               <FaUser color="#184ADE" />
             </AspectRatio>
           </Card>
         </GridItem>
         <GridItem colSpan={1}>
-          <Card bGround="#E64839" title="asd" data={123}>
+          <Card
+            bGround="#E64839"
+            title="TOTAL PELANGGARAN"
+            data={_.first(_.get(grafik, 'totalPelanggaran', []))?.total || 0}
+          >
             <AspectRatio ratio={1} width={12}>
               <RiBook2Fill color="B91D0E" />
             </AspectRatio>
           </Card>
         </GridItem>
         <GridItem colSpan={1}>
-          <Card bGround="#F4C33D" title="asd" data={123}>
+          <Card
+            bGround="#F4C33D"
+            title="JUMLAH PELANGGARAN HARI INI"
+            data={_.first(_.get(grafik, 'jumlahPelanggaranToday', []))?.jumlah || 0}
+          >
             <AspectRatio ratio={1} width={12}>
               <FaCalendarDay color="D69F08" />
             </AspectRatio>
           </Card>
         </GridItem>
         <GridItem colSpan={1}>
-          <Card bGround="#1ECA8B" title="asd" data={123}>
+          <Card
+            bGround="#1ECA8B"
+            title="PELANGGARAN TERBANYAK"
+            data={_.first(_.get(grafik, 'highestPelanggaran', []))?.nama || ''}
+          >
             <AspectRatio ratio={1} width={12}>
               <FaListOl color="00965F" />
             </AspectRatio>

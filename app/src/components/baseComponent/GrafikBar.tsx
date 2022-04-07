@@ -36,7 +36,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Chart.js Line Chart',
+      text: 'Jumlah Pelanggaran / Kategori',
     },
   },
   options: {
@@ -48,17 +48,17 @@ export const options = {
 };
 
 const Grafik: React.FC<Props> = ({ grafik }) => {
-  const labelsBar = _.map(grafik?.grafikBarPelanggaran, (grafik) => {
-    const namaKategori = grafik.namaKategori;
-    return namaKategori;
-  });
+  const labelsBar = _.map(
+    _.get(grafik, 'grafikBarPelanggaran', []),
+    (grafik) => grafik.namaKategori
+  );
 
   const dataBar = {
     labels: labelsBar,
     datasets: [
       {
-        label: 'Jumlah Pelanggaran / Kategori',
-        data: _.map(grafik?.grafikBarPelanggaran, (grafik) => grafik.jumlah),
+        label: 'Kategori',
+        data: _.map(_.get(grafik, 'grafikBarPelanggaran', []), (grafik) => grafik.jumlah),
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
       },
     ],
