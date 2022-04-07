@@ -78,17 +78,23 @@ const MyDocument = () => {
               <Text style={styles.text}>Guru BK</Text>
               <Text style={styles.text}>Orang Tua Siswa</Text>
             </View>
+            <View style={styles.signature}>
+              <Image style={styles.ttd} src={process.env.NEXT_PUBLIC_TTD_PATH} />
+              <Image style={styles.ttd} src={process.env.NEXT_PUBLIC_TTD_PATH} />
+            </View>
             <View>
               <View style={styles.signature}>
                 <Text style={styles.text}>M.Daus</Text>
-                {/* eslint-disable-next-line jsx-a11y/alt-text */}
-                <Image src={process.env.NEXT_PUBLIC_TTD_PATH} />
                 <Text style={styles.text}>M.Bagas</Text>
               </View>
               <View style={styles.signature}>
                 <Text style={styles.text}>Kepala Sekolah</Text>
                 <Text style={styles.text}>PKS Kesiswaan</Text>
               </View>
+            </View>
+            <View style={styles.signature}>
+              <Image style={styles.ttd} src={process.env.NEXT_PUBLIC_TTD_PATH} />
+              <Image style={styles.ttd} src={process.env.NEXT_PUBLIC_TTD_PATH} />
             </View>
             <View style={styles.signature}>
               <Text style={styles.text}>Ilham</Text>

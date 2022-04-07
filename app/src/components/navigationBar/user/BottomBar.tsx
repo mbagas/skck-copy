@@ -1,40 +1,77 @@
 import _ from 'lodash';
 import React from 'react';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { AspectRatio, Flex, Grid, GridItem } from '@chakra-ui/react';
 import { VscHome, VscGraph, VscSettingsGear, VscSignOut } from 'react-icons/vsc';
+import { BsGearFill } from 'react-icons/bs';
+import { HiHome } from 'react-icons/hi';
+import { GoGraph } from 'react-icons/go';
 import { removeToken } from 'src/utils/sessionUtils';
 
 const BottomBar: React.FC = () => {
+  const router = useRouter();
+
+  const inHome = () => {
+    const pathname = router.pathname;
+
+    return !_.includes(pathname, '/grafik') && !_.includes(pathname, '/settings');
+  };
+
+  const inGraph = () => {
+    const pathname = router.pathname;
+
+    return _.includes(pathname, '/grafik');
+  };
+
+  const inSettings = () => {
+    const pathname = router.pathname;
+
+    return _.includes(pathname, '/settings');
+  };
+
   return (
     <Flex bg={'white'} overflow="visible" bottom={0} width={'100%'} py={3}>
       <Grid templateColumns={'repeat(4, 1fr)'} gap={4} width={'100%'} position={'relative'}>
-        <GridItem onClick={() => Router.push('/')}>
+        <GridItem
+          onClick={() => router.push('/')}
+          _hover={{ color: 'royalRed.100' }}
+          color={'royalRed.200'}
+        >
           <Flex justifyContent={'center'} alignItems={'center'}>
             <AspectRatio ratio={1} width={5}>
-              <VscHome />
+              {inHome() ? <HiHome /> : <VscHome />}
             </AspectRatio>
           </Flex>
         </GridItem>
-        <GridItem onClick={() => Router.push('/grafik')}>
+        <GridItem
+          onClick={() => router.push('/grafik')}
+          _hover={{ color: 'royalRed.100' }}
+          color={'royalRed.200'}
+        >
           <Flex justifyContent={'center'} alignItems={'center'}>
             <AspectRatio ratio={1} width={5}>
-              <VscGraph />
+              {inGraph() ? <GoGraph /> : <VscGraph />}
             </AspectRatio>
           </Flex>
         </GridItem>
-        <GridItem onClick={() => Router.push('/settings')}>
+        <GridItem
+          onClick={() => router.push('/settings')}
+          _hover={{ color: 'royalRed.100' }}
+          color={'royalRed.200'}
+        >
           <Flex justifyContent={'center'} alignItems={'center'}>
             <AspectRatio ratio={1} width={5}>
-              <VscSettingsGear />
+              {inSettings() ? <BsGearFill /> : <VscSettingsGear />}
             </AspectRatio>
           </Flex>
         </GridItem>
         <GridItem
           onClick={() => {
             removeToken();
-            Router.push('/');
+            router.push('/');
           }}
+          _hover={{ color: 'royalRed.100' }}
+          color={'royalRed.200'}
         >
           <Flex justifyContent={'center'} alignItems={'center'}>
             <AspectRatio ratio={1} width={5}>
