@@ -13,6 +13,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import Router from 'next/router';
+import Autocomplete from 'chakra-ui-autocomplete';
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';

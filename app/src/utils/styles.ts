@@ -87,6 +87,12 @@ export const pdfStyles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
+  ttd: {
+    height: '100%',
+    width: '20%',
+    backgroundColor: 'red',
+  },
+
   image: {
     height: '70%',
     width: '10%',
