@@ -8,7 +8,7 @@ const BaseTopBar: React.FC = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem('top_bar_height', `${topBarRef.current?.scrollHeight}`);
-  }, []);
+  }, []); // eslint-disable-line
 
   const aliceText = {
     fontFamily: 'Alice',

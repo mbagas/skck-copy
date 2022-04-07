@@ -26,7 +26,7 @@ import { RootState } from 'src/store';
 import { resources } from 'src/store/selectors';
 import { buttonStyle } from 'src/utils/styles';
 
-const SiswaDetail: React.FC<Props> = ({
+const SiswaDetailGuru: React.FC<Props> = ({
   getDataById,
   pelanggarans,
   getPelanggarans,
@@ -102,8 +102,13 @@ const SiswaDetail: React.FC<Props> = ({
       <DashboardMainContainer>
         {isLoaded ? (
           <Flex flexDirection="column" width={'100%'} height={'100%'}>
-            <DashboardContainer justifyContent={'center'} alignItems={'center'} height={'100%'}>
-              <Flex flexDirection={'column'} width={'95%'} height={'95%'}>
+            <DashboardContainer
+              justifyContent={'center'}
+              alignItems={'center'}
+              height={'100%'}
+              padding={3}
+            >
+              <Flex flexDirection={'column'}>
                 <ProfileCard siswa={siswa} />
                 <Flex flexDirection="column" mt={5} px={2} flex={1}>
                   {!_.isEmpty(_.get(siswa, 'histories', [])) && (
@@ -133,14 +138,7 @@ const SiswaDetail: React.FC<Props> = ({
                     <Button
                       {...buttonStyle.confirmation}
                       width={{ base: '100%', md: 'auto' }}
-                      onClick={() =>
-                        Router.push({
-                          pathname: `${Router.pathname}/create`,
-                          query: {
-                            id: queryId,
-                          },
-                        })
-                      }
+                      onClick={() => Router.push(`${Router.pathname}/${queryId}/create`)}
                     >
                       Tambah
                     </Button>
@@ -168,4 +166,4 @@ const connector = connect(mapStateToProps, {
 
 type Props = ConnectedProps<typeof connector>;
 
-export default connector(SiswaDetail);
+export default connector(SiswaDetailGuru);

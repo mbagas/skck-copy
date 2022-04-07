@@ -22,7 +22,7 @@ const SideBar: React.FC<Props> = ({ show }) => {
   const [isOnBase] = useMediaQuery(['(max-width: 48em)', '(min-width: 48em)']);
 
   useEffect(() => {
-    setDecreasor(localStorage.getItem('top_bar_height')!);
+    setDecreasor(localStorage.getItem('top_bar_height')!); // eslint-disable-line
   }, []);
 
   const generateAccordion = () =>

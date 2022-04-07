@@ -1,11 +1,11 @@
 import React from 'react';
-import { LaporanContentGuru } from 'src/components/userPage/LaporanContent';
+import { LaporanContentSiswa } from 'src/components/userPage/LaporanContent';
 import { UserLayout } from 'src/components/pageLayout';
 
 const CreateLaporan = () => {
   return (
     <UserLayout>
-      <LaporanContentGuru />
+      <LaporanContentSiswa />
     </UserLayout>
   );
 };

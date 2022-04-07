@@ -1,9 +1,17 @@
 const router = require('express').Router();
 const user = require('../middlewares/user');
 const katPlgr = require('../middlewares/kategoriPelanggaran');
+const validator = require('../middlewares/requestValidation');
 
 // POST /kategori-pelanggarans
-router.post('/', user.authMw, katPlgr.createKatPlgrMw, katPlgr.returnKatPlgrMw);
+router.post(
+  '/',
+  user.authMw,
+  validator.kategoriSchema,
+  validator.validationMw,
+  katPlgr.createKatPlgrMw,
+  katPlgr.returnKatPlgrMw
+);
 
 // GET /kategori-pelanggarans
 router.get('/', user.authMw, katPlgr.getKatPlgrsMw, katPlgr.returnKatPlgrsMw);

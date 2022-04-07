@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useEffect, useState } from 'react';
 import { PDFViewer, Document, Page, Text, View, Image } from '@react-pdf/renderer';
 import { pdfStyles as styles } from 'src/utils/styles';
@@ -29,6 +30,7 @@ const MyDocument = () => {
           <View style={styles.body}>
             <View>
               <View style={styles.cops}>
+                {/* eslint-disable-next-line jsx-a11y/alt-text */}
                 <Image style={styles.logo} src={'/sumbar.png'} />
                 <View style={styles.cops_inner}>
                   <Text style={styles.cops_title}>PEMERINTAH PROVINSI SUMATERA BARAT</Text>
@@ -41,10 +43,11 @@ const MyDocument = () => {
                     Website: www.sman1bukittinggi.sch.id e-mail:smansa_landbouw@yahoo.co.id
                   </Text>
                 </View>
+                {/* eslint-disable-next-line jsx-a11y/alt-text */}
                 <Image style={styles.logo} src={'/logo.png'} />
               </View>
-              <View style={styles.borderThin}></View>
-              <View style={styles.borderThicc}></View>
+              <View style={styles.borderThin} />
+              <View style={styles.borderThicc} />
             </View>
             <Text style={styles.title}>Surat Peringatan 1</Text>
             <Text style={styles.text}>
@@ -78,6 +81,7 @@ const MyDocument = () => {
             <View>
               <View style={styles.signature}>
                 <Text style={styles.text}>M.Daus</Text>
+                {/* eslint-disable-next-line jsx-a11y/alt-text */}
                 <Image src={process.env.NEXT_PUBLIC_TTD_PATH} />
                 <Text style={styles.text}>M.Bagas</Text>
               </View>

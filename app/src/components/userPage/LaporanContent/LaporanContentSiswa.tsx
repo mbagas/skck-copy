@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Flex, Text } from '@chakra-ui/react';
-import useIdQuery from 'src/utils/useIdQuery';
 import { RESOURCE_NAME } from 'src/utils/constant';
 import { getAllData as _getAllData } from 'src/store/actions/resources';
 import {
@@ -11,10 +11,10 @@ import {
   FormPelanggaranCard,
 } from 'src/components/baseComponent';
 import useGetDataById from 'src/utils/useGetDataById';
+import { getAccountId } from 'src/utils/sessionUtils';
 
 const LaporanContent: React.FC<Props> = ({ getAllData }) => {
-  const queryId = useIdQuery();
-  const siswa = useGetDataById(RESOURCE_NAME.SISWAS, queryId);
+  const siswa = useGetDataById(RESOURCE_NAME.SISWAS, getAccountId()!);
 
   useEffect(() => {
     (async () => {

@@ -60,6 +60,7 @@ const SessionUtils = {
   getToken,
   setToken,
   getRole,
+  getAccountId,
 };
 
 export default SessionUtils;
