@@ -82,6 +82,7 @@ const CreateGuruContent: React.FC<Props> = ({ createGuru }) => {
                       onChange={handleChange('namaLengkap')}
                       onBlur={handleBlur('namaLengkap')}
                       {...createUserInput}
+                      required
                     />
                     {!!errors.namaLengkap && touched.namaLengkap && (
                       <FormErrorMessage>{errors.namaLengkap}</FormErrorMessage>
@@ -98,6 +99,7 @@ const CreateGuruContent: React.FC<Props> = ({ createGuru }) => {
                         onBlur={handleBlur('password')}
                         type={isPassVisible ? 'text' : 'password'}
                         {...createUserInput}
+                        required
                       />
                       <InputRightElement>
                         {isPassVisible ? (
@@ -120,6 +122,7 @@ const CreateGuruContent: React.FC<Props> = ({ createGuru }) => {
                       onChange={handleChange('nipNrk')}
                       onBlur={handleBlur('nipNrk')}
                       {...createUserInput}
+                      required
                     />
                     {!!errors.nipNrk && touched.nipNrk && (
                       <FormErrorMessage>{errors.nipNrk}</FormErrorMessage>

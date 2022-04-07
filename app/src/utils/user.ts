@@ -1,5 +1,8 @@
+import { Option } from 'chakra-ui-simple-autocomplete';
+import _ from 'lodash';
 import { USER_ROLE } from './constant';
 import { RoleType, CreateUserType, ICreateUser } from './interface';
+import { IResourcesWithId } from './resourceInterface';
 import { getAccountId, getRole } from './sessionUtils';
 
 export const getResourceURL = (value: string) => {
@@ -69,3 +72,9 @@ export const getOrangTuaFilter = (search: string) => {
 
   return filters;
 };
+
+export const generateOrangTuaOptions = (orangTuas: IResourcesWithId['orang-tuas']): Option[] =>
+  _.map(orangTuas.rows, (orangTua) => ({
+    value: `${orangTua.id}`,
+    label: orangTua.namaLengkap,
+  }));

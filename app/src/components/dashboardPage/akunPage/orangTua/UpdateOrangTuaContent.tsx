@@ -89,6 +89,7 @@ const UpdateOrangTuaContent: React.FC<Props> = ({ updateOrangTua }) => {
                           onChange={handleChange('namaLengkap')}
                           onBlur={handleBlur('namaLengkap')}
                           {...createUserInput}
+                          required
                         />
                         {!!errors.namaLengkap && touched.namaLengkap && (
                           <FormErrorMessage>{errors.namaLengkap}</FormErrorMessage>
@@ -123,7 +124,6 @@ const UpdateOrangTuaContent: React.FC<Props> = ({ updateOrangTua }) => {
                       </FormControl>
                       <FormControl isInvalid={!!errors.noTelp && touched.noTelp}>
                         <FormLabel>No Telepon</FormLabel>
-
                         <Input
                           id="noTelp"
                           placeholder="No Telepon"
@@ -131,6 +131,7 @@ const UpdateOrangTuaContent: React.FC<Props> = ({ updateOrangTua }) => {
                           onChange={handleChange('noTelp')}
                           onBlur={handleBlur('noTelp')}
                           {...createUserInput}
+                          required
                         />
 
                         {!!errors.noTelp && touched.noTelp && (
@@ -139,7 +140,6 @@ const UpdateOrangTuaContent: React.FC<Props> = ({ updateOrangTua }) => {
                       </FormControl>
                       <FormControl isInvalid={!!errors.alamat && touched.alamat}>
                         <FormLabel>Alamat</FormLabel>
-
                         <Input
                           id="alamat"
                           placeholder="Alamat"
