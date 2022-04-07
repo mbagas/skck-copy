@@ -19,6 +19,7 @@
     "formik": "^2.2.9",
     "framer-motion": "^6.2.8",
     "iconv-lite": "^0.6.3",
+    "json-to-csv-export": "^1.1.0",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
