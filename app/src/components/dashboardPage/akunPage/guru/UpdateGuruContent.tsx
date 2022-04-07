@@ -91,6 +91,7 @@ const UpdateOrangTuaContent: React.FC<Props> = ({ updateGuru }) => {
                           onChange={handleChange('namaLengkap')}
                           onBlur={handleBlur('namaLengkap')}
                           {...createUserInput}
+                          required
                         />
                         {!!errors.namaLengkap && touched.namaLengkap && (
                           <FormErrorMessage>{errors.namaLengkap}</FormErrorMessage>
@@ -132,6 +133,7 @@ const UpdateOrangTuaContent: React.FC<Props> = ({ updateGuru }) => {
                           onChange={handleChange('nipNrk')}
                           onBlur={handleBlur('nipNrk')}
                           {...createUserInput}
+                          required
                         />
                         {!!errors.nipNrk && touched.nipNrk && (
                           <FormErrorMessage>{errors.nipNrk}</FormErrorMessage>

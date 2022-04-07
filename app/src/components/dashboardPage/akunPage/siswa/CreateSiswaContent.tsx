@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
 import {
   Flex,
   Text,
@@ -19,20 +20,27 @@ import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
 import { DashboardContainer, DashboardMainContainer } from 'src/components/baseComponent';
 import { createSiswaSchema } from 'src/utils/formSchema';
 import { buttonStyle, createUserInput } from 'src/utils/styles';
-import { USER_ROLE } from 'src/utils/constant';
-import { createUser as _createUser } from 'src/store/actions/resources';
+import { RESOURCE_NAME, USER_ROLE } from 'src/utils/constant';
+import { createUser as _createUser, getAllData as _getAllData } from 'src/store/actions/resources';
 import { errorToastfier, toastfier } from 'src/utils/toastifier';
 import { ICreateUser } from 'src/utils/interface';
+import { RootState } from 'src/store';
+import { resources } from 'src/store/selectors';
+import { generateOrangTuaOptions } from 'src/utils/user';
+import AutoComplete from 'src/components/baseComponent/AutoComplete';
 
-const CreateSiswaContent: React.FC<Props> = ({ createSiswa }) => {
+const CreateSiswaContent: React.FC<Props> = ({ createSiswa, getAllData, orangTuas }) => {
   const [isRequested, setIsRequested] = useState<boolean>(false);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
+  const [orangTuaId, setOrangTuaId] = useState('');
+  const [isTouched, setIsTouched] = useState<boolean>(false);
+  const [isError, setIsError] = useState<string>('');
 
   const create = async (value: ICreateUser['SISWA']) => {
     setIsRequested(true);
 
     try {
-      await createSiswa(value);
+      await createSiswa({ ...value, orangTuaId: _.toNumber(orangTuaId) });
       toastfier('Siswa berhasil ditambahkan', { type: 'success' });
 
       return setTimeout(() => {
@@ -44,6 +52,37 @@ const CreateSiswaContent: React.FC<Props> = ({ createSiswa }) => {
 
     setIsRequested(false);
   };
+
+  const validateOrangTua = (toValidate: string | null = null) => {
+    setIsTouched(true);
+    setIsError('');
+
+    const orangTua = _.find(orangTuas.rows, ['namaLengkap', toValidate]);
+
+    let ortuId = 0;
+
+    // If there is an input
+    if (!_.isNil(orangTua)) ortuId = orangTua.id;
+
+    // If the input is empty and no selected value
+    if ((_.isEmpty(orangTuaId) || !_.isNumber(_.toNumber(orangTuaId))) && !ortuId) {
+      setIsError('Nama orang tua tidak boleh kosong');
+      return false;
+    }
+
+    // If the input is exists and not same as selected value, update
+    if (ortuId && ortuId !== _.toNumber(orangTuaId)) {
+      setOrangTuaId(`${ortuId}`);
+    }
+
+    return true;
+  };
+
+  useEffect(() => {
+    (async () => {
+      await getAllData(RESOURCE_NAME.ORANG_TUAS);
+    })();
+  }, []); // eslint-disable-line
 
   return (
     <DashboardMainContainer>
@@ -71,6 +110,9 @@ const CreateSiswaContent: React.FC<Props> = ({ createSiswa }) => {
               <Form
                 onSubmit={(e) => {
                   e.preventDefault();
+
+                  if (!validateOrangTua()) return;
+
                   handleSubmit();
                 }}
               >
@@ -84,6 +126,7 @@ const CreateSiswaContent: React.FC<Props> = ({ createSiswa }) => {
                       onChange={handleChange('namaLengkap')}
                       onBlur={handleBlur('namaLengkap')}
                       {...createUserInput}
+                      required
                     />
                     {!!errors.namaLengkap && touched.namaLengkap && (
                       <FormErrorMessage>{errors.namaLengkap}</FormErrorMessage>
@@ -100,6 +143,7 @@ const CreateSiswaContent: React.FC<Props> = ({ createSiswa }) => {
                         onBlur={handleBlur('password')}
                         type={isPassVisible ? 'text' : 'password'}
                         {...createUserInput}
+                        required
                       />
                       <InputRightElement>
                         {isPassVisible ? (
@@ -113,6 +157,20 @@ const CreateSiswaContent: React.FC<Props> = ({ createSiswa }) => {
                       <FormErrorMessage>{errors.password}</FormErrorMessage>
                     )}
                   </FormControl>
+                  <FormControl isInvalid={!_.isEmpty(isError) && isTouched}>
+                    <FormLabel>Nama Orang Tua</FormLabel>
+                    <AutoComplete
+                      onChange={(e) => setOrangTuaId(`${e.value}`)}
+                      options={generateOrangTuaOptions(orangTuas)}
+                      onClick={() => setIsTouched(false)}
+                      onLostFocus={validateOrangTua}
+                      placeholder="Nama Orang Tua"
+                      isRequired
+                    />
+                    {!_.isEmpty(isError) && isTouched && (
+                      <FormErrorMessage>{isError}</FormErrorMessage>
+                    )}
+                  </FormControl>
                   <FormControl isInvalid={!!errors.nis && touched.nis}>
                     <FormLabel>NIS</FormLabel>
                     <Input
@@ -122,6 +180,7 @@ const CreateSiswaContent: React.FC<Props> = ({ createSiswa }) => {
                       onChange={handleChange('nis')}
                       onBlur={handleBlur('nis')}
                       {...createUserInput}
+                      required
                     />
                     {!!errors.nis && touched.nis && (
                       <FormErrorMessage>{errors.nis}</FormErrorMessage>
@@ -136,6 +195,7 @@ const CreateSiswaContent: React.FC<Props> = ({ createSiswa }) => {
                       onChange={handleChange('nisn')}
                       onBlur={handleBlur('nisn')}
                       {...createUserInput}
+                      required
                     />
                     {!!errors.nisn && touched.nisn && (
                       <FormErrorMessage>{errors.nisn}</FormErrorMessage>
@@ -177,8 +237,13 @@ const CreateSiswaContent: React.FC<Props> = ({ createSiswa }) => {
   );
 };
 
-const connector = connect(null, {
+const mapStateToProps = (state: RootState) => ({
+  orangTuas: resources.getResource(state, RESOURCE_NAME.ORANG_TUAS),
+});
+
+const connector = connect(mapStateToProps, {
   createSiswa: _createUser,
+  getAllData: _getAllData,
 });
 
 type Props = ConnectedProps<typeof connector>;

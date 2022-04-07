@@ -113,7 +113,11 @@ export interface ICreateUser {
   ORANG_TUA: ICreateOrangTua;
 }
 
-export type CreateUserType = IBaseUser | ICreateGuru | ICreateOrangTua | ICreateSiswa;
+export type CreateUserType =
+  | IBaseUser
+  | ICreateGuru
+  | ICreateOrangTua
+  | (ICreateSiswa & { orangTuaId: number });
 
 export interface IChangePass {
   oldPassword: string;

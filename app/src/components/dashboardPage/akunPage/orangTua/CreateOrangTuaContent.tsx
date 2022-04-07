@@ -82,6 +82,7 @@ const CreateOrangTuaContent: React.FC<Props> = ({ createOrangTua }) => {
                       onChange={handleChange('namaLengkap')}
                       onBlur={handleBlur('namaLengkap')}
                       {...createUserInput}
+                      required
                     />
                     {!!errors.namaLengkap && touched.namaLengkap && (
                       <FormErrorMessage>{errors.namaLengkap}</FormErrorMessage>
@@ -98,6 +99,7 @@ const CreateOrangTuaContent: React.FC<Props> = ({ createOrangTua }) => {
                         onBlur={handleBlur('password')}
                         type={isPassVisible ? 'text' : 'password'}
                         {...createUserInput}
+                        required
                       />
                       <InputRightElement>
                         {isPassVisible ? (
@@ -120,6 +122,7 @@ const CreateOrangTuaContent: React.FC<Props> = ({ createOrangTua }) => {
                       onChange={handleChange('noTelp')}
                       onBlur={handleBlur('noTelp')}
                       {...createUserInput}
+                      required
                     />
 
                     {!!errors.noTelp && touched.noTelp && (

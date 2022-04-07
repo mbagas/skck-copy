@@ -28,7 +28,7 @@ export const siswaSchema = Yup.object({
   alamat: Yup.string(),
 });
 
-export const createSiswaSchema = guruSchema.concat(passwordSchema);
+export const createSiswaSchema = siswaSchema.concat(passwordSchema);
 
 export const orangTuaSchema = Yup.object({
   namaLengkap: Yup.string().required('Nama lengkap dibutuhkan'),

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import {
   Flex,
@@ -21,17 +21,27 @@ import { siswaSchema } from 'src/utils/formSchema';
 import { DashboardContainer, DashboardMainContainer } from 'src/components/baseComponent';
 import { buttonStyle, createUserInput } from 'src/utils/styles';
 import { USER_ROLE, RESOURCE_NAME } from 'src/utils/constant';
-import { updateUser as _updateUser } from 'src/store/actions/resources';
+import { updateUser as _updateUser, getAllData as _getAllData } from 'src/store/actions/resources';
 import { errorToastfier, toastfier } from 'src/utils/toastifier';
 import useIdQuery from 'src/utils/useIdQuery';
 import { ICreateUser } from 'src/utils/interface';
 import useGetDataById from 'src/utils/useGetDataById';
+import AutoComplete, { Options } from 'src/components/baseComponent/AutoComplete';
+import { generateOrangTuaOptions } from 'src/utils/user';
+import { RootState } from 'src/store';
+import { resources } from 'src/store/selectors';
+import useCustomDebounce from 'src/utils/useCustomDebounce';
 
-const UpdateSiswaContent: React.FC<Props> = ({ updateSiswa }) => {
+const UpdateSiswaContent: React.FC<Props> = ({ updateSiswa, getAllData, orangTuas }) => {
   const queryId = useIdQuery();
   const siswa = useGetDataById(RESOURCE_NAME.SISWAS, queryId);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isRequested, setIsRequested] = useState<boolean>(false);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
+  const [orangTuaId, setOrangTuaId] = useState('');
+  const [prevOrangTua, setPrevOrangTua] = useState<Options>({ label: '', value: '' });
+  const [isTouched, setIsTouched] = useState<boolean>(false);
+  const [isError, setIsError] = useState<string>('');
 
   const update = async (value: Partial<ICreateUser['SISWA']>) => {
     if (_.isNil(siswa)) return;
@@ -39,7 +49,7 @@ const UpdateSiswaContent: React.FC<Props> = ({ updateSiswa }) => {
     setIsRequested(true);
 
     try {
-      await updateSiswa(siswa.userId, value);
+      await updateSiswa(siswa.userId, { ...value, orangTuaId: _.toNumber(orangTuaId) });
       toastfier('Siswa berhasil diperbarui', { type: 'success' });
 
       return setTimeout(() => {
@@ -52,9 +62,57 @@ const UpdateSiswaContent: React.FC<Props> = ({ updateSiswa }) => {
     setIsRequested(false);
   };
 
+  const validateOrangTua = (toValidate: string | null = null) => {
+    setIsTouched(true);
+    setIsError('');
+
+    const orangTua = _.find(orangTuas.rows, ['namaLengkap', toValidate]);
+
+    let ortuId = 0;
+
+    // If there is an input
+    if (!_.isNil(orangTua)) ortuId = orangTua.id;
+
+    // If the input is empty and no selected value
+    if ((_.isEmpty(orangTuaId) || !_.isNumber(_.toNumber(orangTuaId))) && !ortuId) {
+      setIsError('Nama orang tua tidak boleh kosong');
+      return false;
+    }
+
+    // If the input is exists and not same as selected value, update
+    if (ortuId && ortuId !== _.toNumber(orangTuaId)) {
+      setOrangTuaId(`${ortuId}`);
+    }
+
+    return true;
+  };
+
+  useEffect(() => {
+    (async () => {
+      await getAllData(RESOURCE_NAME.ORANG_TUAS);
+    })();
+  }, []); // eslint-disable-line
+
+  useCustomDebounce(
+    () => {
+      if (!siswa) return;
+
+      const orangTua = orangTuas.rows[siswa.orangTuaId];
+
+      if (orangTua) {
+        setPrevOrangTua({ label: orangTua.namaLengkap, value: orangTua.id });
+        setOrangTuaId(`${orangTua.id}`);
+      }
+
+      setIsLoaded(true);
+    },
+    500,
+    [siswa]
+  );
+
   return (
     <DashboardMainContainer>
-      {siswa ? (
+      {isLoaded ? (
         <React.Fragment>
           <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
             Data User Siswa
@@ -80,6 +138,9 @@ const UpdateSiswaContent: React.FC<Props> = ({ updateSiswa }) => {
                   <Form
                     onSubmit={(e) => {
                       e.preventDefault();
+
+                      if (!validateOrangTua()) return;
+
                       handleSubmit();
                     }}
                   >
@@ -93,6 +154,7 @@ const UpdateSiswaContent: React.FC<Props> = ({ updateSiswa }) => {
                           onChange={handleChange('namaLengkap')}
                           onBlur={handleBlur('namaLengkap')}
                           {...createUserInput}
+                          required
                         />
                         {!!errors.namaLengkap && touched.namaLengkap && (
                           <FormErrorMessage>{errors.namaLengkap}</FormErrorMessage>
@@ -123,6 +185,21 @@ const UpdateSiswaContent: React.FC<Props> = ({ updateSiswa }) => {
                         </InputGroup>
                         {!!errors.password && touched.password && (
                           <FormErrorMessage>{errors.password}</FormErrorMessage>
+                        )}
+                      </FormControl>
+                      <FormControl isInvalid={!_.isEmpty(isError) && isTouched}>
+                        <FormLabel>Nama Orang Tua</FormLabel>
+                        <AutoComplete
+                          onChange={(e) => setOrangTuaId(`${e.value}`)}
+                          options={generateOrangTuaOptions(orangTuas)}
+                          onClick={() => setIsTouched(false)}
+                          onLostFocus={validateOrangTua}
+                          value={prevOrangTua}
+                          placeholder="Nama Orang Tua"
+                          isRequired
+                        />
+                        {!_.isEmpty(isError) && isTouched && (
+                          <FormErrorMessage>{isError}</FormErrorMessage>
                         )}
                       </FormControl>
                       <FormControl isInvalid={!!errors.nis && touched.nis}>
@@ -193,8 +270,13 @@ const UpdateSiswaContent: React.FC<Props> = ({ updateSiswa }) => {
   );
 };
 
-const connector = connect(null, {
+const mapStateToProps = (state: RootState) => ({
+  orangTuas: resources.getResource(state, RESOURCE_NAME.ORANG_TUAS),
+});
+
+const connector = connect(mapStateToProps, {
   updateSiswa: _updateUser,
+  getAllData: _getAllData,
 });
 
 type Props = ConnectedProps<typeof connector>;
