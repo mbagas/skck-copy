@@ -48,3 +48,14 @@ export const kategoriSchema = Yup.object({
   namaKategori: Yup.string().required('Nama Kategori Dibutuhkan'),
   poin: Yup.number().required('Poin Dibutuhkan').min(1, 'Poin harus lebih dari 0'),
 });
+
+export const changePasswordSchema = Yup.object({
+  oldPassword: Yup.string().required('Password lama dibutuhkan'),
+  password: Yup.string().required('Password dibutuhkan'),
+  confirmationPassword: Yup.string()
+    .when('password', {
+      is: (val: string) => (val && val.length > 0 ? true : false),
+      then: Yup.string().required('Konfirmasi password dibutuhkan'),
+    })
+    .oneOf([Yup.ref('password'), null], 'Konfirmasi dan Password tidak sama'),
+});

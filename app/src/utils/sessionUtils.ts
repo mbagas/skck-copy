@@ -56,11 +56,14 @@ export const getAccountId = (): number | undefined => {
   return accountId;
 };
 
+export const removeToken = () => localStorage.removeItem('access_token');
+
 const SessionUtils = {
   getToken,
   setToken,
   getRole,
   getAccountId,
+  removeToken,
 };
 
 export default SessionUtils;
