@@ -54,7 +54,7 @@ const TopBar: React.FC = () => {
             width={6}
             onClick={() => {
               removeToken();
-              router.push('/');
+              router.push('/login');
             }}
           >
             <VscSignOut />

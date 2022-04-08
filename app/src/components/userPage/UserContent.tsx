@@ -6,7 +6,7 @@ import GuruOrangTuaView from './GuruOrangTuaView';
 import { SiswaDetailSiswa } from 'src/components/userPage/SiswaDetail';
 
 const UserContent = () => {
-  const [isGuruOrangTua, setIsGuruOrangTua] = useState<boolean>(false);
+  const [isGuruOrangTua, setIsGuruOrangTua] = useState<boolean>(true);
 
   useEffect(() => {
     const role = SessionUtils.getRole();

@@ -131,7 +131,7 @@ const SideBar: React.FC<Props> = ({ show }) => {
           cursor={'pointer'}
           onClick={() => {
             removeToken();
-            router.push('/');
+            router.push('/login');
           }}
           _hover={{ color: 'royalRed.100' }}
         >

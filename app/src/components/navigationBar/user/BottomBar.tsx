@@ -68,7 +68,7 @@ const BottomBar: React.FC = () => {
         <GridItem
           onClick={() => {
             removeToken();
-            router.push('/');
+            router.push('/login');
           }}
           _hover={{ color: 'royalRed.100' }}
           color={'royalRed.200'}

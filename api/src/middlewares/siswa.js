@@ -21,6 +21,10 @@ exports.getSiswaMw = asyncMw(async (req, res, next) => {
     include: [INCLUDE_ORANG_TUA, INCLUDE_HISTORY, INCLUDE_TOTAL_POINT],
   });
 
+  const orangTua =
+    userAuth.role === USER_ROLE.ORANG_TUA &&
+    (await repository.orangTua.findOne({ userId: userAuth.id }));
+
   // If selected siswa is not found, return a 404 error.
   if (!siswa) return res.status(404).json({ message: 'Siswa not found' });
 
@@ -28,7 +32,7 @@ exports.getSiswaMw = asyncMw(async (req, res, next) => {
 
   // Check if it has an access to the selected siswa.
   const adminOrGuru = isAdminOrGuru(userAuth.role);
-  const isOrangTua = userAuth.id === siswa.orangTuaId;
+  const isOrangTua = orangTua && orangTua.id === siswa.orangTuaId;
 
   // If userAuth is not and admin and does not match the id in params,
   // then return a forbidden error.

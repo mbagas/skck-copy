@@ -30,7 +30,7 @@ const PelanggaranCard: React.FC<Props> = ({ pelanggaran, deleteAble, onClickDele
             <Flex pb={1}>
               <BiCoinStack height={'0.75rem'} />
             </Flex>
-            <Text>Point : {_.get(pelanggaran, 'kategoriPelanggaran.poin', 0)}</Text>
+            <Text>Poin : {_.get(pelanggaran, 'kategoriPelanggaran.poin', 0)}</Text>
           </Flex>
         </GridItem>
       </Grid>

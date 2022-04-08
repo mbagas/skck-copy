@@ -75,7 +75,6 @@ export const pdfStyles = StyleSheet.create({
     fontFamily: 'Times-Roman',
   },
   text_right: {
-    margin: 10,
     fontSize: 12,
     textAlign: 'right',
     fontFamily: 'Times-Roman',
@@ -90,9 +89,7 @@ export const pdfStyles = StyleSheet.create({
   ttd: {
     height: '100%',
     width: '20%',
-    backgroundColor: 'red',
   },
-
   image: {
     height: '70%',
     width: '10%',
@@ -138,7 +135,6 @@ export const pdfStyles = StyleSheet.create({
   signature: {
     fontWeight: 'bold',
     textAlign: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
   },
 });
