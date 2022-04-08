@@ -7,6 +7,7 @@ import {
   RoleType,
   IChangePass,
   ISuratPeringatan,
+  IGrafiks,
 } from 'src/utils/interface';
 import {
   IDetailResource,
@@ -16,7 +17,7 @@ import {
 } from 'src/utils/resourceInterface';
 import { getResourceURL } from 'src/utils/user';
 import { generateUserName } from 'src/utils/user';
-import { RESOURCE_NAME, SP_URL } from 'src/utils/constant';
+import { RESOURCE_NAME, GRAFIKS_URL, SP_URL } from 'src/utils/constant';
 
 interface IActionUpdate<T extends ResourceKey> {
   id: number;
@@ -183,6 +184,15 @@ export const getSuratPelanggaran = (nis: number, spKe: number) => async () => {
     const { data } = await axios.get(`/${SP_URL}/${nis}/${spKe}`);
 
     return data as ISuratPeringatan;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const getGrafik = () => async () => {
+  try {
+    const { data } = await axios.get(`/${GRAFIKS_URL}`);
+    return data as IGrafiks;
   } catch (err) {
     return Promise.reject(err);
   }
