@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useState } from 'react';
 import {
   Flex,
@@ -32,6 +33,8 @@ const SettingsContent: React.FC<Props> = ({ changePassword }) => {
 
     try {
       await changePassword(getAccountId()!, getRole()!, value);
+
+      toastfier('Password berhasil diperbarui!', { type: 'success' });
 
       return setTimeout(() => {
         Router.push('/');

@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { GoSignOut } from 'react-icons/go';
-import { FaUser, FaHome, FaChartBar } from 'react-icons/fa';
+import { FaUser, FaHome } from 'react-icons/fa';
 import { RiAddCircleFill, RiBook2Fill } from 'react-icons/ri';
 import { USER_ROLE } from 'src/utils/constant';
 import { removeToken } from 'src/utils/sessionUtils';
