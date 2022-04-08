@@ -1,11 +1,14 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useEffect, useState } from 'react';
 import { PDFViewer, Document, Page, View, Text } from '@react-pdf/renderer';
 import { pdfStyles as styles } from 'src/utils/styles';
 import useCustomDebounce from 'src/utils/useCustomDebounce';
-import { KopSurat, Pembuka, Penutup, Signature } from '../PDFComponent';
+import { KopSurat, Pembuka, Penutup, Signature, SiswaSP } from '../PDFComponent';
+import useSPGenerator from 'src/utils/useSPGenerator';
 
 // Create Document Component
 const MyDocument = () => {
+  const suratPeringatan = useSPGenerator();
   const [showData, setShowData] = useState<boolean>(false);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [decreasor, setDecreasor] = useState<string>();
@@ -23,7 +26,7 @@ const MyDocument = () => {
     [showData]
   );
 
-  return isLoaded ? (
+  return isLoaded && suratPeringatan ? (
     <PDFViewer style={{ width: '100%', height: `calc(100vh - ${decreasor}px)` }}>
       <Document>
         <Page size="A4">
@@ -31,9 +34,7 @@ const MyDocument = () => {
             <KopSurat />
             <Text style={styles.title}>Surat Peringatan 1</Text>
             <Pembuka type={1} />
-            <Text style={styles.text}>Nama{'   '}:</Text>
-            <Text style={styles.text}>NIS{'    '}:</Text>
-            <Text style={styles.text}>Total Poin :</Text>
+            <SiswaSP suratPeringatan={suratPeringatan} />
             <Text style={styles.text}>
               Berhubung dengan total poin siswa telah mencapai syarat untuk dikeluarkannya Surat
               Peringatan 1, Sekolah memberitahukan kepada Orang Tua/Wali Siswa/i, bahwa siswa/i
@@ -42,7 +43,7 @@ const MyDocument = () => {
               Bapak/Ibu dalam sesi bimbingan tersebut.
             </Text>
             <Penutup />
-            <Signature />
+            <Signature suratPeringatan={suratPeringatan} />
           </View>
         </Page>
       </Document>

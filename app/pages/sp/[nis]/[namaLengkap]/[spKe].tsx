@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import _ from 'lodash';
 import Router from 'next/router';
 import { SPLayout } from 'src/components/pageLayout';
 import * as SPLetter from 'src/components/baseComponent/SPLetter';
-import useCustomDebounce from 'src/utils/useCustomDebounce';
 
 const SPPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);

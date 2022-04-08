@@ -18,3 +18,5 @@ export const ORDER = {
   DESC: 'desc',
   ASC: 'asc',
 } as const;
+
+export const SP_URL = 'sp/spGenerator';

@@ -6,6 +6,7 @@ import {
   IBaseKategoriPelanggaran,
   RoleType,
   IChangePass,
+  ISuratPeringatan,
 } from 'src/utils/interface';
 import {
   IDetailResource,
@@ -15,7 +16,7 @@ import {
 } from 'src/utils/resourceInterface';
 import { getResourceURL } from 'src/utils/user';
 import { generateUserName } from 'src/utils/user';
-import { RESOURCE_NAME } from 'src/utils/constant';
+import { RESOURCE_NAME, SP_URL } from 'src/utils/constant';
 
 interface IActionUpdate<T extends ResourceKey> {
   id: number;
@@ -172,6 +173,16 @@ export const createPelanggarans = (siswaId: number, pelanggaransId: number[]) =>
 export const changePassword = (id: number, role: RoleType, payload: IChangePass) => async () => {
   try {
     await axios.post(`/${getResourceURL(role)}/${id}/password`, payload);
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const getSuratPelanggaran = (nis: number, spKe: number) => async () => {
+  try {
+    const { data } = await axios.get(`/${SP_URL}/${nis}/${spKe}`);
+
+    return data as ISuratPeringatan;
   } catch (err) {
     return Promise.reject(err);
   }

@@ -69,6 +69,9 @@ export interface IHistory {
   id: number;
   spKe: number;
   siswaId: number;
+  shortUrl: string;
+  longUrl: string;
+  totalPoint: number;
   createdAt: string;
 }
 
@@ -123,4 +126,9 @@ export interface IChangePass {
   oldPassword: string;
   password: string;
   confirmationPassword: string;
+}
+
+export interface ISuratPeringatan {
+  history: IHistory;
+  siswa: ISiswa;
 }
