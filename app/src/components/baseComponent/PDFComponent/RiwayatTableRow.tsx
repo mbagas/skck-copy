@@ -7,26 +7,28 @@ import { ISiswaPelanggaran } from 'src/utils/interface';
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    borderColor: '#bff0fd',
+    borderColor: 'black',
     borderWidth: 1,
     alignItems: 'center',
     fontSize: 12,
-    padding: 5,
+    lineHeight: 1.5,
   },
   names: {
-    borderRightColor: '#90e5fc',
+    borderRightColor: 'black',
     borderRightWidth: 1,
     width: '55%',
+    marginHorizontal: 3,
   },
   point: {
-    borderRightColor: '#90e5fc',
+    borderRightColor: 'black',
     borderRightWidth: 1,
     width: '20%',
     textAlign: 'center',
+    marginHorizontal: 3,
   },
   date: {
     width: '25%',
-    textAlign: 'center',
+    marginHorizontal: 3,
   },
 });
 
@@ -35,7 +37,7 @@ const RiwayatTableRow: React.FC<Props> = ({ pelanggaran }) => {
     <View style={styles.row} key={pelanggaran.id}>
       <Text style={styles.names}>{_.get(pelanggaran, 'kategoriPelanggaran.namaKategori', '')}</Text>
       <Text style={styles.point}>{_.get(pelanggaran, 'kategoriPelanggaran.poin', 0)}</Text>
-      <Text style={styles.date}>{moment(pelanggaran.createdAt).format('DD MMM YYYY')}</Text>
+      <Text style={styles.date}>{moment(pelanggaran.createdAt).format('DD MMMMM YYYY')}</Text>
     </View>
   );
 };

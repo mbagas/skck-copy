@@ -5,45 +5,37 @@ import { connect, ConnectedProps } from 'react-redux';
 import { PDFViewer, Document, Page, Text, View } from '@react-pdf/renderer';
 import { pdfStyles as styles } from 'src/utils/styles';
 import useCustomDebounce from 'src/utils/useCustomDebounce';
-import { KopSurat } from '../baseComponent/PDFComponent';
-import { getAccountId } from 'src/utils/sessionUtils';
 import { RootState } from 'src/store';
 import { resources } from 'src/store/selectors';
 import useGetDataById from 'src/utils/useGetDataById';
 import { getPelanggaranSiswa as _getPelanggaranSiswa } from 'src/store/actions/resources';
 import { RESOURCE_NAME, ORDER } from 'src/utils/constant';
 import useIdQuery from 'src/utils/useIdQuery';
-import RiwayatTableHead from '../baseComponent/PDFComponent/RiwayatTableHead';
-import RiwayatTableRow from '../baseComponent/PDFComponent/RiwayatTableRow';
+import { SiswaNames, KopSurat } from 'src/components/baseComponent/PDFComponent';
+import RiwayatTableHead from 'src/components/baseComponent/PDFComponent/RiwayatTableHead';
+import RiwayatTableRow from 'src/components/baseComponent/PDFComponent/RiwayatTableRow';
 
-const RiwayatContent: React.FC<Props> = ({ pelanggarans, getPelanggarans }) => {
+const RiwayatContentGuru: React.FC<Props> = ({ pelanggarans, getPelanggarans }) => {
   const queryId = useIdQuery();
   const siswa = useGetDataById(RESOURCE_NAME.SISWAS, queryId);
   const [limit] = useState<string | number>('all');
+  const [decreasor, setDecreasor] = useState<string>('0');
 
   useEffect(() => {
-    (async () => {
-      await getPelanggarans(getAccountId()!, `limit=${limit}`);
-    })();
-  }, []); // eslint-disable-line
-
-  const [showData, setShowData] = useState<boolean>(false);
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const [decreasor, setDecreasor] = useState<string>();
-
-  useEffect(() => {
-    setShowData(true);
     setDecreasor(localStorage.getItem('top_bar_height')!);
   }, []);
 
   useCustomDebounce(
-    () => {
-      setIsLoaded(true);
+    async () => {
+      if (!queryId) return;
+
+      await getPelanggarans(queryId, `limit=${limit}`);
     },
-    500,
-    [showData]
+    750,
+    [queryId]
   );
-  return isLoaded && siswa ? (
+
+  return siswa ? (
     <PDFViewer style={{ width: '100%', height: `calc(100vh - ${decreasor}px)` }}>
       <Document>
         <Page size="A4">
@@ -51,14 +43,12 @@ const RiwayatContent: React.FC<Props> = ({ pelanggarans, getPelanggarans }) => {
             <KopSurat />
             <Text style={styles.title}>Riwayat Pelanggaran</Text>
             <Text style={styles.text}>
-              Sehubungan dengan sikap indisipliner dan pelanggaran terhadap tata tertib sekolah yang
-              siswa lakukan, maka dengan ini sekolah memberikan detail dari pelanggaran yang telah
+              Berhubung dengan sikap indisipliner dan pelanggaran terhadap tata tertib sekolah yang
+              siswa lakukan, maka dengan ini sekolah memberikan rincian dari pelanggaran yang telah
               dilakukan.
             </Text>
             <Text style={styles.text}>Dengan ini kami sampaikan kepada Bapak/Ibu Wali dari :</Text>
-            <Text style={styles.text}>Nama{'   '}:</Text>
-            <Text style={styles.text}>NIS{'    '}:</Text>
-            <Text style={styles.text}>Total Poin :</Text>
+            <SiswaNames siswa={siswa} />
             <RiwayatTableHead />
             {_.map(pelanggarans.rows, (pelanggaran) => (
               <RiwayatTableRow key={pelanggaran.id} pelanggaran={pelanggaran} />
@@ -84,4 +74,4 @@ const connector = connect(mapStateToProps, {
 
 type Props = ConnectedProps<typeof connector>;
 
-export default connector(RiwayatContent);
+export default connector(RiwayatContentGuru);

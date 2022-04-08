@@ -3,5 +3,6 @@ import Penutup from './Penutup';
 import Signature from './Signature';
 import KopSurat from './KopSurat';
 import SiswaSP from './SiswaSP';
+import SiswaNames from './SiswaNames';
 
-export { Pembuka, Penutup, Signature, KopSurat, SiswaSP };
+export { Pembuka, Penutup, Signature, KopSurat, SiswaSP, SiswaNames };

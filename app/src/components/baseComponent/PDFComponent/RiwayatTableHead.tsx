@@ -4,27 +4,28 @@ const RiwayatTableHead = () => {
   const styles = StyleSheet.create({
     row: {
       flexDirection: 'row',
+      borderColor: 'black',
+      borderWidth: 1,
       alignItems: 'center',
       fontSize: 12,
-      padding: 5,
-      borderColor: '#bff0fd',
-      borderWidth: 1,
+      lineHeight: 1.5,
     },
     names: {
-      borderRightColor: '#90e5fc',
+      borderRightColor: 'black',
       borderRightWidth: 1,
       width: '55%',
-      textAlign: 'center',
+      marginHorizontal: 3,
     },
     point: {
-      borderRightColor: '#90e5fc',
+      borderRightColor: 'black',
       borderRightWidth: 1,
       width: '20%',
       textAlign: 'center',
+      marginHorizontal: 3,
     },
     date: {
-      textAlign: 'center',
-      width: '20%',
+      width: '25%',
+      marginHorizontal: 3,
     },
   });
 

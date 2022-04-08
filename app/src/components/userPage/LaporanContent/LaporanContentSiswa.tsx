@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Flex, Text } from '@chakra-ui/react';
 import { RESOURCE_NAME } from 'src/utils/constant';
@@ -14,9 +14,12 @@ import useGetDataById from 'src/utils/useGetDataById';
 import { getAccountId } from 'src/utils/sessionUtils';
 
 const LaporanContent: React.FC<Props> = ({ getAllData }) => {
-  const siswa = useGetDataById(RESOURCE_NAME.SISWAS, getAccountId()!);
+  const [siswaId, setSiswaId] = useState<number>(0);
+  const siswa = useGetDataById(RESOURCE_NAME.SISWAS, siswaId);
 
   useEffect(() => {
+    setSiswaId(getAccountId()!);
+
     (async () => {
       // Get all kategori
       await getAllData(RESOURCE_NAME.KATEGORI_PELANGGARANS, 'limit=all');
