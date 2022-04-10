@@ -29,7 +29,7 @@ const SiswaCard: React.FC<Props> = ({ siswa }) => {
         <GridItem px={{ base: '0', md: '12' }}>
           <Flex mr={10} justifyContent={'flex-end'}>
             <BiCoinStack color="red" height={'0.75rem'} />
-            <Text ml={2}>Point : {_.get(siswa, 'totalPoint', 0)}</Text>
+            <Text ml={2}>Poin : {_.get(siswa, 'totalPoint', 0)}</Text>
           </Flex>
         </GridItem>
       </Grid>

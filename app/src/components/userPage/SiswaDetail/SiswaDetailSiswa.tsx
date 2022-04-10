@@ -54,7 +54,7 @@ const SiswaDetailSiswa: React.FC<Props> = ({ pelanggarans, getPelanggarans }) =>
                       History Surat Peringatan
                     </Text>
                     {_.map(siswa?.histories, (history, index) => (
-                      <SPCard history={history} key={index} />
+                      <SPCard siswa={siswa} history={history} key={index} />
                     ))}
                   </React.Fragment>
                 )}

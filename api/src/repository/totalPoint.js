@@ -84,8 +84,10 @@ totalPointRepository.generateTotalPoints = async (resources) => {
 
     await totalPointRepository.create(data);
   } else {
+    totalPoint += totalPointModel.totalPoint;
+
     const data = await totalPointRepository.resourceToModel({
-      totalPoint: totalPoint + totalPointModel.totalPoint,
+      totalPoint,
     });
 
     // Update existing total point
