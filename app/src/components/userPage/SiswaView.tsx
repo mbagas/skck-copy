@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import Router from 'next/router';
 import { Button, Flex, Text } from '@chakra-ui/react';
@@ -23,16 +24,20 @@ import { buttonStyle } from 'src/utils/styles';
 import { getAccountId } from 'src/utils/sessionUtils';
 
 const SiswaView: React.FC<Props> = ({ getDataById, pelanggarans, getPelanggarans }) => {
-  const queryId = getAccountId();
+  const [siswaId, setSiswaId] = useState<number>(0);
   const [siswa, setSiswa] = useState<ISiswaDetail>();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [limit] = useState<number>(5);
 
   const getSiswaData = async () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const data = (await getDataById(RESOURCE_NAME.SISWAS, queryId!)) as ISiswaDetail;
+    const data = (await getDataById(RESOURCE_NAME.SISWAS, siswaId)) as ISiswaDetail;
     setSiswa(data);
   };
+
+  useEffect(() => {
+    setSiswaId(getAccountId()!);
+  }, []);
 
   useCustomDebounce(
     () => {
@@ -44,14 +49,14 @@ const SiswaView: React.FC<Props> = ({ getDataById, pelanggarans, getPelanggarans
 
   useCustomDebounce(
     async () => {
-      if (!queryId) return;
+      if (!siswaId) return;
 
       await getSiswaData();
 
-      await getPelanggarans(queryId, `limit=${limit}`);
+      await getPelanggarans(siswaId, `limit=${limit}`);
     },
     500,
-    [queryId]
+    [siswaId]
   );
 
   return (
@@ -92,14 +97,7 @@ const SiswaView: React.FC<Props> = ({ getDataById, pelanggarans, getPelanggarans
                   <Button
                     {...buttonStyle.confirmation}
                     width={{ base: '100%', md: 'auto' }}
-                    onClick={() =>
-                      Router.push({
-                        pathname: `${Router.pathname}/create`,
-                        query: {
-                          id: queryId,
-                        },
-                      })
-                    }
+                    onClick={() => Router.push(`${Router.pathname}/create`)}
                   >
                     Tambah
                   </Button>

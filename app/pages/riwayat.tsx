@@ -1,11 +1,11 @@
 import React from 'react';
 import { UserLayout } from 'src/components/pageLayout';
-import { RiwayatContentGuru } from 'src/components/userPage/Riwayat';
+import { RiwayatContentSiswa } from 'src/components/userPage/Riwayat';
 
 const RiwayatPage = () => {
   return (
     <UserLayout>
-      <RiwayatContentGuru />
+      <RiwayatContentSiswa />
     </UserLayout>
   );
 };

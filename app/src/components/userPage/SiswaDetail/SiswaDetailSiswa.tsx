@@ -23,10 +23,13 @@ import { buttonStyle } from 'src/utils/styles';
 import useGetDataById from 'src/utils/useGetDataById';
 
 const SiswaDetailSiswa: React.FC<Props> = ({ pelanggarans, getPelanggarans }) => {
-  const siswa = useGetDataById(RESOURCE_NAME.SISWAS, getAccountId()!);
+  const [siswaId, setSiswaId] = useState<number>(0);
+  const siswa = useGetDataById(RESOURCE_NAME.SISWAS, siswaId);
   const [limit] = useState<string | number>('all');
 
   useEffect(() => {
+    setSiswaId(getAccountId()!);
+
     (async () => {
       await getPelanggarans(getAccountId()!, `limit=${limit}`);
     })();
