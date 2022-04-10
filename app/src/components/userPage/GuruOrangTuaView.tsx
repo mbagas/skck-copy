@@ -110,7 +110,7 @@ const GuruOrangTuaView: React.FC<Props> = ({ siswas, getAllData }) => {
           boxShadow={'lg'}
           onClick={generateCSV}
         >
-          <Image src="excell.png" alt="export .csv image" />
+          <Image src="/excell.png" alt="export .csv image" />
           <Text fontSize={{ base: 8, md: 11 }} textAlign="center">
             Export to .csv
           </Text>

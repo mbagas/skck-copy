@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import _ from 'lodash';
 import { Flex, Text } from '@chakra-ui/react';
 import { connect, ConnectedProps } from 'react-redux';
 import { IGrafiks } from 'src/utils/interface';
@@ -18,7 +17,7 @@ const GrafikContent: React.FC<Props> = ({ getGrafik }) => {
     (async () => {
       setGrafik(await getGrafik());
     })();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <DashboardMainContainer>

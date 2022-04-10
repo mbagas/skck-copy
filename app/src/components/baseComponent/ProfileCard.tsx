@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import Router from 'next/router';
@@ -71,7 +72,7 @@ const ProfileCard: React.FC<Props> = ({ siswa }) => {
             border={'1px solid rgba(0, 0, 0, 0.34)'}
             boxShadow={'lg'}
           >
-            <Image src="pdf.png" alt="cetak pelanggaran" />
+            <Image src="/pdf.png" alt="cetak pelanggaran" />
           </Flex>
           <Text fontSize={{ base: 8, md: 12 }} textAlign="center">
             Cetak pelanggaran

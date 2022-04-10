@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import _ from 'lodash';
-import { Button, Flex, Text } from '@chakra-ui/react';
-import { IGrafiks, ISiswaDetail } from 'src/utils/interface';
-import { getGrafik as _getGrafik } from 'src/store/actions/resources';
-
+import { IGrafiks } from 'src/utils/interface';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -15,7 +12,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Line, Bar } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
