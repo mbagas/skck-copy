@@ -16,7 +16,7 @@ const DashboardContent: React.FC<Props> = ({ getGrafik }) => {
     (async () => {
       setGrafik(await getGrafik());
     })();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Flex

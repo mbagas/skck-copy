@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import { Flex } from '@chakra-ui/react';
 import { IGrafiks } from 'src/utils/interface';
 import { GrafikBar, GrafikTimeSeries } from '../baseComponent';

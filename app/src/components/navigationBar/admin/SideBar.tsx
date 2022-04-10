@@ -115,7 +115,7 @@ const SideBar: React.FC<Props> = ({ show }) => {
           alignItems={'center'}
           userSelect={'none'}
           cursor={'pointer'}
-          onClick={() => router.push('dashboard/kategori-pelanggarans')}
+          onClick={() => router.push('/dashboard/kategori-pelanggarans')}
           _hover={{ color: 'royalRed.100' }}
           {...(_.includes(router.pathname, '/dashboard/kategori-pelanggarans') && isActive)}
         >
