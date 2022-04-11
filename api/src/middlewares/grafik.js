@@ -6,28 +6,12 @@ const repository = require('../repository');
 
 // Get all Pelanggaran data
 exports.getParamTimeSeriesMw = asyncMw(async (req, res, next) => {
-  const grafikTimeSeriesMultiParams = await sequelize.query(
-    `
-    SELECT 
-    kategoripelanggarans.namaKategori, 
-    count(pelanggarans.pelanggaranId) as jumlah, 
-    MONTH(pelanggarans.createdAt) as bulan 
-    FROM pelanggarans 
-    INNER JOIN kategoripelanggarans 
-    ON pelanggarans.pelanggaranId = kategoripelanggarans.id 
-    GROUP BY pelanggaranId, MONTH(createdAt)
-  `,
-    {
-      type: QueryTypes.SELECT,
-    }
-  );
-
   const grafikTimeSeriesTotal = await sequelize.query(
     `
     SELECT  
     createdAt as x ,
     count(pelanggaranId) as y
-    FROM pelanggarans 
+    FROM Pelanggarans 
     GROUP BY MONTH(createdAt)
   `,
     {
@@ -37,10 +21,10 @@ exports.getParamTimeSeriesMw = asyncMw(async (req, res, next) => {
 
   const grafikBarPelanggaran = await sequelize.query(
     `
-    SELECT kategoripelanggarans.namaKategori, 
-    count(pelanggarans.pelanggaranId) as jumlah 
-    FROM pelanggarans 
-    INNER JOIN kategoripelanggarans ON pelanggarans.pelanggaranId = kategoripelanggarans.id 
+    SELECT KategoriPelanggarans.namaKategori, 
+    count(Pelanggarans.pelanggaranId) as jumlah 
+    FROM Pelanggarans 
+    INNER JOIN KategoriPelanggarans ON Pelanggarans.pelanggaranId = KategoriPelanggarans.id 
     GROUP BY pelanggaranId
   `,
     {
@@ -52,10 +36,10 @@ exports.getParamTimeSeriesMw = asyncMw(async (req, res, next) => {
     `
   SELECT nama,MAX(jumlah) 
   FROM 
-  (SELECT kategoripelanggarans.namaKategori as nama, 
+  (SELECT KategoriPelanggarans.namaKategori as nama, 
   COUNT(pelanggaranId) as jumlah 
-  FROM pelanggarans 
-  INNER JOIN kategoripelanggarans ON pelanggarans.pelanggaranId = kategoripelanggarans.id 
+  FROM Pelanggarans 
+  INNER JOIN KategoriPelanggarans ON Pelanggarans.pelanggaranId = KategoriPelanggarans.id 
   GROUP BY pelanggaranId 
   ORDER BY jumlah DESC) as total;
   `,
@@ -64,20 +48,19 @@ exports.getParamTimeSeriesMw = asyncMw(async (req, res, next) => {
     }
   );
 
-  const totalSiswa = await sequelize.query('SELECT COUNT(id) as totalSiswa FROM siswas', {
+  const totalSiswa = await sequelize.query('SELECT COUNT(id) as totalSiswa FROM Siswas', {
     type: QueryTypes.SELECT,
   });
 
-  const totalPelanggaran = await sequelize.query('SELECT COUNT(id) as total FROM pelanggarans', {
+  const totalPelanggaran = await sequelize.query('SELECT COUNT(id) as total FROM Pelanggarans', {
     type: QueryTypes.SELECT,
   });
 
   const jumlahPelanggaranToday = await sequelize.query(
-    'SELECT count(id) as jumlah from pelanggarans WHERE date(createdAt) LIKE CURRENT_DATE()',
+    'SELECT count(id) as jumlah from Pelanggarans WHERE date(createdAt) LIKE CURRENT_DATE()',
     { type: QueryTypes.SELECT }
   );
   return res.json({
-    grafikTimeSeriesMultiParams,
     grafikTimeSeriesTotal,
     grafikBarPelanggaran,
     highestPelanggaran,
