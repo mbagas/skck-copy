@@ -26,7 +26,6 @@ import { getAccountId } from 'src/utils/sessionUtils';
 const SiswaView: React.FC<Props> = ({ getDataById, pelanggarans, getPelanggarans }) => {
   const [siswaId, setSiswaId] = useState<number>(0);
   const [siswa, setSiswa] = useState<ISiswaDetail>();
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [limit] = useState<number>(5);
 
   const getSiswaData = async () => {
@@ -38,14 +37,6 @@ const SiswaView: React.FC<Props> = ({ getDataById, pelanggarans, getPelanggarans
   useEffect(() => {
     setSiswaId(getAccountId()!);
   }, []);
-
-  useCustomDebounce(
-    () => {
-      setIsLoaded(true);
-    },
-    500,
-    [siswa]
-  );
 
   useCustomDebounce(
     async () => {
@@ -62,7 +53,7 @@ const SiswaView: React.FC<Props> = ({ getDataById, pelanggarans, getPelanggarans
   return (
     <React.Fragment>
       <DashboardMainContainer>
-        {isLoaded ? (
+        {siswa ? (
           <Flex flexDirection="column" width={'100%'} height={'100%'}>
             <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={2}>
               Buat Laporan
@@ -82,7 +73,7 @@ const SiswaView: React.FC<Props> = ({ getDataById, pelanggarans, getPelanggarans
                         History Surat Peringatan
                       </Text>
                       {_.map(siswa?.histories, (history, index) => (
-                        <SPCard history={history} key={index} />
+                        <SPCard siswa={siswa} history={history} key={index} />
                       ))}
                     </React.Fragment>
                   )}

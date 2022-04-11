@@ -1,9 +1,10 @@
 import React from 'react';
 import moment from 'moment';
+import Router from 'next/router';
 import { Button, Flex, Grid, GridItem, Text } from '@chakra-ui/react';
-import { IHistory } from 'src/utils/interface';
+import { IHistory, ISiswaDetail } from 'src/utils/interface';
 
-const SPCard: React.FC<Props> = ({ history }) => {
+const SPCard: React.FC<Props> = ({ siswa, history }) => {
   return (
     <Flex
       borderRadius={10}
@@ -24,7 +25,11 @@ const SPCard: React.FC<Props> = ({ history }) => {
         </GridItem>
         <GridItem>
           <Flex mr={10} justifyContent={'flex-end'}>
-            <Button>Unduh SP Disini</Button>
+            <Button
+              onClick={() => Router.push(`/sp/${siswa?.nis}/${siswa?.namaLengkap}/${history.spKe}`)}
+            >
+              Unduh SP Disini
+            </Button>
           </Flex>
         </GridItem>
       </Grid>
@@ -33,6 +38,7 @@ const SPCard: React.FC<Props> = ({ history }) => {
 };
 
 type Props = {
+  siswa: ISiswaDetail;
   history: IHistory;
 };
 

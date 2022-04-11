@@ -34,7 +34,6 @@ const SiswaDetailGuru: React.FC<Props> = ({
 }) => {
   const queryId = useIdQuery();
   const [siswa, setSiswa] = useState<ISiswaDetail>();
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [pelanggaranId, setPelanggaranId] = useState<number>();
   const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
   const [isDeleteable, setIsDeleteable] = useState<boolean>(false);
@@ -78,14 +77,6 @@ const SiswaDetailGuru: React.FC<Props> = ({
   }, []);
 
   useCustomDebounce(
-    () => {
-      setIsLoaded(true);
-    },
-    500,
-    [siswa]
-  );
-
-  useCustomDebounce(
     async () => {
       if (!queryId) return;
 
@@ -100,7 +91,7 @@ const SiswaDetailGuru: React.FC<Props> = ({
   return (
     <React.Fragment>
       <DashboardMainContainer>
-        {isLoaded ? (
+        {siswa ? (
           <Flex flexDirection="column" width={'100%'} height={'100%'}>
             <DashboardContainer
               justifyContent={'center'}
@@ -117,7 +108,7 @@ const SiswaDetailGuru: React.FC<Props> = ({
                         History Surat Peringatan
                       </Text>
                       {_.map(siswa?.histories, (history, index) => (
-                        <SPCard history={history} key={index} />
+                        <SPCard siswa={siswa} history={history} key={index} />
                       ))}
                     </React.Fragment>
                   )}
@@ -138,7 +129,7 @@ const SiswaDetailGuru: React.FC<Props> = ({
                     <Button
                       {...buttonStyle.confirmation}
                       width={{ base: '100%', md: 'auto' }}
-                      onClick={() => Router.push(`${Router.pathname}/${queryId}/create`)}
+                      onClick={() => Router.push(`/${queryId}/create`)}
                     >
                       Tambah
                     </Button>

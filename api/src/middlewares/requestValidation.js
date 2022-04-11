@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { validationResult, body, check } = require('express-validator');
+const { validationResult, body } = require('express-validator');
 const validator = require('../utils/validator');
 
 exports.userSchema = [
@@ -21,12 +21,12 @@ exports.kategoriSchema = [
 ];
 
 exports.pelanggaranSchema = [
-  check(body('pelanggaransId'))
+  body('pelanggaransId')
     .exists({ checkFalsy: true })
     .withMessage('Pelanggaran dibutuhkan!')
     .isArray()
     .withMessage('Pelanggaran dibutuhkan!'),
-  body('siswaId').exists({ checkFalsy: true }).isString().withMessage('Siswa dibutuhkan!'),
+  body('siswaId').exists({ checkFalsy: true }).withMessage('Siswa dibutuhkan!'),
 ];
 
 exports.validationMw = async (req, res, next) => {
