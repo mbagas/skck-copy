@@ -131,7 +131,14 @@ const SiswaDetail: React.FC<Props> = ({
                   <Button
                     {...buttonStyle.confirmation}
                     width={{ base: '100%', md: 'auto' }}
-                    onClick={() => Router.push('create')}
+                    onClick={() =>
+                      Router.push({
+                        pathname: `${Router.pathname}/create`,
+                        query: {
+                          id: queryId,
+                        },
+                      })
+                    }
                   >
                     Tambah
                   </Button>

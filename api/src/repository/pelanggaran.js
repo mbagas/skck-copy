@@ -43,9 +43,9 @@ pelanggaranRepository.bulkCreate = async (resources) => {
     )
   );
 
+  const result = await Pelanggarans.bulkCreate(models);
   await totalPointRepository.generateTotalPoints(models);
 
-  const result = await Pelanggarans.bulkCreate(models);
   return result;
 };
 
