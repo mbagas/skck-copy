@@ -28,7 +28,7 @@ exports.createPelanggaranMw = asyncMw(async (req, res, next) => {
 exports.getPelanggaranMw = asyncMw(async (req, res, next) => {
   const pelanggaran = await repository.pelanggaran.findOne(req.params.id);
 
-  if (!pelanggaran) return res.status(404).json({ message: 'Pelanggaran not found' });
+  if (!pelanggaran) return res.status(404).json({ message: 'Pelanggaran tidak ditemukan' });
 
   req.pelanggaran = pelanggaran;
 

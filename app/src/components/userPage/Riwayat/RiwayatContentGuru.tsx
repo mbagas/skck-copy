@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
+import Router from 'next/router';
 import { connect, ConnectedProps } from 'react-redux';
 import { PDFViewer, Document, Page, Text, View } from '@react-pdf/renderer';
 import { pdfStyles as styles } from 'src/utils/styles';
@@ -9,11 +10,12 @@ import { RootState } from 'src/store';
 import { resources } from 'src/store/selectors';
 import useGetDataById from 'src/utils/useGetDataById';
 import { getPelanggaranSiswa as _getPelanggaranSiswa } from 'src/store/actions/resources';
-import { RESOURCE_NAME, ORDER } from 'src/utils/constant';
+import { RESOURCE_NAME, ORDER, USER_ROLE } from 'src/utils/constant';
 import useIdQuery from 'src/utils/useIdQuery';
 import { SiswaNames, KopSurat } from 'src/components/baseComponent/PDFComponent';
 import RiwayatTableHead from 'src/components/baseComponent/PDFComponent/RiwayatTableHead';
 import RiwayatTableRow from 'src/components/baseComponent/PDFComponent/RiwayatTableRow';
+import { getRole } from 'src/utils/sessionUtils';
 
 const RiwayatContentGuru: React.FC<Props> = ({ pelanggarans, getPelanggarans }) => {
   const queryId = useIdQuery();
@@ -22,6 +24,9 @@ const RiwayatContentGuru: React.FC<Props> = ({ pelanggarans, getPelanggarans }) 
   const [decreasor, setDecreasor] = useState<string>('0');
 
   useEffect(() => {
+    const role = getRole();
+
+    if (!_.includes([USER_ROLE.GURU, USER_ROLE.ORANG_TUA], role)) Router.push('/404');
     setDecreasor(localStorage.getItem('top_bar_height')!);
   }, []);
 

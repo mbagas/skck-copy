@@ -18,7 +18,7 @@ exports.getKatPlgrMw = asyncMw(async (req, res, next) => {
   const kategoriPelanggaran = await repository.katPlgr.findOne(req.params.id);
 
   if (!kategoriPelanggaran) {
-    return res.status(404).json({ message: 'Kategori Pelanggaran not found' });
+    return res.status(404).json({ message: 'Kategori Pelanggaran tidak ditemukan' });
   }
 
   req.kategoriPelanggaran = kategoriPelanggaran;
@@ -52,7 +52,7 @@ exports.deleteKatPlgrMw = asyncMw(async (req, res) => {
 
   return res.status(204).json({
     id: req.params.id,
-    message: 'Kategori Pelanggaran deleted',
+    message: 'Kategori Pelanggaran berhasil dihapus',
   });
 });
 

@@ -31,22 +31,29 @@ userRepository.modelToResource = async (model) => {
   return _.omit(resource, ['password', 'createdAt', 'updatedAt']);
 };
 
-userRepository.checkUserExist = async (resource) => {
-  const userByUserName = await userRepository.findOne({ userName: resource.userName });
-
-  if (!userByUserName) return false;
-
-  // If the user requested is an admin then return true
-  // We will cut off the process so that the admin will not populate other user table
-  if (resource.role === USER_ROLE.ADMIN) return false;
-
-  const userByRole = await repository[getUserRole(resource.role)].findOne({
-    userId: userByUserName.id,
+userRepository.findByUsernameAndRole = async (resource) =>
+  userRepository.findOne({
+    userName: resource.userName,
+    role: resource.role,
   });
 
-  if (!userByRole) return false;
+userRepository.findByUserRole = async (role, id) =>
+  repository[getUserRole(role)].findOne({
+    userId: id,
+  });
 
-  return true;
+userRepository.checkUserExist = async (resource) => {
+  const userByUserName = await userRepository.findByUsernameAndRole(resource);
+  if (!userByUserName) return;
+
+  // If the user requested is an admin and no user found then return false
+  // We will cut off the process so that the admin will not populate other user table
+  if (resource.role === USER_ROLE.ADMIN) return userByUserName;
+
+  const userByRole = await userRepository.findByUserRole(resource.role, userByUserName.id);
+
+  if (!userByRole) return;
+  return userByRole;
 };
 
 userRepository.conditionalCreate = async (resource) => {
@@ -54,7 +61,7 @@ userRepository.conditionalCreate = async (resource) => {
 
   const isExist = await userRepository.checkUserExist(resource);
 
-  if (isExist) return {};
+  if (isExist) return;
 
   const userData = await userRepository.resourceToModel(resource);
   const user = await userRepository.create(userData);
@@ -73,15 +80,15 @@ userRepository.conditionalCreate = async (resource) => {
 };
 
 userRepository.conditionalUpdate = async (id, resource) => {
-  const resourceRole = getUserRole(resource.role);
+  const role = getUserRole(resource.role);
 
-  const user = await repository[resourceRole].findOne({ userId: id });
+  const user = await repository[role].findOne({ userId: id });
 
   // If the user is not found then cut off the process
   if (!user) return;
 
-  const body = await repository[resourceRole].resourceToModel(resource);
-  await repository[resourceRole].update(user.id, body);
+  const body = await repository[role].resourceToModel(resource);
+  await repository[role].update(user.id, body);
 };
 
 /**

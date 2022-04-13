@@ -45,7 +45,7 @@ const SiswaDetailSiswa: React.FC<Props> = ({ pelanggarans, getPelanggarans }) =>
             height={'100%'}
             padding={3}
           >
-            <Flex flexDirection={'column'}>
+            <Flex flexDirection={'column'} width={'100%'} height={'100%'}>
               <ProfileCard siswa={siswa} />
               <Flex flexDirection="column" mt={5} px={2} flex={1}>
                 {!_.isEmpty(_.get(siswa, 'histories', [])) && (

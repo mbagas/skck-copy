@@ -128,7 +128,7 @@ export const createUser = (payload: CreateUserType) => async (dispatch: AppDispa
 
 export const updateUser = (id: number, payload: Partial<CreateUserType>) => async () => {
   try {
-    await updateData(RESOURCE_NAME.USERS)(id, payload)();
+    await updateData(RESOURCE_NAME.USERS)(id, generateUserName(payload))();
   } catch (e) {
     return Promise.reject(e);
   }

@@ -20,3 +20,16 @@ exports.getUserRole = (role) => {
 // but it has to be inside the USER_ROLE
 exports.isNotOrangTua = (role) =>
   _.includes(_.toArray(USER_ROLE), role) && role !== USER_ROLE.ORANG_TUA;
+
+exports.generateDuplicateError = (role) => {
+  switch (role) {
+    case USER_ROLE.GURU:
+      return 'Guru dengan NIP/NRK yang sama sudah ada';
+    case USER_ROLE.ORANG_TUA:
+      return 'Orang Tua dengan nomor telepon yang sama sudah ada';
+    case USER_ROLE.ADMIN:
+      return 'Admin dengan username yang sama sudah ada';
+    default:
+      return 'Siswa dengan NIS yang sama sudah ada';
+  }
+};

@@ -37,7 +37,7 @@ const RiwayatTableRow: React.FC<Props> = ({ pelanggaran }) => {
     <View style={styles.row} key={pelanggaran.id}>
       <Text style={styles.names}>{_.get(pelanggaran, 'kategoriPelanggaran.namaKategori', '')}</Text>
       <Text style={styles.point}>{_.get(pelanggaran, 'kategoriPelanggaran.poin', 0)}</Text>
-      <Text style={styles.date}>{moment(pelanggaran.createdAt).format('DD MMMMM YYYY')}</Text>
+      <Text style={styles.date}>{moment(pelanggaran.createdAt).format('DD MMMM YYYY')}</Text>
     </View>
   );
 };

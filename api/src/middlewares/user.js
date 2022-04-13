@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const asyncMw = require('async-express-mw');
 const repository = require('../repository');
 const { USER_ROLE } = require('../utils/constants');
-const { isAdminOrGuru } = require('../utils/user');
+const { isAdminOrGuru, generateDuplicateError } = require('../utils/user');
 const { generateToken } = require('../utils/token');
 const { getUserRole } = require('../utils/user');
 
@@ -26,8 +26,8 @@ exports.createUserMw = asyncMw(async (req, res, next) => {
 
   const generatedUser = await repository.user.conditionalCreate(req.body);
 
-  if (_.isEmpty(generatedUser)) {
-    return res.status(400).json({ message: 'User with this username and Role already exists' });
+  if (!generatedUser) {
+    return res.status(400).json({ message: generateDuplicateError(req.body.role) });
   }
 
   req.user = generatedUser;
@@ -52,7 +52,7 @@ exports.getUserMw = asyncMw(async (req, res, next) => {
 
   const user = await repository.user.findOne(req.params.id);
 
-  if (!user) return res.status(404).json({ message: 'User not found' });
+  if (!user) return res.status(404).json({ message: 'User tidak ditemukan' });
 
   req.user = user;
 
@@ -81,9 +81,19 @@ exports.updateUserMw = asyncMw(async (req, res, next) => {
 
   if (!isAdmin && !isUser) return res.status(403).json({ message: 'Forbidden' });
 
+  const data = await repository.user.resourceToModel(req.body);
+  const isExist = await repository.user.findByUsernameAndRole(req.body);
+
+  if (isExist && isExist.id !== user.id) {
+    return res.status(400).json({ message: generateDuplicateError(req.body.role) });
+  }
+
+  if (req.body.role !== USER_ROLE.ADMIN || req.body.role !== USER_ROLE.ORANG_TUA) {
+    delete data.userName;
+  }
+
   if (req.body.role && !isAdmin) delete req.body.role;
 
-  const data = await repository.user.resourceToModel(req.body);
   await repository.user.update(req.params.id, data);
 
   return next();
@@ -107,7 +117,7 @@ exports.deleteUserMw = asyncMw(async (req, res) => {
 
   return res.status(204).json({
     id: req.params.id,
-    message: 'User deleted',
+    message: 'User berhasil dihapus',
   });
 });
 
@@ -147,9 +157,9 @@ exports.loginMw = asyncMw(async (req, res) => {
   const userMatch = await repository.user.loginValdations(req.body);
 
   // userMatch empty object
-  if (_.isEmpty(userMatch)) return res.status(404).json({ message: 'User not found' });
+  if (_.isEmpty(userMatch)) return res.status(404).json({ message: 'User tidak ditemukan' });
 
-  if (!userMatch.isMatch) return res.status(401).json({ message: 'Wrong password' });
+  if (!userMatch.isMatch) return res.status(401).json({ message: 'Password salah' });
 
   const token = await generateToken(
     {
