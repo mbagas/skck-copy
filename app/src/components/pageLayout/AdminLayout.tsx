@@ -11,9 +11,7 @@ const AdminLayout: React.FC = ({ children }) => {
   useEffect(() => {
     const role = getRole();
 
-    if (role !== USER_ROLE.ADMIN) {
-      Router.push('/404');
-    }
+    if (role !== USER_ROLE.ADMIN) Router.push('/404');
   }, []);
 
   return (

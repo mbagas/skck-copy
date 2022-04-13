@@ -3,6 +3,8 @@ import _ from 'lodash';
 import { useRouter } from 'next/router';
 import { Flex, Grid, GridItem } from '@chakra-ui/react';
 import { UserNavigationBar } from '../navigationBar';
+import { getRole } from 'src/utils/sessionUtils';
+import { USER_ROLE } from 'src/utils/constant';
 
 const UserLayout: React.FC = ({ children }) => {
   const router = useRouter();
@@ -11,6 +13,10 @@ const UserLayout: React.FC = ({ children }) => {
   const Children = () => <Flex height={'100%'}>{children}</Flex>;
 
   useEffect(() => {
+    const role = getRole();
+
+    if (role === USER_ROLE.ADMIN) router.push('/404');
+
     const pathname = router.pathname;
     const riwayat = pathname.split('/').pop();
 

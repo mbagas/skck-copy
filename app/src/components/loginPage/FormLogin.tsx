@@ -58,7 +58,7 @@ const FormLogin: React.FC<Props> = ({ userLogin }) => {
         return;
       }
 
-      return Router.push(redirectUrl);
+      Router.push(redirectUrl);
     } catch (e) {
       errorToastfier(e);
     }
