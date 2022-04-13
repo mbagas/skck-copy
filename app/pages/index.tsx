@@ -12,7 +12,7 @@ const Home = () => {
 
     switch (role) {
       case USER_ROLE.ADMIN:
-        return Router.push('/dashboard');
+        Router.push('/dashboard');
       default:
         return <UserContent />;
     }

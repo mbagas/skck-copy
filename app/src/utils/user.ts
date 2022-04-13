@@ -21,7 +21,7 @@ export const getResourceURL = (value: string) => {
 export const getLoginResultUrl = (role: RoleType) => {
   switch (role) {
     case USER_ROLE.ADMIN:
-      return 'dashboard';
+      return '/dashboard';
     default:
       return '/';
   }

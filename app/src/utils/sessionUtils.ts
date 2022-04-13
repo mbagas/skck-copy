@@ -27,10 +27,7 @@ export const isExpired = (): boolean => {
 export const getRole = (): RoleType | undefined => {
   const token = getToken();
 
-  if (_.isNil(token) || isExpired()) {
-    window.location.href = '/404';
-    return;
-  }
+  if (!token) return;
 
   const { role } = jwtDecode<IJWT>(token);
 
@@ -46,7 +43,7 @@ export const isAuthenticated = (): boolean => {
 export const canDelete = (): boolean => {
   const role = getRole();
 
-  return role === USER_ROLE.ADMIN || role === USER_ROLE.GURU;
+  return _.includes([USER_ROLE.ADMIN, USER_ROLE.GURU], role);
 };
 
 export const getAccountId = (): number | undefined => {
