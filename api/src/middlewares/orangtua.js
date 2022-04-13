@@ -16,7 +16,7 @@ exports.getOrangTuaMw = asyncMw(async (req, res, next) => {
   });
 
   // If selected orang tua is not found, return a 404 error.
-  if (!orangTua) return res.status(404).json({ message: 'Orang tua not found' });
+  if (!orangTua) return res.status(404).json({ message: 'Orang tua tidak ditemukan' });
 
   const orangTuaId = parseInt(orangTua.userId, 10);
   const adminOrGuru = isAdminOrGuru(userAuth.role);
@@ -95,15 +95,15 @@ exports.loginMw = asyncMw(async (req, res) => {
   const userMatch = await repository.user.loginValdations(req.body);
 
   // userMatch empty object
-  if (_.isEmpty(userMatch)) return res.status(404).json({ message: 'User not found' });
+  if (_.isEmpty(userMatch)) return res.status(404).json({ message: 'User tidak ditemukan' });
 
-  if (!userMatch.isMatch) return res.status(401).json({ message: 'Wrong password' });
+  if (!userMatch.isMatch) return res.status(401).json({ message: 'Password salah' });
 
   const userId = userMatch.user.id;
 
   const orangTua = await repository.orangTua.findOne({ userId });
 
-  if (!orangTua) return res.status(404).json({ message: 'Orang Tua not found' });
+  if (!orangTua) return res.status(404).json({ message: 'Orang Tua tidak ditemukan' });
 
   const token = await generateToken(
     {
@@ -119,13 +119,15 @@ exports.loginMw = asyncMw(async (req, res) => {
 
 exports.changePasswordMw = asyncMw(async (req, res) => {
   const isMatch = await bcrypt.compare(req.body.oldPassword, req.guru.password);
-  if (!isMatch) return res.status(401).json({ message: 'Wrong old password!' });
+  if (!isMatch) return res.status(401).json({ message: 'Password lama salah' });
 
   const isMatch2 = await bcrypt.compare(req.body.password, req.guru.password);
-  if (isMatch2) return res.status(401).json({ message: 'New password is same as old password!' });
+  if (isMatch2) {
+    return res.status(401).json({ message: 'Password baru tidak boleh sama dengan password lama' });
+  }
 
   const data = await repository.user.resourceToModel(req.body);
   await repository.user.update(req.guru.userId, data);
 
-  return res.json({ message: 'Password updated sucessfully!' });
+  return res.json({ message: 'Password berhasil diperbarui' });
 });

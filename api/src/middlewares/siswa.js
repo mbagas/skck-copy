@@ -26,7 +26,7 @@ exports.getSiswaMw = asyncMw(async (req, res, next) => {
     (await repository.orangTua.findOne({ userId: userAuth.id }));
 
   // If selected siswa is not found, return a 404 error.
-  if (!siswa) return res.status(404).json({ message: 'Siswa not found' });
+  if (!siswa) return res.status(404).json({ message: 'Siswa tidak ditemukan' });
 
   const siswaId = parseInt(siswa.userId, 10);
 
@@ -137,15 +137,15 @@ exports.loginMw = asyncMw(async (req, res) => {
   const userMatch = await repository.user.loginValdations(req.body);
 
   // userMatch empty object
-  if (_.isEmpty(userMatch)) return res.status(404).json({ message: 'User not found' });
+  if (_.isEmpty(userMatch)) return res.status(404).json({ message: 'User tidak ditemukan' });
 
-  if (!userMatch.isMatch) return res.status(401).json({ message: 'Wrong password' });
+  if (!userMatch.isMatch) return res.status(401).json({ message: 'Password salah' });
 
   const userId = userMatch.user.id;
 
   const siswa = await repository.siswa.findOne({ userId });
 
-  if (!siswa) return res.status(404).json({ message: 'Siswa not found' });
+  if (!siswa) return res.status(404).json({ message: 'Siswa tidak ditemukan' });
 
   const token = await generateToken(
     {
@@ -174,13 +174,15 @@ exports.changePasswordMw = asyncMw(async (req, res) => {
   }
 
   const isMatch = await bcrypt.compare(req.body.oldPassword, req.siswa.password);
-  if (!isMatch) return res.status(401).json({ message: 'Wrong old password!' });
+  if (!isMatch) return res.status(401).json({ message: 'Password lama salah' });
 
   const isMatch2 = await bcrypt.compare(req.body.password, req.siswa.password);
-  if (isMatch2) return res.status(401).json({ message: 'New password is same as old password!' });
+  if (isMatch2) {
+    return res.status(401).json({ message: 'Password baru tidak boleh sama dengan password lama' });
+  }
 
   const data = await repository.user.resourceToModel(req.body);
   await repository.user.update(req.siswa.userId, data);
 
-  return res.json({ message: 'Password updated sucessfully!' });
+  return res.json({ message: 'Password berhasil diperbarui' });
 });

@@ -27,7 +27,7 @@ export const getLoginResultUrl = (role: RoleType) => {
   }
 };
 
-export const generateUserName = (payload: CreateUserType) => {
+export const generateUserName = (payload: Partial<CreateUserType>) => {
   switch (payload.role) {
     case USER_ROLE.GURU:
       payload.userName = (payload as ICreateUser['GURU']).nipNrk;
