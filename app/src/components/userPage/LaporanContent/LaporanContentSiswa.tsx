@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Flex, Text } from '@chakra-ui/react';
-import { RESOURCE_NAME } from 'src/utils/constant';
+import { RESOURCE_NAME, USER_ROLE } from 'src/utils/constant';
 import { getAllData as _getAllData } from 'src/store/actions/resources';
 import {
   DashboardContainer,
@@ -11,13 +11,18 @@ import {
   FormPelanggaranCard,
 } from 'src/components/baseComponent';
 import useGetDataById from 'src/utils/useGetDataById';
-import { getAccountId } from 'src/utils/sessionUtils';
+import { getAccountId, getRole } from 'src/utils/sessionUtils';
+import Router from 'next/router';
 
-const LaporanContent: React.FC<Props> = ({ getAllData }) => {
+const LaporanContentSiswa: React.FC<Props> = ({ getAllData }) => {
   const [siswaId, setSiswaId] = useState<number>(0);
   const siswa = useGetDataById(RESOURCE_NAME.SISWAS, siswaId);
 
   useEffect(() => {
+    const role = getRole();
+
+    if (role !== USER_ROLE.SISWA) Router.push('/404');
+
     setSiswaId(getAccountId()!);
 
     (async () => {
@@ -49,4 +54,4 @@ const connector = connect(null, {
 
 type Props = ConnectedProps<typeof connector>;
 
-export default connector(LaporanContent);
+export default connector(LaporanContentSiswa);

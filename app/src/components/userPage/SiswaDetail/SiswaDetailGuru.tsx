@@ -5,7 +5,7 @@ import { Button, Flex, Text } from '@chakra-ui/react';
 import { connect, ConnectedProps } from 'react-redux';
 import useIdQuery from 'src/utils/useIdQuery';
 import { ISiswaDetail } from 'src/utils/interface';
-import { RESOURCE_NAME, ORDER } from 'src/utils/constant';
+import { RESOURCE_NAME, ORDER, USER_ROLE } from 'src/utils/constant';
 import {
   getDataById as _getDataById,
   getPelanggaranSiswa as _getPelanggaranSiswa,
@@ -19,7 +19,7 @@ import {
   SPCard,
 } from 'src/components/baseComponent';
 import useCustomDebounce from 'src/utils/useCustomDebounce';
-import { canDelete } from 'src/utils/sessionUtils';
+import { getRole } from 'src/utils/sessionUtils';
 import DeleteConfirmationModal from 'src/components/baseComponent/DeleteConfirmationModal';
 import { toastfier, errorToastfier } from 'src/utils/toastifier';
 import { RootState } from 'src/store';
@@ -73,7 +73,19 @@ const SiswaDetailGuru: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    setIsDeleteable(canDelete());
+    const role = getRole();
+
+    switch (role) {
+      case USER_ROLE.GURU:
+        setIsDeleteable(true);
+        break;
+      case USER_ROLE.ORANG_TUA:
+        setIsDeleteable(false);
+        break;
+      default:
+        Router.push('/404');
+        break;
+    }
   }, []);
 
   useCustomDebounce(

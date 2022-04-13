@@ -14,16 +14,6 @@ export const setToken = (token: string) => localStorage.setItem('access_token', 
 
 export const getToken = (): string | null => localStorage.getItem('access_token');
 
-export const getRole = (): RoleType | undefined => {
-  const token = getToken();
-
-  if (_.isNil(token)) return;
-
-  const { role } = jwtDecode<IJWT>(token);
-
-  return role;
-};
-
 export const isExpired = (): boolean => {
   const token = getToken();
 
@@ -32,6 +22,19 @@ export const isExpired = (): boolean => {
   const { exp } = jwtDecode<IJWT>(token);
 
   return exp * 1000 < Date.now();
+};
+
+export const getRole = (): RoleType | undefined => {
+  const token = getToken();
+
+  if (_.isNil(token) || isExpired()) {
+    window.location.href = '/404';
+    return;
+  }
+
+  const { role } = jwtDecode<IJWT>(token);
+
+  return role;
 };
 
 export const isAuthenticated = (): boolean => {
@@ -64,6 +67,9 @@ const SessionUtils = {
   getRole,
   getAccountId,
   removeToken,
+  isAuthenticated,
+  canDelete,
+  isExpired,
 };
 
 export default SessionUtils;
