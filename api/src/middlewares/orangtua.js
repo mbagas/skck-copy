@@ -118,16 +118,29 @@ exports.loginMw = asyncMw(async (req, res) => {
 });
 
 exports.changePasswordMw = asyncMw(async (req, res) => {
-  const isMatch = await bcrypt.compare(req.body.oldPassword, req.guru.password);
+  const userAuthId = parseInt(req.userAuth.id, 10);
+  const orangTuaId = parseInt(req.orangTua.userId, 10);
+
+  // If the userAuth is not an admin and does not match the id in params,
+  // then return a forbidden error.
+  if (req.userAuth.role !== USER_ROLE.ADMIN && userAuthId !== orangTuaId) {
+    return res.status(403).json({
+      message: 'Forbidden',
+    });
+  }
+
+  const user = await repository.user.findOne(orangTuaId);
+
+  const isMatch = await bcrypt.compare(req.body.oldPassword, user.password);
   if (!isMatch) return res.status(401).json({ message: 'Password lama salah' });
 
-  const isMatch2 = await bcrypt.compare(req.body.password, req.guru.password);
+  const isMatch2 = await bcrypt.compare(req.body.password, user.password);
   if (isMatch2) {
     return res.status(401).json({ message: 'Password baru tidak boleh sama dengan password lama' });
   }
 
   const data = await repository.user.resourceToModel(req.body);
-  await repository.user.update(req.guru.userId, data);
+  await repository.user.update(orangTuaId, data);
 
   return res.json({ message: 'Password berhasil diperbarui' });
 });

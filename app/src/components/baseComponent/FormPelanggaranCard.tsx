@@ -48,9 +48,14 @@ const FormPelanggaranCard: React.FC<Props> = ({ siswa, kategoris, createPelangga
 
         const role = getRole();
 
-        if (role === USER_ROLE.ADMIN) Router.push(`/dashboard/laporans`);
-        if (role === USER_ROLE.SISWA) Router.push('/');
-        Router.push(`/${Router.query.id!}`); // eslint-disable-line
+        switch (role) {
+          case USER_ROLE.ADMIN:
+            return Router.push('/dashboard/laporans');
+          case USER_ROLE.SISWA:
+            return Router.push('/');
+          default:
+            return Router.push(`/${Router.query.id!}`); // eslint-disable-line
+        }
       }, 3000);
     } catch (e) {
       errorToastfier(e);

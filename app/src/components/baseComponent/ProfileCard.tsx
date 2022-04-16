@@ -46,7 +46,7 @@ const ProfileCard: React.FC<Props> = ({ siswa }) => {
           <GridItem>NISN</GridItem>
           <GridItem>: {_.get(siswa, 'nisn', '')}</GridItem>
           <GridItem>Nama Orang Tua</GridItem>
-          <GridItem>: {_.get(siswa, 'namaLengkap', '')}</GridItem>
+          <GridItem>: {_.get(siswa, 'orangTua.namaLengkap', '')}</GridItem>
           <GridItem>No.Telp Orang Tua</GridItem>
           <GridItem>: {_.get(siswa, 'orangTua.noTelp', '')}</GridItem>
           <GridItem>Alamat</GridItem>
