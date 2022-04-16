@@ -26,7 +26,9 @@ import { getAccountId, getRole } from 'src/utils/sessionUtils';
 
 const SettingsContent: React.FC<Props> = ({ changePassword }) => {
   const [isRequested, setIsRequested] = useState<boolean>(false);
+  const [isOldPassVisible, setIsOldPassVisible] = useState<boolean>(false);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
+  const [isConfirmPassVisible, setIsConfirmPassVisible] = useState<boolean>(false);
 
   const changeUserPass = async (value: IChangePass) => {
     setIsRequested(true);
@@ -76,12 +78,16 @@ const SettingsContent: React.FC<Props> = ({ changePassword }) => {
                         onChange={handleChange('oldPassword')}
                         onBlur={handleBlur('oldPassword')}
                         {...createUserInput}
+                        type={isOldPassVisible ? 'text' : 'password'}
                       />
                       <InputRightElement>
-                        {isPassVisible ? (
-                          <RiEyeOffFill onClick={() => setIsPassVisible(false)} color="gray.300" />
+                        {isOldPassVisible ? (
+                          <RiEyeOffFill
+                            onClick={() => setIsOldPassVisible(false)}
+                            color="gray.300"
+                          />
                         ) : (
-                          <RiEyeFill onClick={() => setIsPassVisible(true)} color="gray.300" />
+                          <RiEyeFill onClick={() => setIsOldPassVisible(true)} color="gray.300" />
                         )}
                       </InputRightElement>
                     </InputGroup>
@@ -99,6 +105,7 @@ const SettingsContent: React.FC<Props> = ({ changePassword }) => {
                         onChange={handleChange('password')}
                         onBlur={handleBlur('password')}
                         {...createUserInput}
+                        type={isPassVisible ? 'text' : 'password'}
                       />
                       <InputRightElement>
                         {isPassVisible ? (
@@ -125,12 +132,19 @@ const SettingsContent: React.FC<Props> = ({ changePassword }) => {
                         onChange={handleChange('confirmationPassword')}
                         onBlur={handleBlur('confirmationPassword')}
                         {...createUserInput}
+                        type={isConfirmPassVisible ? 'text' : 'password'}
                       />
                       <InputRightElement>
-                        {isPassVisible ? (
-                          <RiEyeOffFill onClick={() => setIsPassVisible(false)} color="gray.300" />
+                        {isConfirmPassVisible ? (
+                          <RiEyeOffFill
+                            onClick={() => setIsConfirmPassVisible(false)}
+                            color="gray.300"
+                          />
                         ) : (
-                          <RiEyeFill onClick={() => setIsPassVisible(true)} color="gray.300" />
+                          <RiEyeFill
+                            onClick={() => setIsConfirmPassVisible(true)}
+                            color="gray.300"
+                          />
                         )}
                       </InputRightElement>
                     </InputGroup>
