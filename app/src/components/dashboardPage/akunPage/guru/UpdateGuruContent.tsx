@@ -133,7 +133,7 @@ const UpdateOrangTuaContent: React.FC<Props> = ({ updateGuru }) => {
                           onChange={handleChange('nipNrk')}
                           onBlur={handleBlur('nipNrk')}
                           {...createUserInput}
-                          required
+                          disabled
                         />
                         {!!errors.nipNrk && touched.nipNrk && (
                           <FormErrorMessage>{errors.nipNrk}</FormErrorMessage>

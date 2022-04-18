@@ -43,16 +43,16 @@ const Signature: React.FC<Props> = ({ suratPeringatan }) => {
         <View style={styles.signature}>
           <Text style={pdfStyles.text}>Kepala Sekolah</Text>
           <View style={styles.placeholder}>
-            <Image style={styles.ttd} src={'/ttd.jpeg'} />
-            <Text style={pdfStyles.text}>Ilham</Text>
+            <Image style={styles.ttd} src={'/ttd-1.jpeg'} />
+            <Text style={pdfStyles.text}>Dra. Silfa Dusun, M.Pd</Text>
           </View>
         </View>
         <View style={styles.signature} />
         <View style={styles.signature}>
           <Text style={pdfStyles.text}>Wakil Kesiswaan</Text>
           <View style={styles.placeholder}>
-            <Image style={styles.ttd} src={'/ttd.jpeg'} />
-            <Text style={pdfStyles.text}>Fahri</Text>
+            <Image style={styles.ttd} src={'/ttd-2.jpeg'} />
+            <Text style={pdfStyles.text}>Idris, S. Ag</Text>
           </View>
         </View>
       </View>

@@ -26,7 +26,7 @@ const RiwayatContentGuru: React.FC<Props> = ({ pelanggarans, getPelanggarans }) 
   useEffect(() => {
     const role = getRole();
 
-    if (!_.includes([USER_ROLE.GURU, USER_ROLE.ORANG_TUA], role)) Router.push('/404');
+    if (!_.includes(_.toArray(_.omit(USER_ROLE, ['SISWA'])), role)) Router.push('/404');
     setDecreasor(localStorage.getItem('top_bar_height')!);
   }, []);
 
