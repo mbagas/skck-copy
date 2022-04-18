@@ -16,7 +16,7 @@ const ProfileCard: React.FC<Props> = ({ siswa }) => {
   }, []);
 
   const goToRiwayat = () => {
-    if (role === USER_ROLE.SISWA) Router.push('/riwayat');
+    if (role === USER_ROLE.SISWA) return Router.push('/riwayat');
     Router.push({
       pathname: `${Router.pathname}/riwayat`,
       query: {

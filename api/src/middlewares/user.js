@@ -88,7 +88,7 @@ exports.updateUserMw = asyncMw(async (req, res, next) => {
     return res.status(400).json({ message: generateDuplicateError(req.body.role) });
   }
 
-  if (_.includes([USER_ROLE.ADMIN, USER_ROLE.ORANG_TUA], req.body.role)) delete data.userName;
+  if (!_.includes([USER_ROLE.ADMIN, USER_ROLE.ORANG_TUA], req.body.role)) delete data.userName;
 
   if (req.body.role && !isAdmin) delete req.body.role;
 

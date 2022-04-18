@@ -12,7 +12,7 @@ module.exports = {
         const useableTime = byMonth.toDate();
 
         const pelanggaranId = _.random(1, 10);
-        const siswaId = _.random(1, 9);
+        const siswaId = _.random(1, 6);
 
         return {
           pelanggaranId,
