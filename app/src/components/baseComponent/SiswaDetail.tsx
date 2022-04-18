@@ -100,6 +100,7 @@ const SiswaDetail: React.FC<Props> = ({
               justifyContent={'center'}
               alignItems={'center'}
               height={'100%'}
+              overflow={'auto'}
               pb={10}
             >
               <Flex flexDirection={'column'} width={'95%'} height={'95%'}>

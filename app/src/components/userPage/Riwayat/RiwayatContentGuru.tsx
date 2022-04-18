@@ -16,18 +16,18 @@ import { SiswaNames, KopSurat } from 'src/components/baseComponent/PDFComponent'
 import RiwayatTableHead from 'src/components/baseComponent/PDFComponent/RiwayatTableHead';
 import RiwayatTableRow from 'src/components/baseComponent/PDFComponent/RiwayatTableRow';
 import { getRole } from 'src/utils/sessionUtils';
+import useTopBarHeight from 'src/utils/useTopBarHeight';
 
 const RiwayatContentGuru: React.FC<Props> = ({ pelanggarans, getPelanggarans }) => {
   const queryId = useIdQuery();
   const siswa = useGetDataById(RESOURCE_NAME.SISWAS, queryId);
   const [limit] = useState<string | number>('all');
-  const [decreasor, setDecreasor] = useState<string>('0');
+  const decreasor = useTopBarHeight();
 
   useEffect(() => {
     const role = getRole();
 
     if (!_.includes(_.toArray(_.omit(USER_ROLE, ['SISWA'])), role)) Router.push('/404');
-    setDecreasor(localStorage.getItem('top_bar_height')!);
   }, []);
 
   useCustomDebounce(

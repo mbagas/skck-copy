@@ -1,4 +1,5 @@
-import React, { createRef, useEffect } from 'react';
+import React, { createRef } from 'react';
+import useTopBarSubscriber from 'src/utils/useTopBarSubscriber';
 import { AspectRatio, Flex, Image, Spacer, Text, VStack } from '@chakra-ui/react';
 import useBasePath from 'src/utils/useBasePath';
 
@@ -6,9 +7,7 @@ const BaseTopBar: React.FC = ({ children }) => {
   const basePath = useBasePath();
   const topBarRef = createRef<HTMLDivElement>();
 
-  useEffect(() => {
-    localStorage.setItem('top_bar_height', `${topBarRef.current?.scrollHeight}`);
-  }, []); // eslint-disable-line
+  useTopBarSubscriber(topBarRef);
 
   const aliceText = {
     fontFamily: 'Alice',
@@ -38,6 +37,7 @@ const BaseTopBar: React.FC = ({ children }) => {
       bgColor={'royalBlack.100'}
       userSelect="none"
       ref={topBarRef}
+      zIndex={5}
     >
       <Flex alignItems="center">
         <Flex align="center" mr={5}>

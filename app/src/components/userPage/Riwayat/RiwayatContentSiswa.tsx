@@ -14,15 +14,15 @@ import { getAccountId } from 'src/utils/sessionUtils';
 import { SiswaNames, KopSurat } from 'src/components/baseComponent/PDFComponent';
 import RiwayatTableHead from 'src/components/baseComponent/PDFComponent/RiwayatTableHead';
 import RiwayatTableRow from 'src/components/baseComponent/PDFComponent/RiwayatTableRow';
+import useTopBarHeight from 'src/utils/useTopBarHeight';
 
 const RiwayatContentSiswa: React.FC<Props> = ({ pelanggarans, getPelanggarans }) => {
   const [siswaId, setSiswaId] = useState<number>(0);
   const siswa = useGetDataById(RESOURCE_NAME.SISWAS, siswaId);
   const [limit] = useState<string | number>('all');
-  const [decreasor, setDecreasor] = useState<string>('0');
+  const decreasor = useTopBarHeight();
 
   useEffect(() => {
-    setDecreasor(localStorage.getItem('top_bar_height')!);
     setSiswaId(getAccountId()!);
   }, []);
 

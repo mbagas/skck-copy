@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import _ from 'lodash';
 import {
   Accordion,
@@ -9,7 +9,6 @@ import {
   Flex,
   VStack,
   Text,
-  useMediaQuery,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { GoSignOut } from 'react-icons/go';
@@ -17,20 +16,16 @@ import { FaUser, FaHome } from 'react-icons/fa';
 import { RiAddCircleFill, RiBook2Fill } from 'react-icons/ri';
 import { USER_ROLE } from 'src/utils/constant';
 import { removeToken } from 'src/utils/sessionUtils';
+import useTopBarHeight from 'src/utils/useTopBarHeight';
 
 const SideBar: React.FC<Props> = ({ show }) => {
   const router = useRouter();
-  const [decreasor, setDecreasor] = useState<string>();
-  const [isOnBase] = useMediaQuery(['(max-width: 48em)', '(min-width: 48em)']);
+  const decreasor = useTopBarHeight();
 
   const isActive = {
     fontWeight: 'bold',
     color: 'royalRed.200',
   };
-
-  useEffect(() => {
-    setDecreasor(localStorage.getItem('top_bar_height')!); // eslint-disable-line
-  }, []);
 
   const generateAccordion = () =>
     _.map(USER_ROLE, (role, key) => {
@@ -59,7 +54,7 @@ const SideBar: React.FC<Props> = ({ show }) => {
         md: 'relative',
       }}
       bg="white"
-      {...(isOnBase && { left: show ? 0 : '-100%' })}
+      left={{ base: show ? 0 : '-100%', md: 0 }}
       zIndex={5}
     >
       <VStack spacing={5} alignItems={'flex-start'} py={4} px={5} width={'100%'} height={'100%'}>
@@ -126,7 +121,6 @@ const SideBar: React.FC<Props> = ({ show }) => {
         </Flex>
         <Flex
           width={'90%'}
-          alignItems={'center'}
           userSelect={'none'}
           cursor={'pointer'}
           onClick={() => {
@@ -135,10 +129,12 @@ const SideBar: React.FC<Props> = ({ show }) => {
           }}
           _hover={{ color: 'royalRed.100' }}
         >
-          <AspectRatio justifyContent={'center'} ratio={1} width={8} mr={3}>
-            <GoSignOut />
-          </AspectRatio>
-          <Text>Keluar</Text>
+          <Flex ml={'5px'} alignItems={'center'}>
+            <AspectRatio justifyContent={'center'} ratio={1} width={8} mr={3}>
+              <GoSignOut />
+            </AspectRatio>
+            <Text>Keluar</Text>
+          </Flex>
         </Flex>
       </VStack>
     </Flex>
