@@ -24,15 +24,17 @@ const LaporanSiswaCreate: React.FC<Props> = ({ getAllData }) => {
   }, []); // eslint-disable-line
 
   return (
-    <DashboardMainContainer>
+    <DashboardMainContainer {...(siswa && { height: 'fit-content' })}>
       <Flex flexDirection="column" width="100%">
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
           Buat Laporan
         </Text>
       </Flex>
       {siswa ? (
-        <DashboardContainer flexDirection={'column'}>
-          <ProfileCard siswa={siswa} />
+        <DashboardContainer flexDirection={'column'} height={'fit-content'}>
+          <Flex p={6}>
+            <ProfileCard siswa={siswa} />
+          </Flex>
           <FormPelanggaranCard siswa={siswa} />
         </DashboardContainer>
       ) : null}

@@ -36,11 +36,13 @@ const LaporanContentSiswa: React.FC<Props> = ({ getAllData }) => {
       {siswa ? (
         <DashboardContainer flexDirection={'column'} height={'100%'}>
           <Flex flexDirection="column" width="100%">
-            <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
+            <Text fontFamily={'Poppins'} fontSize={'1.45rem'} px={6} pt={3}>
               Form Pelanggaran
             </Text>
           </Flex>
-          <ProfileCard siswa={siswa} />
+          <Flex p={6}>
+            <ProfileCard siswa={siswa} />
+          </Flex>
           <FormPelanggaranCard siswa={siswa} />
         </DashboardContainer>
       ) : null}

@@ -23,8 +23,8 @@ const DashboardContent: React.FC<Props> = ({ getGrafik }) => {
       flexDirection={'column'}
       py={3}
       px={3}
-      height={'100%'}
-      width={'100vw'}
+      height={'fit-content'}
+      width={'100%'}
       bg={'royalGray.100'}
     >
       <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
@@ -76,11 +76,13 @@ const DashboardContent: React.FC<Props> = ({ getGrafik }) => {
           </Card>
         </GridItem>
       </Grid>
-      <DashboardContainer flexDirection="column">
+      <DashboardContainer flexDirection="column" height={'100%'}>
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} px={5} py={5}>
           Data Kategori Pelanggaran Harian
         </Text>
-        <Grafik grafik={grafik} />
+        <Flex height={'40rem'} width={'100%'}>
+          <Grafik grafik={grafik} />
+        </Flex>
       </DashboardContainer>
     </Flex>
   );

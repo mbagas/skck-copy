@@ -4,9 +4,11 @@ import Router from 'next/router';
 import { AdminNavigationBar } from '../navigationBar';
 import { getRole } from 'src/utils/sessionUtils';
 import { USER_ROLE } from 'src/utils/constant';
+import useTopBarHeight from 'src/utils/useTopBarHeight';
 
 const AdminLayout: React.FC = ({ children }) => {
   const [show, setShow] = useState<boolean>(false);
+  const decreasor = useTopBarHeight();
 
   useEffect(() => {
     const role = getRole();
@@ -19,7 +21,9 @@ const AdminLayout: React.FC = ({ children }) => {
       <AdminNavigationBar.TopBar setShow={setShow} />
       <Flex flex={1}>
         <AdminNavigationBar.SideBar show={show} />
-        {children}
+        <Flex width={'100%'} height={`calc(100vh - ${decreasor}px)`} overflow={'auto'}>
+          {children}
+        </Flex>
       </Flex>
     </Flex>
   );

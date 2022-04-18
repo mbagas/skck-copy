@@ -31,6 +31,7 @@ const ProfileCard: React.FC<Props> = ({ siswa }) => {
       borderRadius={25}
       alignItems="center"
       position={'relative'}
+      width={'100%'}
       boxShadow="lg"
       p={{ base: 2, md: 5 }}
     >
