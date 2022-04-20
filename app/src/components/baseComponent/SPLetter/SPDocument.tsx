@@ -11,7 +11,7 @@ const SPDocument = ({ suratPeringatan }: Props) => {
     <Document {...generateSPDocumentProps(suratPeringatan)}>
       <Page size="A4" style={styles.body}>
         <KopSurat />
-        <Text style={styles.title}>Surat Peringatan 1</Text>
+        <Text style={styles.title}>Surat Peringatan {spKe}</Text>
         <Pembuka type={spKe} />
         <SiswaSP suratPeringatan={suratPeringatan} />
         <Text style={styles.text}>{SP_TEXT[spKe]}</Text>
