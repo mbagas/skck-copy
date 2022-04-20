@@ -21,7 +21,7 @@ const convertTo62 = (number) => {
 exports.sentMessage = async (phoneNumber, url) => {
   try {
     const response = await client.messages.create({
-      body: `Selamat siang, kami dari pihak sekolah ingin menyampaikan bahwa anak bapak/ibu telah mendapatkan surat peringatan yang dapat diunduh disini melalui link berikut ${url}.`,
+      body: `Assalamualaikum, Selamat Pagi, kami dari pihak sekolah ingin menyampaikan bahwa anak bapak/ibu telah mendapatkan surat peringatan yang dapat diunduh disini melalui link berikut ${url}.`,
       to: convertTo62(phoneNumber), // Text this number
       from: fromNumber, // From a valid Twilio number
     });
