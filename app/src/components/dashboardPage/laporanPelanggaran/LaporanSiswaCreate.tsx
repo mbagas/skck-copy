@@ -24,7 +24,7 @@ const LaporanSiswaCreate: React.FC<Props> = ({ getAllData }) => {
   }, []); // eslint-disable-line
 
   return (
-    <DashboardMainContainer {...(siswa && { height: 'fit-content' })}>
+    <DashboardMainContainer>
       <Flex flexDirection="column" width="100%">
         <Text fontFamily={'Poppins'} fontSize={'1.45rem'} py={5}>
           Buat Laporan
