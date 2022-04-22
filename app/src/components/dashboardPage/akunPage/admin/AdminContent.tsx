@@ -46,11 +46,21 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
     setIsOpen(false);
   };
 
+  const getDatas = async () => {
+    if (firstLoad) return;
+
+    await getAllData(
+      RESOURCE_NAME.USERS,
+      `page=${page}&limit=${limit}&${getUserFilter(searchValue)}`
+    );
+  };
+
   const deleteUser = async () => {
     try {
       if (!userId) return;
 
       await deleteAdmin(RESOURCE_NAME.USERS, userId);
+      getDatas();
 
       onClose();
     } catch (e) {
@@ -66,18 +76,7 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
     })();
   }, []); // eslint-disable-line
 
-  useCustomDebounce(
-    async () => {
-      if (firstLoad) return;
-
-      await getAllData(
-        RESOURCE_NAME.USERS,
-        `page=${page}&limit=${limit}&${getUserFilter(searchValue)}`
-      );
-    },
-    1000,
-    [searchValue, page]
-  );
+  useCustomDebounce(getDatas, 1000, [searchValue, page]);
 
   return (
     <React.Fragment>
