@@ -37,6 +37,7 @@ import { buttonStyle } from 'src/utils/styles';
 const GuruContent: React.FC<Props> = ({ gurus, deleteGuru, getAllData }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [userId, setUserId] = useState<number | null>(null);
+  const [guruId, setGuruId] = useState<number | null>(null);
   const [page, setPage] = useState<number>(1);
   const [searchValue, setSearchValue] = useState<string>('');
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
@@ -46,11 +47,22 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru, getAllData }) => {
     setIsOpen(false);
   };
 
+  const getDatas = async () => {
+    if (firstLoad) return;
+
+    await getAllData(
+      RESOURCE_NAME.GURUS,
+      `page=${page}&limit=${limit}&${getGuruFilter(searchValue)}`
+    );
+  };
+
   const deleteUser = async () => {
     try {
-      if (!userId) return;
+      if (!userId || !guruId) return;
 
       await deleteGuru(RESOURCE_NAME.USERS, userId);
+      await deleteGuru(RESOURCE_NAME.GURUS, guruId, true);
+      getDatas();
 
       onClose();
     } catch (e) {
@@ -66,18 +78,7 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru, getAllData }) => {
     })();
   }, []); // eslint-disable-line
 
-  useCustomDebounce(
-    async () => {
-      if (firstLoad) return;
-
-      await getAllData(
-        RESOURCE_NAME.GURUS,
-        `page=${page}&limit=${limit}&${getGuruFilter(searchValue)}`
-      );
-    },
-    1000,
-    [searchValue, page]
-  );
+  useCustomDebounce(getDatas, 1000, [searchValue, page]);
 
   return (
     <React.Fragment>
@@ -156,6 +157,7 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru, getAllData }) => {
                         <FaTrash
                           onClick={() => {
                             setUserId(guru.userId);
+                            setGuruId(guru.id);
                             setIsOpen(true);
                           }}
                         />

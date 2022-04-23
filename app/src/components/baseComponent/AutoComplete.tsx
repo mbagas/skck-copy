@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState } from 'react';
+import React, { createRef, useEffect, useRef, useState } from 'react';
 import _ from 'lodash';
 import { Flex, Input, InputProps, Text } from '@chakra-ui/react';
 import { createUserInput } from 'src/utils/styles';
@@ -23,9 +23,13 @@ const AutoComplete: React.FC<Props> = ({
   const [isLoaded, setIsLoaded] = useState(false);
 
   const autocompleteRef = createRef<HTMLDivElement>();
+  const suggestionRef = useRef<HTMLDivElement[]>([]);
 
   const select = (index: number) => {
     const selected = suggestions[index];
+
+    if (_.isNil(selected)) return;
+
     setCursor(index);
     setInput(options[index].label);
     onChange(selected);
@@ -33,11 +37,17 @@ const AutoComplete: React.FC<Props> = ({
   };
 
   const moveCursorUp = () => {
-    if (cursor > 0) setCursor((c) => c - 1);
+    if (cursor === 0) return;
+
+    suggestionRef.current[cursor - 1]?.scrollIntoView();
+    setCursor((c) => c - 1);
   };
 
   const moveCursorDown = () => {
-    if (cursor < suggestions.length - 1) setCursor((c) => c + 1);
+    if (cursor + 1 > suggestions.length - 1) return;
+
+    suggestionRef.current[cursor + 1]?.scrollIntoView();
+    setCursor((c) => c + 1);
   };
 
   const _handleNav = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -50,6 +60,7 @@ const AutoComplete: React.FC<Props> = ({
         break;
       case 'Enter':
         if (cursor >= 0 && cursor < options.length) select(cursor);
+        e.preventDefault();
         break;
     }
   };
@@ -136,6 +147,9 @@ const AutoComplete: React.FC<Props> = ({
                   }}
                   onClick={() => select(index)}
                   key={index}
+                  ref={(el) => {
+                    if (el) suggestionRef.current[index] = el;
+                  }}
                 >
                   <Text>{option.label}</Text>
                 </Flex>
