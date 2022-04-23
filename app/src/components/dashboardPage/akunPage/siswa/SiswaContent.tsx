@@ -37,6 +37,7 @@ import { buttonStyle } from 'src/utils/styles';
 const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [userId, setUserId] = useState<number | null>(null);
+  const [siswaId, setSiswaId] = useState<number | null>(null);
   const [page, setPage] = useState<number>(1);
   const [searchValue, setSearchValue] = useState<string>('');
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
@@ -46,11 +47,22 @@ const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
     setIsOpen(false);
   };
 
+  const getDatas = async () => {
+    if (firstLoad) return;
+
+    await getAllData(
+      RESOURCE_NAME.SISWAS,
+      `page=${page}&limit=${limit}&${getSiswaFilter(searchValue)}`
+    );
+  };
+
   const deleteUser = async () => {
     try {
-      if (!userId) return;
+      if (!userId || !siswaId) return;
 
       await deleteSiswa(RESOURCE_NAME.USERS, userId);
+      await deleteSiswa(RESOURCE_NAME.SISWAS, siswaId, true);
+      getDatas();
 
       onClose();
     } catch (e) {
@@ -66,18 +78,7 @@ const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
     })();
   }, []); // eslint-disable-line
 
-  useCustomDebounce(
-    async () => {
-      if (firstLoad) return;
-
-      await getAllData(
-        RESOURCE_NAME.SISWAS,
-        `page=${page}&limit=${limit}&${getSiswaFilter(searchValue)}`
-      );
-    },
-    1000,
-    [searchValue, page]
-  );
+  useCustomDebounce(getDatas, 1000, [searchValue, page]);
 
   return (
     <React.Fragment>
@@ -160,6 +161,7 @@ const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
                         <FaTrash
                           onClick={() => {
                             setUserId(siswa.userId);
+                            setSiswaId(siswa.id);
                             setIsOpen(true);
                           }}
                         />

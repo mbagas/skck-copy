@@ -109,9 +109,9 @@ export const updateData =
 
 // Delete the data by id
 export const deleteData =
-  <T extends ResourceKey>(resourceName: T, id: number) =>
+  <T extends ResourceKey>(resourceName: T, id: number, noRequest = false) =>
   async (dispatch: AppDispatch) => {
-    await axios.delete(`/${resourceName}/${id}`);
+    if (!noRequest) await axios.delete(`/${resourceName}/${id}`);
 
     return dispatch(deleteResource(resourceName, id));
   };

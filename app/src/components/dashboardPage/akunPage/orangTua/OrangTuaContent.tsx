@@ -37,6 +37,7 @@ import { buttonStyle } from 'src/utils/styles';
 const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllData }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [userId, setUserId] = useState<number | null>(null);
+  const [orangTuaId, setOrangTuaId] = useState<number | null>(null);
   const [page, setPage] = useState<number>(1);
   const [searchValue, setSearchValue] = useState<string>('');
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
@@ -46,11 +47,22 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
     setIsOpen(false);
   };
 
+  const getDatas = async () => {
+    if (firstLoad) return;
+
+    await getAllData(
+      RESOURCE_NAME.ORANG_TUAS,
+      `page=${page}&limit=${limit}&${getOrangTuaFilter(searchValue)}`
+    );
+  };
+
   const deleteUser = async () => {
     try {
-      if (!userId) return;
+      if (!userId || !orangTuaId) return;
 
       await deleteOrangTua(RESOURCE_NAME.USERS, userId);
+      await deleteOrangTua(RESOURCE_NAME.ORANG_TUAS, orangTuaId, true);
+      getDatas();
 
       onClose();
     } catch (e) {
@@ -66,18 +78,7 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
     })();
   }, []); // eslint-disable-line
 
-  useCustomDebounce(
-    async () => {
-      if (firstLoad) return;
-
-      await getAllData(
-        RESOURCE_NAME.ORANG_TUAS,
-        `page=${page}&limit=${limit}&${getOrangTuaFilter(searchValue)}`
-      );
-    },
-    1000,
-    [searchValue, page]
-  );
+  useCustomDebounce(getDatas, 1000, [searchValue, page]);
 
   return (
     <React.Fragment>
@@ -156,6 +157,7 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
                         <FaTrash
                           onClick={() => {
                             setUserId(orangTua.userId);
+                            setOrangTuaId(orangTua.id);
                             setIsOpen(true);
                           }}
                         />
