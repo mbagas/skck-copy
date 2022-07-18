@@ -166,7 +166,7 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
 };
 
 const mapStateToProps = (state: RootState) => ({
-  admins: resources.getResource(state, RESOURCE_NAME.USERS),
+  admins: resources.getResource(RESOURCE_NAME.USERS)(state),
 });
 
 const connector = connect(mapStateToProps, {

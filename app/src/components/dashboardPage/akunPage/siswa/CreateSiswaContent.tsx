@@ -25,13 +25,13 @@ import { errorToastfier, toastfier } from 'src/utils/toastifier';
 import { ICreateUser } from 'src/utils/interface';
 import { RootState } from 'src/store';
 import { resources } from 'src/store/selectors';
-import { generateOrangTuaOptions } from 'src/utils/user';
 import AutoComplete from 'src/components/baseComponent/AutoComplete';
 
-const CreateSiswaContent: React.FC<Props> = ({ createSiswa, getAllData, orangTuas }) => {
+const CreateSiswaContent: React.FC<Props> = ({ createSiswa, getAllData }) => {
   const [isRequested, setIsRequested] = useState<boolean>(false);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
-  const [orangTuaId, setOrangTuaId] = useState('');
+  const [orangTua, setOrangTua] = useState('');
+  const [orangTuaId, setOrangTuaId] = useState<number>();
   const [isTouched, setIsTouched] = useState<boolean>(false);
   const [isError, setIsError] = useState<string>('');
 
@@ -52,26 +52,14 @@ const CreateSiswaContent: React.FC<Props> = ({ createSiswa, getAllData, orangTua
     setIsRequested(false);
   };
 
-  const validateOrangTua = (toValidate: string | null = null) => {
+  const validateOrangTua = () => {
     setIsTouched(true);
     setIsError('');
 
-    const orangTua = _.find(orangTuas.rows, ['namaLengkap', toValidate]);
-
-    let ortuId = 0;
-
-    // If there is an input
-    if (!_.isNil(orangTua)) ortuId = orangTua.id;
-
     // If the input is empty and no selected value
-    if ((_.isEmpty(orangTuaId) || !_.isNumber(_.toNumber(orangTuaId))) && !ortuId) {
+    if (_.isNil(orangTuaId) || !_.isNumber(_.toNumber(orangTuaId))) {
       setIsError('Nama orang tua tidak boleh kosong');
       return false;
-    }
-
-    // If the input is exists and not same as selected value, update
-    if (ortuId && ortuId !== _.toNumber(orangTuaId)) {
-      setOrangTuaId(`${ortuId}`);
     }
 
     return true;
@@ -159,11 +147,13 @@ const CreateSiswaContent: React.FC<Props> = ({ createSiswa, getAllData, orangTua
                   <FormControl isInvalid={!_.isEmpty(isError) && isTouched}>
                     <FormLabel>Nama Orang Tua</FormLabel>
                     <AutoComplete
-                      onChange={(e) => setOrangTuaId(`${e.value}`)}
-                      options={generateOrangTuaOptions(orangTuas)}
-                      onClick={() => setIsTouched(false)}
-                      onLostFocus={validateOrangTua}
-                      placeholder="Nama Orang Tua"
+                      keyword={orangTua}
+                      setKeyword={setOrangTua}
+                      setOrangTuaId={setOrangTuaId}
+                      setIsError={setIsError}
+                      setIsTouched={setIsTouched}
+                      onFocus={() => setIsTouched(true)}
+                      onBlur={() => validateOrangTua()}
                       isRequired
                     />
                     {!_.isEmpty(isError) && isTouched && (
@@ -237,7 +227,7 @@ const CreateSiswaContent: React.FC<Props> = ({ createSiswa, getAllData, orangTua
 };
 
 const mapStateToProps = (state: RootState) => ({
-  orangTuas: resources.getResource(state, RESOURCE_NAME.ORANG_TUAS),
+  orangTuas: resources.getResource(RESOURCE_NAME.ORANG_TUAS)(state),
 });
 
 const connector = connect(mapStateToProps, {

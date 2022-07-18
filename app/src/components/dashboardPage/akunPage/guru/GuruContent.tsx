@@ -177,7 +177,7 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru, getAllData }) => {
 };
 
 const mapStateToProps = (state: RootState) => ({
-  gurus: resources.getResource(state, RESOURCE_NAME.GURUS),
+  gurus: resources.getResource(RESOURCE_NAME.GURUS)(state),
 });
 
 const connector = connect(mapStateToProps, {

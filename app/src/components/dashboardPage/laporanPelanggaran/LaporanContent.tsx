@@ -119,7 +119,7 @@ const LaporanContent: React.FC<Props> = ({ siswas, getAllData }) => {
 };
 
 const mapStateToProps = (state: RootState) => ({
-  siswas: resources.getResource(state, RESOURCE_NAME.SISWAS),
+  siswas: resources.getResource(RESOURCE_NAME.SISWAS)(state),
 });
 
 const connector = connect(mapStateToProps, {

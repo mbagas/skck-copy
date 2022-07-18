@@ -1,3 +1,4 @@
+import React from 'react';
 import { USER_ROLE } from './constant';
 
 export type RoleType = typeof USER_ROLE[keyof typeof USER_ROLE];
@@ -174,3 +175,5 @@ export interface IGrafiks {
   totalPelanggaran: ITotalPelanggaran[];
   jumlahPelanggaranToday: IJumlahPelanggaranToday[];
 }
+
+export type ReactSetter<T> = React.Dispatch<React.SetStateAction<T>>;

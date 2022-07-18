@@ -171,7 +171,7 @@ const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllDat
 };
 
 const mapStateToProps = (state: RootState) => ({
-  kategoris: resources.getResource(state, RESOURCE_NAME.KATEGORI_PELANGGARANS),
+  kategoris: resources.getResource(RESOURCE_NAME.KATEGORI_PELANGGARANS)(state),
 });
 
 const connector = connect(mapStateToProps, {

@@ -42,6 +42,7 @@ const PelanggaranCard: React.FC<Props> = ({ pelanggaran, deleteAble, onClickDele
           color="royalRed.200"
           _hover={{ color: 'royalRed.300' }}
           onClick={() => onClickDelete?.(pelanggaran.id)}
+          cursor={'pointer'}
         >
           <IoCloseCircle fontSize={'1.8rem'} />
         </Flex>

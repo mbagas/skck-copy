@@ -16,6 +16,7 @@ const SiswaCard: React.FC<Props> = ({ siswa }) => {
       boxShadow="lg"
       borderColor="black"
       onClick={() => Router.push(`${Router.pathname}/${siswa.id}`)}
+      cursor={'pointer'}
     >
       <Grid alignItems="center" templateColumns="repeat(2, 1fr)" gap={3} width={'100%'}>
         <GridItem>
