@@ -24,7 +24,7 @@ export const createGuruSchema = guruSchema.concat(passwordSchema);
 export const siswaSchema = Yup.object({
   namaLengkap: Yup.string().required('Nama lengkap dibutuhkan'),
   nis: Yup.string().required('NIS dibutuhkan'),
-  nisn: Yup.string().required('NIS dibutuhkan'),
+  nisn: Yup.string().required('NISN dibutuhkan'),
   alamat: Yup.string(),
 });
 

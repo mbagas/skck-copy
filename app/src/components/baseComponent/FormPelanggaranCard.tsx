@@ -107,7 +107,7 @@ const FormPelanggaranCard: React.FC<Props> = ({ siswa, kategoris, createPelangga
 };
 
 const mapStateToProps = (state: RootState) => ({
-  kategoris: resources.getResource(state, RESOURCE_NAME.KATEGORI_PELANGGARANS),
+  kategoris: resources.getResource(RESOURCE_NAME.KATEGORI_PELANGGARANS)(state),
 });
 
 const connector = connect(mapStateToProps, {

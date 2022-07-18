@@ -25,8 +25,7 @@ import { errorToastfier, toastfier } from 'src/utils/toastifier';
 import useIdQuery from 'src/utils/useIdQuery';
 import { ICreateUser } from 'src/utils/interface';
 import useGetDataById from 'src/utils/useGetDataById';
-import AutoComplete, { Options } from 'src/components/baseComponent/AutoComplete';
-import { generateOrangTuaOptions } from 'src/utils/user';
+import AutoComplete from 'src/components/baseComponent/AutoComplete';
 import { RootState } from 'src/store';
 import { resources } from 'src/store/selectors';
 import useCustomDebounce from 'src/utils/useCustomDebounce';
@@ -37,8 +36,8 @@ const UpdateSiswaContent: React.FC<Props> = ({ updateSiswa, getAllData, orangTua
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isRequested, setIsRequested] = useState<boolean>(false);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
-  const [orangTuaId, setOrangTuaId] = useState('');
-  const [prevOrangTua, setPrevOrangTua] = useState<Options>({ label: '', value: '' });
+  const [orangTua, setOrangTua] = useState('');
+  const [orangTuaId, setOrangTuaId] = useState<number>();
   const [isTouched, setIsTouched] = useState<boolean>(false);
   const [isError, setIsError] = useState<string>('');
 
@@ -61,26 +60,15 @@ const UpdateSiswaContent: React.FC<Props> = ({ updateSiswa, getAllData, orangTua
     setIsRequested(false);
   };
 
-  const validateOrangTua = (toValidate: string | null = null) => {
+  const validateOrangTua = () => {
     setIsTouched(true);
     setIsError('');
 
-    const orangTua = _.find(orangTuas.rows, ['namaLengkap', toValidate]);
-
-    let ortuId = 0;
-
-    // If there is an input
-    if (!_.isNil(orangTua)) ortuId = orangTua.id;
-
     // If the input is empty and no selected value
-    if ((_.isEmpty(orangTuaId) || !_.isNumber(_.toNumber(orangTuaId))) && !ortuId) {
+    if (_.isNil(orangTuaId) || !_.isNumber(_.toNumber(orangTuaId))) {
       setIsError('Nama orang tua tidak boleh kosong');
-      return false;
-    }
 
-    // If the input is exists and not same as selected value, update
-    if (ortuId && ortuId !== _.toNumber(orangTuaId)) {
-      setOrangTuaId(`${ortuId}`);
+      return false;
     }
 
     return true;
@@ -99,8 +87,8 @@ const UpdateSiswaContent: React.FC<Props> = ({ updateSiswa, getAllData, orangTua
       const orangTua = orangTuas.rows[siswa.orangTuaId];
 
       if (orangTua) {
-        setPrevOrangTua({ label: orangTua.namaLengkap, value: orangTua.id });
-        setOrangTuaId(`${orangTua.id}`);
+        setOrangTua(orangTua.namaLengkap);
+        setOrangTuaId(orangTua.id);
       }
 
       setIsLoaded(true);
@@ -189,12 +177,13 @@ const UpdateSiswaContent: React.FC<Props> = ({ updateSiswa, getAllData, orangTua
                       <FormControl isInvalid={!_.isEmpty(isError) && isTouched}>
                         <FormLabel>Nama Orang Tua</FormLabel>
                         <AutoComplete
-                          onChange={(e) => setOrangTuaId(`${e.value}`)}
-                          options={generateOrangTuaOptions(orangTuas)}
-                          onClick={() => setIsTouched(false)}
-                          onLostFocus={validateOrangTua}
-                          value={prevOrangTua}
-                          placeholder="Nama Orang Tua"
+                          keyword={orangTua}
+                          setKeyword={setOrangTua}
+                          setOrangTuaId={setOrangTuaId}
+                          onFocus={() => setIsTouched(true)}
+                          onBlur={() => validateOrangTua()}
+                          setIsError={setIsError}
+                          setIsTouched={setIsTouched}
                           isRequired
                         />
                         {!_.isEmpty(isError) && isTouched && (
@@ -270,7 +259,7 @@ const UpdateSiswaContent: React.FC<Props> = ({ updateSiswa, getAllData, orangTua
 };
 
 const mapStateToProps = (state: RootState) => ({
-  orangTuas: resources.getResource(state, RESOURCE_NAME.ORANG_TUAS),
+  orangTuas: resources.getResource(RESOURCE_NAME.ORANG_TUAS)(state),
 });
 
 const connector = connect(mapStateToProps, {

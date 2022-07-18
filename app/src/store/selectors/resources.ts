@@ -3,10 +3,10 @@ import { RootState } from 'src/store';
 import { ORDER } from 'src/utils/constant';
 import { ResourceKey, IResources, IResourcesWithId } from 'src/utils/resourceInterface';
 
-export const getResource = <T extends ResourceKey>(
-  state: RootState,
-  resourceName: T
-): IResourcesWithId[T] => state.resources[resourceName];
+export const getResource =
+  <T extends ResourceKey>(resourceName: T) =>
+  (state: RootState): IResourcesWithId[T] =>
+    state.resources[resourceName];
 
 export const getResourceById =
   <T extends ResourceKey>(resourceName: T, id: number) =>

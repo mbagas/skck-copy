@@ -177,7 +177,7 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
 };
 
 const mapStateToProps = (state: RootState) => ({
-  orangTuas: resources.getResource(state, RESOURCE_NAME.ORANG_TUAS),
+  orangTuas: resources.getResource(RESOURCE_NAME.ORANG_TUAS)(state),
 });
 
 const connector = connect(mapStateToProps, {
