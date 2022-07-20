@@ -12,7 +12,16 @@ router.post(
   user.returnConditionalUserMw
 );
 
-// POST /siswas/login
+// POST /users/bulk-create?role= ?
+router.post(
+  '/bulk-create',
+  user.authMw,
+  user.checkBulkUserRoleMw,
+  user.readCsvFileMw,
+  user.createUsersMw
+);
+
+// POST /users/login
 router.post('/login', user.loginMw);
 
 // GET /users
