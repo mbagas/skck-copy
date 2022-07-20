@@ -50,7 +50,7 @@ const RiwayatContentGuru: React.FC<Props> = ({ pelanggarans, getPelanggarans }) 
   useEffect(() => {
     const role = getRole();
 
-    if (!_.includes(_.toArray(_.omit(USER_ROLE, ['SISWA'])), role)) Router.push('/404');
+    if (!_.includes(_.values(_.omit(USER_ROLE, ['SISWA'])), role)) Router.push('/404');
   }, []);
 
   useEffect(() => {
@@ -77,7 +77,7 @@ const RiwayatContentGuru: React.FC<Props> = ({ pelanggarans, getPelanggarans }) 
 };
 
 const mapStateToProps = (state: RootState) => ({
-  pelanggarans: resources.getResourceOrder(state, ORDER.ASC),
+  pelanggarans: resources.getPelanggaransOrdered(ORDER.ASC)(state),
 });
 
 const connector = connect(mapStateToProps, {

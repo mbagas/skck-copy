@@ -158,7 +158,7 @@ const SiswaDetailGuru: React.FC<Props> = ({
 };
 
 const mapStateToProps = (state: RootState) => ({
-  pelanggarans: resources.getResourceOrder(state, ORDER.ASC),
+  pelanggarans: resources.getPelanggaransOrdered(ORDER.ASC)(state),
 });
 
 const connector = connect(mapStateToProps, {

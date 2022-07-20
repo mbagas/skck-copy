@@ -19,7 +19,7 @@ exports.getUserRole = (role) => {
 // If the role is not orang tua
 // but it has to be inside the USER_ROLE
 exports.isNotOrangTua = (role) =>
-  _.includes(_.toArray(USER_ROLE), role) && role !== USER_ROLE.ORANG_TUA;
+  _.includes(_.values(USER_ROLE), role) && role !== USER_ROLE.ORANG_TUA;
 
 exports.generateDuplicateError = (role) => {
   switch (role) {

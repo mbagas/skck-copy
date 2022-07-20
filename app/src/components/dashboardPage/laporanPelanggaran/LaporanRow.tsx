@@ -21,7 +21,10 @@ const LaporanRow: React.FC<Props> = ({ siswa, index }) => {
       <Td textAlign={'center'}>{_.get(siswa, 'totalPoint', 0)}</Td>
       <Td justifyContent={'center'}>
         <Flex justifyContent={'center'}>
-          <FaEdit onClick={() => Router.push(`${Router.pathname}/${siswa.id}`)} />
+          <FaEdit
+            onClick={() => Router.push(`${Router.pathname}/${siswa.id}`)}
+            cursor={'pointer'}
+          />
         </Flex>
       </Td>
     </Tr>

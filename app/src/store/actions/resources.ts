@@ -57,12 +57,14 @@ export const deleteResource = <T extends ResourceKey>(resourceName: T, id: numbe
 export const getAllData =
   <T extends ResourceKey>(resourceName: T, query = '', overwrite = true) =>
   async () => {
-    await axios.get(`/${resourceName}?${query}`, {
+    const { data } = await axios.get(`/${resourceName}?${query}`, {
       headers: {
         resourceName,
         overwrite,
       },
     });
+
+    return data;
   };
 
 // get resource base on id

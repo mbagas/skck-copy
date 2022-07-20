@@ -145,7 +145,7 @@ const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
                 </Tr>
               </Thead>
               <Tbody>
-                {_.map(_.toArray(siswas.rows), (siswa, index) => (
+                {_.map(_.values(siswas.rows), (siswa, index) => (
                   <Tr key={index} bg={index % 2 !== 0 ? '#E1E1E1' : 'white'}>
                     <Td>{(page === 1 ? 1 : (page - 1) * limit + 1) + index}</Td>
                     <Td>{siswa.namaLengkap}</Td>
@@ -156,6 +156,7 @@ const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
                       <Flex justifyContent={'space-between'}>
                         <FaEdit
                           onClick={() => Router.push(`${Router.pathname}/${siswa.id}/update`)}
+                          cursor={'pointer'}
                         />
                         <Spacer />
                         <FaTrash
@@ -164,6 +165,7 @@ const SiswaContent: React.FC<Props> = ({ siswas, deleteSiswa, getAllData }) => {
                             setSiswaId(siswa.id);
                             setIsOpen(true);
                           }}
+                          cursor={'pointer'}
                         />
                       </Flex>
                     </Td>

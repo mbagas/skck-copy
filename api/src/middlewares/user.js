@@ -198,7 +198,6 @@ exports.readCsvFileMw = asyncMw(async (req, res, next) => {
 
     return next();
   } catch (err) {
-    console.log(err);
     return res.status(401).json({ message: 'Wrong file format!' });
   }
 });

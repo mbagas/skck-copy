@@ -142,7 +142,7 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
                 </Tr>
               </Thead>
               <Tbody>
-                {_.map(_.toArray(orangTuas.rows), (orangTua, index) => (
+                {_.map(_.values(orangTuas.rows), (orangTua, index) => (
                   <Tr key={index} bg={index % 2 !== 0 ? '#E1E1E1' : 'white'}>
                     <Td>{(page === 1 ? 1 : (page - 1) * limit + 1) + index}</Td>
                     <Td>{orangTua.namaLengkap}</Td>
@@ -152,6 +152,7 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
                       <Flex justifyContent={'space-between'}>
                         <FaEdit
                           onClick={() => Router.push(`${Router.pathname}/${orangTua.id}/update`)}
+                          cursor={'pointer'}
                         />
                         <Spacer />
                         <FaTrash
@@ -160,6 +161,7 @@ const OrangTuaContent: React.FC<Props> = ({ orangTuas, deleteOrangTua, getAllDat
                             setOrangTuaId(orangTua.id);
                             setIsOpen(true);
                           }}
+                          cursor={'pointer'}
                         />
                       </Flex>
                     </Td>

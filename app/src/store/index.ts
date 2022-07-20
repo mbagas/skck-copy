@@ -6,8 +6,8 @@ import { applyInterceptors } from './axios';
 
 const rootReducer = combineReducers(reducers);
 const composeEnhancers =
-  // @ts-ignore
-  (typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (typeof window === 'object' && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 

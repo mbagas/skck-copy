@@ -142,7 +142,7 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru, getAllData }) => {
                 </Tr>
               </Thead>
               <Tbody>
-                {_.map(_.toArray(gurus.rows), (guru, index) => (
+                {_.map(_.values(gurus.rows), (guru, index) => (
                   <Tr key={index} bg={index % 2 !== 0 ? '#E1E1E1' : 'white'}>
                     <Td>{(page === 1 ? 1 : (page - 1) * limit + 1) + index}</Td>
                     <Td>{guru.namaLengkap}</Td>
@@ -152,6 +152,7 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru, getAllData }) => {
                       <Flex justifyContent={'space-between'}>
                         <FaEdit
                           onClick={() => Router.push(`${Router.pathname}/${guru.id}/update`)}
+                          cursor={'pointer'}
                         />
                         <Spacer />
                         <FaTrash
@@ -160,6 +161,7 @@ const GuruContent: React.FC<Props> = ({ gurus, deleteGuru, getAllData }) => {
                             setGuruId(guru.id);
                             setIsOpen(true);
                           }}
+                          cursor={'pointer'}
                         />
                       </Flex>
                     </Td>

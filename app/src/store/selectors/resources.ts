@@ -23,18 +23,19 @@ export const getResourceCounts =
   (state: RootState) =>
     state.resources[resourceName].count;
 
-export const getResourceOrder = (state: RootState, order: typeof ORDER[keyof typeof ORDER]) => {
-  const resource = state.resources.pelanggarans;
+export const getPelanggaransOrdered =
+  (order: typeof ORDER[keyof typeof ORDER]) => (state: RootState) => {
+    const resource = state.resources.pelanggarans;
 
-  const sorted = _.toArray(resource.rows).sort((a, b) => {
-    const date1 = Number(new Date(_.get(a, 'createdAt')));
-    const date2 = Number(new Date(_.get(b, 'createdAt')));
+    const sorted = _.values(resource.rows).sort((a, b) => {
+      const date1 = Number(new Date(_.get(a, 'createdAt')));
+      const date2 = Number(new Date(_.get(b, 'createdAt')));
 
-    return order === ORDER.ASC ? date1 - date2 : date2 - date1;
-  });
+      return order === ORDER.ASC ? date1 - date2 : date2 - date1;
+    });
 
-  return {
-    rows: _.keyBy(sorted, 'id'),
-    count: resource.count,
+    return {
+      rows: _.keyBy(sorted, 'id'),
+      count: resource.count,
+    };
   };
-};

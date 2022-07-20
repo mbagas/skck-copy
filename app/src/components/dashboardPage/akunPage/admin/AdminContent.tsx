@@ -134,7 +134,7 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
                 </Tr>
               </Thead>
               <Tbody>
-                {_.map(_.toArray(admins.rows), (admin, index) => (
+                {_.map(_.values(admins.rows), (admin, index) => (
                   <Tr key={index} bg={index % 2 !== 0 ? '#E1E1E1' : 'white'}>
                     <Td>{(page === 1 ? 1 : (page - 1) * limit + 1) + index}</Td>
                     <Td>{admin.userName}</Td>
@@ -142,6 +142,7 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
                       <Flex justifyContent={'space-between'}>
                         <FaEdit
                           onClick={() => Router.push(`${Router.pathname}/${admin.id}/update`)}
+                          cursor={'pointer'}
                         />
                         <Spacer />
                         <FaTrash
@@ -149,6 +150,7 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
                             setUserId(admin.id);
                             setIsOpen(true);
                           }}
+                          cursor={'pointer'}
                         />
                       </Flex>
                     </Td>
