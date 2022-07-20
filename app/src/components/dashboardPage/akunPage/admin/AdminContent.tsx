@@ -14,6 +14,7 @@ import {
   InputGroup,
   InputRightElement,
   Spacer,
+  useDisclosure,
 } from '@chakra-ui/react';
 import Router from 'next/router';
 import { connect, ConnectedProps } from 'react-redux';
@@ -22,7 +23,7 @@ import { resources } from 'src/store/selectors';
 import { deleteData, getAllData as _getAllData } from 'src/store/actions/resources';
 import { errorToastfier } from 'src/utils/toastifier';
 import { RootState } from 'src/store';
-import { RESOURCE_NAME } from 'src/utils/constant';
+import { RESOURCE_NAME, USER_ROLE } from 'src/utils/constant';
 import DeleteConfirmationModal from 'src/components/baseComponent/DeleteConfirmationModal';
 import useCustomDebounce from 'src/utils/useCustomDebounce';
 import { getUserFilter } from 'src/utils/user';
@@ -31,6 +32,7 @@ import {
   DashboardMainContainer,
   DashboardTableContainer,
   Pagination,
+  UploadCSV,
 } from 'src/components/baseComponent';
 import { buttonStyle } from 'src/utils/styles';
 
@@ -41,6 +43,7 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
   const [limit] = useState<number>(15);
+  const { isOpen: isCsvOpen, onClose: onCsvClose, onOpen: onCsvOpen } = useDisclosure();
 
   const onClose = () => {
     setIsOpen(false);
@@ -86,17 +89,30 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
         </Text>
         <DashboardContainer px={10} flexDirection={'column'}>
           <Flex mb={4} mt={8} justifyContent={'space-between'} alignItems="center">
-            <Button
-              {...buttonStyle.confirmation}
-              fontFamily="poppins"
-              fontSize={'0.813rem'}
-              px={10}
-              borderRadius={25}
-              _focus={{ border: 'none' }}
-              onClick={() => Router.push(`${Router.pathname}/create`)}
-            >
-              Tambah
-            </Button>
+            <Flex gap={2}>
+              <Button
+                {...buttonStyle.confirmation}
+                fontFamily="poppins"
+                fontSize={'0.813rem'}
+                px={10}
+                borderRadius={25}
+                _focus={{ border: 'none' }}
+                onClick={() => Router.push(`${Router.pathname}/create`)}
+              >
+                Tambah
+              </Button>
+              <Button
+                {...buttonStyle.confirmation}
+                fontFamily="poppins"
+                fontSize={'0.813rem'}
+                px={10}
+                borderRadius={25}
+                _focus={{ border: 'none' }}
+                onClick={onCsvOpen}
+              >
+                Import CSV
+              </Button>
+            </Flex>
             <InputGroup width={'15rem'} boxShadow={'lg'} borderRadius={25}>
               <Input
                 px={10}
@@ -163,6 +179,7 @@ const AdminContent: React.FC<Props> = ({ admins, deleteAdmin, getAllData }) => {
         </DashboardContainer>
       </DashboardMainContainer>
       <DeleteConfirmationModal isOpen={isOpen} onClose={onClose} onSubmit={deleteUser} />
+      <UploadCSV isOpen={isCsvOpen} onClose={onCsvClose} role={USER_ROLE.ADMIN} />
     </React.Fragment>
   );
 };

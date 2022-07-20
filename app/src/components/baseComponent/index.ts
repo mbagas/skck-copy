@@ -15,6 +15,7 @@ import SPLetter from './SPLetter';
 import Grafik from './Grafik';
 import GrafikBar from './GrafikBar';
 import GrafikTimeSeries from './GrafikTimeSeries';
+import UploadCSV from './UploadCSV';
 
 export {
   BaseTopBar,
@@ -34,4 +35,5 @@ export {
   Grafik,
   GrafikBar,
   GrafikTimeSeries,
+  UploadCSV,
 };

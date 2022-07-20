@@ -199,3 +199,14 @@ export const getGrafik = () => async () => {
     return Promise.reject(err);
   }
 };
+
+export const bulkCreateUser = (role: RoleType, file: File) => async () => {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    await axios.post(`/users/bulk-create?role=${role}`, formData);
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
