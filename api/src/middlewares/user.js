@@ -1,4 +1,6 @@
 const _ = require('lodash');
+const fs = require('fs');
+const csv = require('csvtojson');
 const jwt = require('jsonwebtoken');
 const asyncMw = require('async-express-mw');
 const repository = require('../repository');
@@ -169,4 +171,47 @@ exports.loginMw = asyncMw(async (req, res) => {
   );
 
   return res.status(200).json({ token, id: userMatch.user.id });
+});
+
+exports.checkBulkUserRoleMw = asyncMw(async (req, res, next) => {
+  const { role } = req.query;
+
+  if (req.userAuth.role !== USER_ROLE.ADMIN) return res.status(403).json({ message: 'Forbidden' });
+
+  if (!_.includes(_.values(USER_ROLE), role)) {
+    return res.status(401).json({ message: 'Role is not found' });
+  }
+
+  return next();
+});
+
+exports.readCsvFileMw = asyncMw(async (req, res, next) => {
+  if (_.isEmpty(req.files)) return res.status(401).json({ message: 'File is required' });
+
+  const csvFile = req.files[0];
+
+  try {
+    req.userDatas = await csv().fromFile(csvFile.path);
+
+    // Remove .csv file after reads
+    fs.rmSync(csvFile.path);
+
+    return next();
+  } catch (err) {
+    console.log(err);
+    return res.status(401).json({ message: 'Wrong file format!' });
+  }
+});
+
+exports.createUsersMw = asyncMw(async (req, res) => {
+  const { role } = req.query;
+  const userDatas = _.isArray(req.userDatas) ? req.userDatas : [req.userDatas];
+
+  if (role !== USER_ROLE.ADMIN) {
+    await Promise.all(repository.user.bulkCreateConditional(userDatas, role));
+  } else {
+    await Promise.all(repository.user.bulkCreateAdmins(userDatas));
+  }
+
+  return res.status(201).json({ message: 'Users created' });
 });
