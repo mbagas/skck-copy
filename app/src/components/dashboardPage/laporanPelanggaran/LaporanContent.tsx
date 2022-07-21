@@ -106,7 +106,7 @@ const LaporanContent: React.FC<Props> = ({ siswas, getAllData }) => {
               </Tr>
             </Thead>
             <Tbody>
-              {_.map(_.toArray(siswas.rows), (siswa, index) => (
+              {_.map(_.values(siswas.rows), (siswa, index) => (
                 <LaporanRow siswa={siswa} index={index} key={index} />
               ))}
             </Tbody>

@@ -30,8 +30,18 @@ const GuruOrangTuaView: React.FC<Props> = ({ siswas, getAllData }) => {
   const [filter, setFilter] = useState<string>('Semua');
 
   const generateCSV = async () => {
-    await getAllData(RESOURCE_NAME.SISWAS, `page=${page}&limit=all&${getSiswaFilter(searchValue)}`);
+    // Get all siswa for csv
+    const siswas = await getAllData(
+      RESOURCE_NAME.SISWAS,
+      `limit=all&${getSiswaFilter(searchValue)}`
+    );
+
     generateSiswaCSV(siswas);
+
+    await getAllData(
+      RESOURCE_NAME.SISWAS,
+      `page=${page}&limit=${limit}&${getSiswaFilter(searchValue)}`
+    );
   };
 
   useEffect(() => {

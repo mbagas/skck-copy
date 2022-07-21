@@ -138,7 +138,7 @@ const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllDat
                 </Tr>
               </Thead>
               <Tbody>
-                {_.map(_.toArray(kategoris.rows), (kategori, index) => (
+                {_.map(_.values(kategoris.rows), (kategori, index) => (
                   <Tr key={index} bg={index % 2 !== 0 ? '#E1E1E1' : 'white'}>
                     <Td>{(page === 1 ? 1 : (page - 1) * limit + 1) + index}</Td>
                     <Td>{kategori.namaKategori}</Td>
@@ -147,6 +147,7 @@ const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllDat
                       <Flex justifyContent={'space-between'}>
                         <FaEdit
                           onClick={() => Router.push(`${Router.pathname}/${kategori.id}/update`)}
+                          cursor={'pointer'}
                         />
                         <Spacer />
                         <FaTrash
@@ -154,6 +155,7 @@ const KategoriContent: React.FC<Props> = ({ kategoris, deleteKategori, getAllDat
                             setKategoriId(kategori.id);
                             setIsOpen(true);
                           }}
+                          cursor={'pointer'}
                         />
                       </Flex>
                     </Td>

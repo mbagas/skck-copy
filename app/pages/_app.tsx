@@ -1,5 +1,6 @@
 import '../styles/globals.css';
 import 'react-toastify/dist/ReactToastify.css';
+import Head from 'next/head';
 import { Provider } from 'react-redux';
 import type { AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -18,6 +19,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       <ChakraProvider theme={customTheme}>
         <ToastContainer />
+        <Head>
+          <title>Sistem Informasi Pencatatan Pelanggaran</title>
+        </Head>
         <Component {...pageProps} />
       </ChakraProvider>
     </Provider>
